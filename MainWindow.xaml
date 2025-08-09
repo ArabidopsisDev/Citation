@@ -1,0 +1,35 @@
+﻿<Window x:Class="Citation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Citation"
+        mc:Ignorable="d"
+        Title="Arabidopsis Citation" Height="600" Width="1050">
+	<Grid>
+		<DockPanel>
+			<Menu DockPanel.Dock="Top" VerticalAlignment="Top">
+				<MenuItem Header="项目" FontFamily="SimHei" FontSize="18">
+					<MenuItem Header="新建" FontFamily="SimHei" FontSize="15" Click="NewProject_Click"></MenuItem>
+					<MenuItem Header="打开" FontFamily="SimHei" FontSize="15" Click="OpenProject_Click"></MenuItem>
+				</MenuItem>
+				<MenuItem Header="引用" FontFamily="SimHei" FontSize="18">
+					<MenuItem Header="添加引用" FontFamily="SimHei" FontSize="15" Click="AddCitation_Click"></MenuItem>
+				</MenuItem>
+			</Menu>
+
+			<Border DockPanel.Dock="Top" Background="Green" Height="45">
+				<StackPanel Orientation="Horizontal">
+					<Image Source="pack://application:,,,/Citation;component/Images/citation.png" Margin="5" />
+					<TextBlock Foreground="White" FontSize="26" Margin="20 5 5 5" VerticalAlignment="Center" FontFamily="Consolas"> Welcome To Citation! (Version Dev_tfa1004a)</TextBlock>
+				</StackPanel>
+			</Border>
+
+			<ToolBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+				<Label FontWeight="DemiBold" FontSize="14" Content="项目名称:"/>
+				<Label FontWeight="DemiBold" FontSize="14" Name="ProjectName" Content="{Binding Name}"/>
+			</ToolBar>
+			<Frame Name="MainFrame"/>
+		</DockPanel>
+	</Grid>
+</Window>
