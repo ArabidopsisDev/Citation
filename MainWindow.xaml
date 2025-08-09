@@ -21,7 +21,7 @@
 			<Border DockPanel.Dock="Top" Background="Green" Height="45">
 				<StackPanel Orientation="Horizontal">
 					<Image Source="pack://application:,,,/Citation;component/Images/citation.png" Margin="5" />
-					<TextBlock Foreground="White" FontSize="26" Margin="20 5 5 5" VerticalAlignment="Center" FontFamily="Consolas"> Welcome To Citation! (Version Dev_tfa1004a)</TextBlock>
+					<TextBlock Foreground="White" FontSize="26" Margin="20 5 5 5" VerticalAlignment="Center" FontFamily="Consolas"> Welcome To Citation! (Version Dev_tfa1010a)</TextBlock>
 				</StackPanel>
 			</Border>
 

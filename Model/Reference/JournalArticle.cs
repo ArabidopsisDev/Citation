@@ -45,6 +45,18 @@ namespace Citation.Model.Reference
 
         [JsonPropertyName("published")]
         public Published? Published { get; set; }
+
+        public string? AuthorString { get; set; }
+
+        public void AfterWards()
+        {
+             Author.ToList().ForEach(aut => AuthorString += aut.ToString() +'\n');
+             AuthorString = AuthorString.TrimEnd();
+
+             Abstract = Abstract.Split("<jats:p>")[1].Split("</jats:p>")[0];
+             
+             return;
+        }
     }
 
     public class Published
@@ -75,6 +87,18 @@ namespace Citation.Model.Reference
                 .ToArray();
 
             return $"{Family}, {string.Join(" ", initials)}";
+        }
+
+        public static Author ConvertBack(string name)
+        {
+            // Not even acting
+            var author = new Author()
+            {
+                Family = name,
+                Given = null
+            };
+
+            return author;
         }
     }
 

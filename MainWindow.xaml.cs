@@ -15,10 +15,12 @@ namespace Citation
     public partial class MainWindow : Window
     {
         public Project Project { get; set; }
+        internal static MainWindow This;
 
         public MainWindow()
         {
             InitializeComponent();
+            This = this;
 
             Project ??= new Project
             {
@@ -78,7 +80,7 @@ namespace Citation
             }
         }
 
-        private void NavigateWithSlideAnimation(UserControl page)
+        internal void NavigateWithSlideAnimation(UserControl page)
         {
             if (Project.Name == "尚未打开项目！")
             {

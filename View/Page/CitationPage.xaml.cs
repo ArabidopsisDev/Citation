@@ -60,7 +60,11 @@ namespace Citation.View.Page
             }
 
             var journalArticle = JsonSerializer.Deserialize<JournalArticle>(source);
+            journalArticle.Message.AfterWards();
             Status = $"【{journalArticle!.Message!.Title![0]}】 获取成功";
+
+            var detailPage = new DetailPage(journalArticle);
+            MainWindow.This.NavigateWithSlideAnimation(detailPage);
         }
     }
 }
