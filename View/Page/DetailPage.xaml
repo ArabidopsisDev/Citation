@@ -188,6 +188,7 @@
                    FontWeight="Medium" 
                    Background="LightGray" 
                    Foreground="Black"
+				   Click="CancelButton_Click"
                    BorderThickness="0">
 				<Button.Template>
 					<ControlTemplate TargetType="Button">

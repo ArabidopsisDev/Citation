@@ -14,8 +14,8 @@
 
 		<HierarchicalDataTemplate DataType="{x:Type model:FolderItem}" ItemsSource="{Binding Articles}">
 			<StackPanel Orientation="Horizontal">
-				<Image Source="pack://application:,,,/Citation;component/Images/folder.png" Width="16" Height="16" Margin="0,0,5,0"/>
-				<TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+				<Image Source="pack://application:,,,/Citation;component/Images/folder.png" Width="16" Height="20"   Margin="0,0,5,0"/>
+				<TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="SemiBold"/>
 				<TextBlock Text="{Binding Articles.Count, StringFormat=' ({0})'}" 
                            VerticalAlignment="Center" 
                            Foreground="Gray"
@@ -40,7 +40,7 @@
 		<!-- 左侧文件夹树保持不变 -->
 		<TreeView Grid.Column="0" 
                   Margin="10" 
-                  ItemsSource="{Binding Folders}"
+				  Name="FolderTreeView" 
                   SelectedItemChanged="TreeView_SelectedItemChanged">
 			<TreeView.ItemContainerStyle>
 				<Style TargetType="TreeViewItem">
@@ -49,7 +49,6 @@
 			</TreeView.ItemContainerStyle>
 		</TreeView>
 
-		<!-- 右侧详情区域按照DetailPage样式重做 -->
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>

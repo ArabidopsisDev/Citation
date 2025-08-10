@@ -11,8 +11,13 @@ namespace Citation.Model.Convert
             if (value is null) return null;
 
             var published = (Published)value;
-            var dateTime = new DateTime(published.DateParts[0][0], published.DateParts[0][1],
-                published.DateParts[0][2]);
+            DateTime dateTime;
+            if (published.DateParts[0].Length > 2)
+                dateTime = new DateTime(published.DateParts[0][0], published.DateParts[0][1],
+                   published.DateParts[0][2]);
+            else
+                dateTime = new DateTime(published.DateParts[0][0], published.DateParts[0][1],
+                    1);
             return dateTime;
         }
 

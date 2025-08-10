@@ -39,7 +39,7 @@ namespace Citation.Model.Reference
                              VALUES ('{Message.Issue}', '{containers}', '{Message.Abstract}', 
                              '{Message.Doi}', '{Message.Page}', '{titles}', '{Message.Volume}',
                              '{authors}', '{link}', '{Message.Url}', '{publicationTime}', 
-                             ‘{Message.Folder}’)
+                             '{Message.Folder}')
                              """;
             return sqlString;
         }
@@ -124,7 +124,7 @@ namespace Citation.Model.Reference
 
         public void AfterWards()
         {
-            Abstract = Abstract.Split("<jats:p>")[1].Split("</jats:p>")[0];
+            Abstract ??= "Unable to get abstract.";
         }
     }
 
@@ -198,11 +198,11 @@ namespace Citation.Model.Reference
         public string Published { get; set; }
         public string Folder { get; set; }
 
-        public void Load()
+        public void Afterward()
         {
-            Container = ContainerString.Split('/').ToArray();
-            Title = TitleString.Split('/').ToArray();
-            Author = AuthorString.Split('/').ToArray();
+            Container = ContainerString.Split('/').Where(x => x != "").ToArray();
+            Title = TitleString.Split('/').Where(x => x != "").ToArray();
+            Author = AuthorString.Split('/').Where(x => x != "").ToArray();
         }
     }
 }

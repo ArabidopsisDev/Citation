@@ -23,6 +23,13 @@ namespace Citation.View.Page
         {
             var insertCommand = Article.ToSql();
             Acceed.Shared.Execute(insertCommand);
+
+            MainWindow.This.NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.This.MainFrame.RemoveBackEntry();
         }
     }
 }

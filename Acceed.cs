@@ -1,4 +1,5 @@
-﻿using System.Data.OleDb;
+﻿using System.Data;
+using System.Data.OleDb;
 
 namespace Citation
 {
@@ -47,6 +48,7 @@ namespace Citation
 
         public int Execute(string commandString)
         {
+            if (_connection?.State is ConnectionState.Closed) _connection.Open();
             using var command = new OleDbCommand(commandString, _connection);
             return command.ExecuteNonQuery();
         }
