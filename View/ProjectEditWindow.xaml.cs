@@ -57,9 +57,11 @@ namespace Citation.View
             File.Copy(sourcePath, destinationPath, true);
 
             Acceed.Shared.ReConnect(destinationPath);
-            Acceed.Shared.Insert(Project.ToSql());
+            Acceed.Shared.Execute(Project.ToSql());
             System.Windows.MessageBox.Show("项目创建成功！", "创建成功",
                 MessageBoxButton.OK, MessageBoxImage.Information);
+
+            Acceed.Shared.Close();
             Close();
         }
 

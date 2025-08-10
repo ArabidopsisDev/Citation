@@ -11,7 +11,9 @@
 
   <ItemGroup>
     <None Remove="dbtemplate.accdb" />
+    <None Remove="Images\article.png" />
     <None Remove="Images\citation.png" />
+    <None Remove="Images\folder.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +24,9 @@
     <Content Include="dbtemplate.accdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\article.png" />
     <Resource Include="Images\citation.png" />
+    <Resource Include="Images\folder.png" />
   </ItemGroup>
 
 </Project>

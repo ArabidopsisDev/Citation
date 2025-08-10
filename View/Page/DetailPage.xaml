@@ -164,7 +164,8 @@
                    FontWeight="Medium" 
                    Background="#0078D7" 
                    Foreground="White"
-                   BorderThickness="0"
+                   BorderThickness="0" 
+				   Click="SaveButton_Click"
                    Margin="0,0,20,0">
 				<Button.Template>
 					<ControlTemplate TargetType="Button">

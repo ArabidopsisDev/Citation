@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using Citation.Model.Reference;
 
 namespace Citation.View.Page
@@ -16,6 +17,12 @@ namespace Citation.View.Page
 
             Article = article;
             DataContext = this;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var insertCommand = Article.ToSql();
+            Acceed.Shared.Execute(insertCommand);
         }
     }
 }

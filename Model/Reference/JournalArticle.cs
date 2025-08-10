@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using System.Windows.Controls;
 
 namespace Citation.Model.Reference
 {
@@ -9,6 +10,79 @@ namespace Citation.Model.Reference
 
         [JsonPropertyName("message")]
         public Message? Message { get; set; }
+
+        public string ToSql()
+        {
+            var containers = Message.Container?
+                .Aggregate("", (current, str) => current + ("/" + str));
+            var titles = Message.Title?
+                .Aggregate("", (title, str) => title + ("/" + str));
+            var authors = Message.Author?
+                .Aggregate("", (author, str) => author + ("/" + str));
+
+            string link = "";
+            foreach (var lik in Message.Link!)
+            {
+                if (lik.Url!.Contains("pdf")) link = lik.Url;
+                break;
+            }
+
+
+            var publicationTime =
+                $"{Message.Published.DateParts[0][0]}/{Message.Published.DateParts[0][1]}/{Message.Published.DateParts[0][2]}";
+
+            // Oh my god, this code is of poor quality
+            var sqlString = $"""
+                             INSERT INTO tb_Paper(PaperIssue, PaperContainer, PaperAbstract, 
+                             PaperDoi, PaperPage, PaperTitle, PaperVolume, PaperAuthor, 
+                             PaperLink, PaperUrl, PaperPublished, PaperFolder)
+                             VALUES ('{Message.Issue}', '{containers}', '{Message.Abstract}', 
+                             '{Message.Doi}', '{Message.Page}', '{titles}', '{Message.Volume}',
+                             '{authors}', '{link}', '{Message.Url}', '{publicationTime}', 
+                             ‘{Message.Folder}’)
+                             """;
+            return sqlString;
+        }
+
+        public static JournalArticle FromArticle(JournalArticleDb db)
+        {
+            var author = db.Author
+                .Select(Author.ConvertBack)
+                .ToArray();
+            Link[] link = [new Link() { Url = db.Link }];
+
+            var published = new Published()
+            {
+                DateParts = [[.. db.Published.Split('/')
+                    .Select(int.Parse)
+                    .ToArray()
+                ]]
+            };
+
+            var message = new Message()
+            {
+                Abstract = db.Abstract,
+                Author = author,
+                Container = db.Container,
+                Doi = db.Doi,
+                Folder = db.Folder,
+                Issue = db.Issue,
+                Link = link,
+                Page = db.Page,
+                Published = published,
+                Title = db.Title,
+                Url = db.Url,
+                Volume = db.Volume
+            };
+
+            var article = new JournalArticle()
+            {
+                Message = message,
+                Status = "extract succeed"
+            };
+
+            return article;
+        }
     }
 
     public class Message
@@ -31,7 +105,7 @@ namespace Citation.Model.Reference
         [JsonPropertyName("title")]
         public string[]? Title { get; set; }
 
-        [JsonPropertyName("volume")] 
+        [JsonPropertyName("volume")]
         public string? Volume { get; set; }
 
         [JsonPropertyName("author")]
@@ -46,16 +120,11 @@ namespace Citation.Model.Reference
         [JsonPropertyName("published")]
         public Published? Published { get; set; }
 
-        public string? AuthorString { get; set; }
+        public string Folder { get; set; } = "Default";
 
         public void AfterWards()
         {
-             Author.ToList().ForEach(aut => AuthorString += aut.ToString() +'\n');
-             AuthorString = AuthorString.TrimEnd();
-
-             Abstract = Abstract.Split("<jats:p>")[1].Split("</jats:p>")[0];
-             
-             return;
+            Abstract = Abstract.Split("<jats:p>")[1].Split("</jats:p>")[0];
         }
     }
 
@@ -109,5 +178,31 @@ namespace Citation.Model.Reference
 
         [JsonPropertyName("content-type")]
         public string? ContentType { get; set; }
+    }
+
+    public class JournalArticleDb
+    {
+        public string Issue { get; set; }
+        public string ContainerString { get; set; }
+        public string[] Container { get; set; }
+        public string Abstract { get; set; }
+        public string Doi { get; set; }
+        public string Page { get; set; }
+        public string TitleString { get; set; }
+        public string[] Title { get; set; }
+        public string Volume { get; set; }
+        public string[] Author { get; set; }
+        public string AuthorString { get; set; }
+        public string Link { get; set; }
+        public string Url { get; set; }
+        public string Published { get; set; }
+        public string Folder { get; set; }
+
+        public void Load()
+        {
+            Container = ContainerString.Split('/').ToArray();
+            Title = TitleString.Split('/').ToArray();
+            Author = AuthorString.Split('/').ToArray();
+        }
     }
 }

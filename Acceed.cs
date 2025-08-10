@@ -31,6 +31,11 @@ namespace Citation
             _connection.Open();
         }
 
+        public void Close()
+        {
+            _connection.Close();
+        }
+
         public void CloseConnect() => _connection!.Close();
 
         public OleDbDataReader Query(string queryString)
@@ -40,7 +45,7 @@ namespace Citation
             return reader;
         }
 
-        public int Insert(string commandString)
+        public int Execute(string commandString)
         {
             using var command = new OleDbCommand(commandString, _connection);
             return command.ExecuteNonQuery();

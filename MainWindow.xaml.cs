@@ -126,5 +126,10 @@ namespace Citation
         {
             NavigateWithSlideAnimation(new Citation.View.Page.CitationPage());
         }
+
+        private void ViewCitation_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());
+        }
     }
 }
