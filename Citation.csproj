@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <LangVersion>preview</LangVersion>
+    <Platforms>AnyCPU;x64;x86;ARM32</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,7 @@
     <None Remove="Images\article.png" />
     <None Remove="Images\citation.png" />
     <None Remove="Images\folder.png" />
+    <None Remove="Images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +29,7 @@
     <Resource Include="Images\article.png" />
     <Resource Include="Images\citation.png" />
     <Resource Include="Images\folder.png" />
+    <Resource Include="Images\logo.png" />
   </ItemGroup>
 
 </Project>

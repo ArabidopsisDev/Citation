@@ -29,6 +29,7 @@ namespace Citation
                 Guid = System.Guid.NewGuid().ToString()
             };
 
+            NavigateWithSlideAnimation(new Citation.View.Page.WelcomePage(), false);
             DataContext = Project;
         }
 
@@ -78,11 +79,12 @@ namespace Citation
                     Project.Authors = [..authors];
                 }
             }
+            MainFrame.Content = null;
         }
 
-        internal void NavigateWithSlideAnimation(UserControl page)
+        internal void NavigateWithSlideAnimation(UserControl page, bool project = true)
         {
-            if (Project.Name == "尚未打开项目！")
+            if (project && Project.Name == "尚未打开项目！")
             {
                 System.Windows.MessageBox.Show("请先打开一个项目", "操作失败",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -130,6 +132,16 @@ namespace Citation
         private void ViewCitation_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());
+        }
+
+        private void ExportCitation_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());
+        }
+
+        private void ExitSoftware_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

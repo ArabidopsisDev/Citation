@@ -96,5 +96,15 @@ namespace Citation.View.Page
             Articles = papers;
             FolderTreeView.ItemsSource = folders;
         }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
