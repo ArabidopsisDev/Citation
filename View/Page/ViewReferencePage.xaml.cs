@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using Citation.Model.Format;
 
 namespace Citation.View.Page
 {
@@ -40,6 +41,8 @@ namespace Citation.View.Page
             if (e.NewValue is JournalArticle article)
             {
                 SelectedArticle = article;
+                var apa = new Apa(SelectedArticle);
+                CitationBox.Text = apa.ToMarkdown();
             }
         }
 

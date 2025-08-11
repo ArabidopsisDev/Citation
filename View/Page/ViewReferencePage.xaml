@@ -15,6 +15,38 @@
 		<c:AuthorConverter x:Key="AuthorsConverter" />
 		<c:DateConverter x:Key="DateConverter" />
 
+		<Style x:Key="SegmentedButtonStyle" TargetType="ToggleButton">
+			<Setter Property="Background" Value="White" />
+			<Setter Property="Foreground" Value="#0078D7" />
+			<Setter Property="BorderBrush" Value="#0078D7" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ToggleButton">
+						<Border
+							x:Name="border"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="0">
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsChecked" Value="True">
+								<Setter Property="Background" Value="#0078D7" />
+								<Setter Property="Foreground" Value="White" />
+								<Setter TargetName="border" Property="BorderBrush" Value="#0078D7" />
+							</Trigger>
+							<Trigger Property="IsChecked" Value="False">
+								<Setter Property="Background" Value="White" />
+								<Setter Property="Foreground" Value="#0078D7" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
 		<HierarchicalDataTemplate DataType="{x:Type model:FolderItem}" ItemsSource="{Binding Articles}">
 			<StackPanel Orientation="Horizontal">
 				<Image
@@ -52,7 +84,6 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<!--  左侧文件夹树保持不变  -->
 		<TreeView
 			Name="FolderTreeView"
 			Grid.Column="0"
@@ -87,6 +118,7 @@
 				VerticalAlignment="Top">
 				<Border
 					Padding="25"
+					d:IsLocked="True"
 					Background="White"
 					BorderBrush="LightGray"
 					BorderThickness="1"
@@ -234,20 +266,63 @@
 								IsReadOnly="True"
 								Text="{Binding SelectedArticle.Message.Abstract}"
 								TextWrapping="Wrap" />
+
+
+							<TextBlock
+								Margin="0,5,0,2"
+								FontWeight="Bold"
+								Text="引用格式:" />
+							<TextBox
+								Name="CitationBox"
+								MinHeight="100"
+								Padding="5"
+								AcceptsReturn="True"
+								Background="#FAFAFA"
+								BorderBrush="LightGray"
+								BorderThickness="1"
+								FontSize="16"
+								IsReadOnly="True"
+								Text="您尚未选择输出类型"
+								TextWrapping="Wrap" />
+
 							<StackPanel
-								Grid.Row="2"
 								Margin="0,20,0,0"
 								HorizontalAlignment="Center"
-								VerticalAlignment="Top"
 								Orientation="Horizontal">
+								<Border
+									Margin="0,0,20,0"
+									BorderBrush="#0078D7"
+									BorderThickness="1"
+									CornerRadius="3">
+									<StackPanel Orientation="Horizontal">
+										<RadioButton
+											x:Name="MarkdownButton"
+											Width="100"
+											Height="40"
+											BorderThickness="1,1,0,1"
+											Content="Markdown"
+											GroupName="ExportFormat"
+											IsChecked="True"
+											Style="{StaticResource SegmentedButtonStyle}" />
+										<RadioButton
+											x:Name="LatexButton"
+											Width="100"
+											Height="40"
+											BorderThickness="0,1,1,1"
+											Content="LaTeX"
+											GroupName="ExportFormat"
+											Style="{StaticResource SegmentedButtonStyle}" />
+									</StackPanel>
+								</Border>
+
 								<Button
 									Width="120"
 									Height="40"
-									Margin="0,0,20,0"
+									Margin="40,0,20,0"
 									Background="#0078D7"
 									BorderThickness="0"
 									Click="CopyButton_Click"
-									Content="复制APA"
+									Content="复制引用"
 									FontSize="16"
 									FontWeight="Medium"
 									Foreground="White">
