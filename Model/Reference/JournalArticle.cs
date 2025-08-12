@@ -23,13 +23,17 @@ namespace Citation.Model.Reference
             string link = "";
             foreach (var lik in Message.Link!)
             {
-                if (lik.Url!.Contains("pdf")) link = lik.Url;
-                break;
+                if (lik.Url!.Contains("pdf"))
+                {
+                    link = lik.Url;
+                    break;
+                }
             }
 
-
-            var publicationTime =
-                $"{Message.Published.DateParts[0][0]}/{Message.Published.DateParts[0][1]}/{Message.Published.DateParts[0][2]}";
+            string publicationTime = "";
+            foreach (var dt in Message.Published.DateParts[0])
+                publicationTime += $"{dt}/";
+            publicationTime = publicationTime.TrimEnd('/');
 
             // Oh my god, this code is of poor quality
             var sqlString = $"""

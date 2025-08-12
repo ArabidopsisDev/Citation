@@ -38,28 +38,53 @@ namespace Citation.Model.Format
         {
             var authorString = "";
 
-            if (Authors?.Length == 1)
+            switch (Authors?.Length)
             {
-                authorString = Authors[0];
-            }
-            else if (Authors?.Length > 1)
-            {
-                for (var i = 0; i < Authors?.Length; i++)
+                case 1:
+                    authorString = Authors[0];
+                    break;
+                case > 1:
                 {
-                    if (i < Authors.Length - 2)
-                        authorString += $"{Authors[i]}, ";
-                    else if (i == Authors.Length - 2)
-                        authorString += $"{Authors[i]}, & ";
-                    else
-                        authorString += Authors[i];
+                    for (var i = 0; i < Authors?.Length; i++)
+                    {
+                        if (i < Authors.Length - 2)
+                            authorString += $"{Authors[i]}, ";
+                        else if (i == Authors.Length - 2)
+                            authorString += $"{Authors[i]}, & ";
+                        else
+                            authorString += Authors[i];
+                    }
+                    break;
                 }
             }
 
-            var yearString = Year is not null ? $"({Year}d)." : "";
-            var titleString = PaperName is not null ? $"{PaperName}." : "";
+            // If you don't have any of these things, then just go home, okay?
+            var yearString = $"({Year}).";
+            var titleString = $"{PaperName}.";
             var journalString = $"*{JournalName}*,";
-            var volumeAndIssueString = $"*{Volume}*({Issue}),";
-            var pageString = Page is not null ? $"{Page}." : "";
+
+            string? volumeAndIssueString;
+            if (!string.IsNullOrEmpty(Volume) && string.IsNullOrEmpty(Issue))
+                volumeAndIssueString = $"*{Volume}*,";
+            else if (string.IsNullOrEmpty(Volume) && !string.IsNullOrEmpty(Issue))
+                volumeAndIssueString = $"*{Issue}*,";
+            else if (string.IsNullOrEmpty(Volume) && string.IsNullOrEmpty(Issue))
+                volumeAndIssueString = null;
+            else
+                volumeAndIssueString = $"*{Volume}*({Issue}),";
+
+            if (string.IsNullOrEmpty(Page))
+            {
+                if (volumeAndIssueString is not null)
+                    volumeAndIssueString =
+                        $"{volumeAndIssueString.Substring(0,
+                            volumeAndIssueString.Length - 1)}.";
+                else
+                    journalString =
+                        $"{journalString.Substring(0,
+                            journalString.Length - 1)}.";
+            }
+            var pageString = !string.IsNullOrEmpty(Page) ? $"{Page}." : null;
 
             var markdownApaBuilder = new StringBuilder();
             markdownApaBuilder.AppendJoin(" ", [authorString,

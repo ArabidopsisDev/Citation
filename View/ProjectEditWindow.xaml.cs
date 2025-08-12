@@ -10,8 +10,9 @@ namespace Citation.View
     public partial class ProjectEditWindow : Window
     {
         public Project? Project { get; set; }
+        private Action<string, bool>? _Callback = null;
 
-        public ProjectEditWindow(Project? project = null)
+        public ProjectEditWindow(Project? project = null, Action<string, bool>? callback = null)
         {
             InitializeComponent();
 
@@ -21,6 +22,7 @@ namespace Citation.View
                 Authors = new ObservableCollection<string>(),
                 Guid = System.Guid.NewGuid().ToString(),
             };
+            _Callback = callback;
 
             DataContext = Project;
         }
@@ -61,6 +63,7 @@ namespace Citation.View
             System.Windows.MessageBox.Show("项目创建成功！", "创建成功",
                 MessageBoxButton.OK, MessageBoxImage.Information);
 
+            _Callback.Invoke(destinationPath, false);
             Acceed.Shared.Close();
             Close();
         }

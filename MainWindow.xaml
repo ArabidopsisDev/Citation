@@ -9,6 +9,63 @@
 	Width="1050"
 	Height="600"
 	mc:Ignorable="d">
+
+	<Window.Resources>
+		<Style x:Key="BubbleToastStyle" TargetType="Border">
+			<Setter Property="Background" Value="#FF000000" />
+			<Setter Property="CornerRadius" Value="10" />
+			<Setter Property="Padding" Value="15,8" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment" Value="Bottom" />
+			<Setter Property="Margin" Value="0,0,0,20" />
+			<Setter Property="Opacity" Value="0" />
+			<Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+			<Setter Property="RenderTransform">
+				<Setter.Value>
+					<TransformGroup>
+						<ScaleTransform />
+						<SkewTransform />
+						<RotateTransform />
+						<TranslateTransform Y="20" />
+					</TransformGroup>
+				</Setter.Value>
+			</Setter>
+			<Style.Triggers>
+				<EventTrigger RoutedEvent="Loaded">
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation
+								AccelerationRatio="0.3"
+								Storyboard.TargetProperty="Opacity"
+								From="0"
+								To="1"
+								Duration="0:0:0.3" />
+							<DoubleAnimation
+								AccelerationRatio="0.3"
+								Storyboard.TargetProperty="RenderTransform.Children[3].Y"
+								From="20"
+								To="0"
+								Duration="0:0:0.3" />
+							<DoubleAnimation
+								BeginTime="0:0:5"
+								Storyboard.TargetProperty="Opacity"
+								From="1"
+								To="1"
+								Duration="0:0:0.1" />
+							<DoubleAnimation
+								BeginTime="0:0:5.1"
+								DecelerationRatio="0.5"
+								Storyboard.TargetProperty="Opacity"
+								From="1"
+								To="0"
+								Duration="0:0:0.5" />
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Resources>
+
 	<Grid>
 		<DockPanel>
 			<Menu VerticalAlignment="Top" DockPanel.Dock="Top">
@@ -47,6 +104,11 @@
 						FontSize="15"
 						Header="查看引用" />
 					<MenuItem
+						Click="ImportCitation_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="导入引用" />
+					<MenuItem
 						Click="ExportCitation_Click"
 						FontFamily="SimHei"
 						FontSize="15"
@@ -66,7 +128,7 @@
 						FontFamily="Consolas"
 						FontSize="26"
 						Foreground="White">
-						Welcome To Citation! (Version Dev_tfa1016.stable)
+						Welcome To Citation! (Version Dev_tfa1026b)
 					</TextBlock>
 				</StackPanel>
 			</Border>
@@ -87,5 +149,11 @@
 			</ToolBar>
 			<Frame Name="MainFrame" />
 		</DockPanel>
+		<Canvas
+			Name="ToastContainer"
+			Margin="0,0,0,60"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			IsHitTestVisible="False" />
 	</Grid>
 </Window>

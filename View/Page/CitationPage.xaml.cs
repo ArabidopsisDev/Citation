@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using Citation.Utils;
 
 namespace Citation.View.Page
 {
@@ -38,7 +39,7 @@ namespace Citation.View.Page
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
-            PlaceholderText.Visibility = string.IsNullOrEmpty(textBox.Text) ? Visibility.Visible : Visibility.Collapsed;
+            PlaceholderText.Visibility = string.IsNullOrEmpty(textBox?.Text) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void Cite_Click(object sender, RoutedEventArgs e)
@@ -55,7 +56,8 @@ namespace Citation.View.Page
             }
             catch (Exception ex)
             {
-                Status = "获取失败，请检查您的网络环境。";
+                LogException.Collect(ex,LogException.ExceptionLevel.Info);
+                Status = "获取失败，请检查您的网络环境或文章链接。";
                 return;
             }
 
