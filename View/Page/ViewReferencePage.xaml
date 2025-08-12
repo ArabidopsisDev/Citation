@@ -134,6 +134,7 @@
 								Padding="0,5"
 								BorderBrush="LightGray"
 								BorderThickness="0,0,0,1"
+								FontFamily="Calibri"
 								FontSize="16"
 								Text="{Binding SelectedArticle.Message.Title[0]}" />
 
@@ -146,6 +147,7 @@
 								Padding="0,5"
 								BorderBrush="LightGray"
 								BorderThickness="0,0,0,1"
+								FontFamily="Calibri"
 								FontSize="16"
 								Text="{Binding SelectedArticle.Message.Author, Converter={StaticResource AuthorsConverter}}" />
 
@@ -164,6 +166,7 @@
 										Padding="0,5"
 										BorderBrush="LightGray"
 										BorderThickness="0,0,0,1"
+										FontFamily="Calibri"
 										FontSize="16"
 										Text="{Binding SelectedArticle.Message.Container[0]}" />
 								</StackPanel>
@@ -176,6 +179,7 @@
 										Padding="0,5"
 										BorderBrush="LightGray"
 										BorderThickness="0,0,0,1"
+										FontFamily="Calibri"
 										FontSize="16"
 										SelectedDate="{Binding SelectedArticle.Message.Published, Converter={StaticResource DateConverter}}" />
 								</StackPanel>
@@ -198,6 +202,7 @@
 										Padding="0,5"
 										BorderBrush="LightGray"
 										BorderThickness="0,0,0,1"
+										FontFamily="Calibri"
 										FontSize="16"
 										Text="{Binding SelectedArticle.Message.Volume}" />
 								</StackPanel>
@@ -210,6 +215,7 @@
 										Padding="0,5"
 										BorderBrush="LightGray"
 										BorderThickness="0,0,0,1"
+										FontFamily="Calibri"
 										FontSize="16"
 										Text="{Binding SelectedArticle.Message.Issue}" />
 								</StackPanel>
@@ -222,6 +228,7 @@
 										Padding="0,5"
 										BorderBrush="LightGray"
 										BorderThickness="0,0,0,1"
+										FontFamily="Calibri"
 										FontSize="16"
 										Text="{Binding SelectedArticle.Message.Page}" />
 								</StackPanel>
@@ -236,6 +243,7 @@
 								Padding="0,5"
 								BorderBrush="LightGray"
 								BorderThickness="0,0,0,1"
+								FontFamily="Calibri"
 								FontSize="16"
 								Text="{Binding SelectedArticle.Message.Doi}" />
 
@@ -248,6 +256,7 @@
 								Padding="0,5"
 								BorderBrush="LightGray"
 								BorderThickness="0,0,0,1"
+								FontFamily="Calibri"
 								FontSize="16"
 								Text="{Binding SelectedArticle.Message.Url}" />
 
@@ -262,6 +271,7 @@
 								Background="#FAFAFA"
 								BorderBrush="LightGray"
 								BorderThickness="1"
+								FontFamily="Calibri"
 								FontSize="16"
 								IsReadOnly="True"
 								Text="{Binding SelectedArticle.Message.Abstract}"
@@ -280,6 +290,7 @@
 								Background="#FAFAFA"
 								BorderBrush="LightGray"
 								BorderThickness="1"
+								FontFamily="Calibri"
 								FontSize="16"
 								IsReadOnly="True"
 								Text="您尚未选择输出类型"

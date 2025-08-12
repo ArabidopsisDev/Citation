@@ -123,12 +123,35 @@ namespace Citation.Model.Reference
 
         [JsonPropertyName("published")]
         public Published? Published { get; set; }
-
+        
         public string Folder { get; set; } = "Default";
+
+        public string AuthorString { get; set; } = "anonymous";
 
         public void AfterWards()
         {
             Abstract ??= "Unable to get abstract.";
+
+            switch (Author?.Length)
+            {
+                case 1:
+                    AuthorString = Author[0].ToString();
+                    break;
+                case > 1:
+                {
+                    AuthorString = string.Empty;
+                    for (var i = 0; i < Author?.Length; i++)
+                    {
+                        if (i < Author.Length - 2)
+                            AuthorString += $"{Author[i]}, ";
+                        else if (i == Author.Length - 2)
+                            AuthorString += $"{Author[i]}, & ";
+                        else
+                            AuthorString += Author[i];
+                    }
+                    break;
+                }
+            }
         }
     }
 

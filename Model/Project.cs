@@ -6,7 +6,7 @@ namespace Citation.Model
 {
     public class Project : INotifyPropertyChanged
     {
-        public string Name
+        public string? Name
         {
             get;
             set
@@ -19,7 +19,7 @@ namespace Citation.Model
             }
         }
 
-        public string Path
+        public string? Path
         {
             get;
             set

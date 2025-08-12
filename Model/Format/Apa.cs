@@ -6,8 +6,6 @@ namespace Citation.Model.Format
 {
     public class Apa
     {
-
-
         public Apa(JournalArticle article)
         {
             _article = article;

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Citation.Model.Reference;
 using System.Text.Json;
+using Citation.View.Page;
 
 namespace Citation
 {
@@ -171,7 +172,43 @@ namespace Citation
 
         private void ExportCitation_Click(object sender, RoutedEventArgs e)
         {
-            NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());
+            if (Project.Name == "尚未打开项目！")
+            {
+                ShowToast("清先打开一个项目");
+                return;
+            }
+
+            var exportPage = new ExportPage();
+
+            var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
+            var papers = new List<JournalArticle>();
+
+            while (reader.Read())
+            {
+                var db = new JournalArticleDb()
+                {
+                    Abstract = reader["PaperAbstract"].ToString()!,
+                    AuthorString = reader["PaperAuthor"].ToString()!,
+                    Issue = reader["PaperIssue"].ToString()!,
+                    ContainerString = reader["PaperContainer"].ToString()!,
+                    Doi = reader["PaperDoi"].ToString()!,
+                    Page = reader["PaperPage"].ToString()!,
+                    TitleString = reader["PaperTitle"].ToString()!,
+                    Volume = reader["PaperVolume"].ToString()!,
+                    Link = reader["PaperLink"].ToString()!,
+                    Url = reader["PaperUrl"].ToString()!,
+                    Published = reader["PaperPublished"].ToString()!,
+                    Folder = reader["PaperFolder"].ToString()!
+                };
+
+                db.Afterward();
+                var paper = JournalArticle.FromArticle(db);
+                paper.Message.AfterWards();
+                papers.Add(paper);
+            }
+
+            exportPage.ArticlesContainer.ItemsSource = papers;
+            NavigateWithSlideAnimation(exportPage);
         }
 
         private async void ImportCitation_Click(object sender, RoutedEventArgs e)
