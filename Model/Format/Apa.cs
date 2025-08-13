@@ -42,18 +42,18 @@ namespace Citation.Model.Format
                     authorString = Authors[0];
                     break;
                 case > 1:
-                {
-                    for (var i = 0; i < Authors?.Length; i++)
                     {
-                        if (i < Authors.Length - 2)
-                            authorString += $"{Authors[i]}, ";
-                        else if (i == Authors.Length - 2)
-                            authorString += $"{Authors[i]}, & ";
-                        else
-                            authorString += Authors[i];
+                        for (var i = 0; i < Authors?.Length; i++)
+                        {
+                            if (i < Authors.Length - 2)
+                                authorString += $"{Authors[i]}, ";
+                            else if (i == Authors.Length - 2)
+                                authorString += $"{Authors[i]}, & ";
+                            else
+                                authorString += Authors[i];
+                        }
+                        break;
                     }
-                    break;
-                }
             }
 
             // If you don't have any of these things, then just go home, okay?
@@ -85,11 +85,67 @@ namespace Citation.Model.Format
             var pageString = !string.IsNullOrEmpty(Page) ? $"{Page}." : null;
 
             var markdownApaBuilder = new StringBuilder();
-            markdownApaBuilder.AppendJoin(" ", [authorString,
-                yearString,titleString, journalString,
-                volumeAndIssueString, pageString, Url]);
-
+            markdownApaBuilder.AppendJoin(" ", [authorString, yearString, titleString,
+                journalString, volumeAndIssueString, pageString, Url]);
             return markdownApaBuilder.ToString();
+        }
+
+        public string ToLatex()
+        {
+            var authorString = "";
+
+            switch (Authors?.Length)
+            {
+                case 1:
+                    authorString = Authors[0];
+                    break;
+                case > 1:
+                    {
+                        for (var i = 0; i < Authors?.Length; i++)
+                        {
+                            if (i < Authors.Length - 2)
+                                authorString += $"{Authors[i]}, ";
+                            else if (i == Authors.Length - 2)
+                                authorString += $"{Authors[i]}, & ";
+                            else
+                                authorString += Authors[i];
+                        }
+                        break;
+                    }
+            }
+
+            // If you don't have any of these things, then just go home, okay?
+            var yearString = $"({Year}).";
+            var titleString = $"{PaperName}.";
+            var journalString = @" \textit{" + JournalName+ "},";
+
+            string? volumeAndIssueString;
+            if (!string.IsNullOrEmpty(Volume) && string.IsNullOrEmpty(Issue))
+                volumeAndIssueString = @" \textit{" + Volume+ "},";
+            else if (string.IsNullOrEmpty(Volume) && !string.IsNullOrEmpty(Issue))
+                volumeAndIssueString = @" \textit{" + Issue+ "},";
+            else if (string.IsNullOrEmpty(Volume) && string.IsNullOrEmpty(Issue))
+                volumeAndIssueString = null;
+            else
+                volumeAndIssueString = @" \textit{" + Volume+ "}" + $"({Issue}),";
+
+            if (string.IsNullOrEmpty(Page))
+            {
+                if (volumeAndIssueString is not null)
+                    volumeAndIssueString =
+                        $"{volumeAndIssueString.Substring(0,
+                            volumeAndIssueString.Length - 1)}.";
+                else
+                    journalString =
+                        $"{journalString.Substring(0,
+                            journalString.Length - 1)}.";
+            }
+            var pageString = !string.IsNullOrEmpty(Page) ? $"{Page}." : null;
+
+            var latexApaBuilder = new StringBuilder();
+            latexApaBuilder.AppendJoin(" ", [authorString, yearString, titleString,
+                journalString, volumeAndIssueString, pageString, Url]);
+            return latexApaBuilder.ToString();
         }
     }
 }

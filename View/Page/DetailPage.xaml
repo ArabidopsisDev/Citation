@@ -52,6 +52,7 @@
 							Padding="0,5"
 							BorderBrush="LightGray"
 							BorderThickness="0,0,0,1"
+							FontFamily="Calibri"
 							FontSize="16"
 							Text="{Binding Article.Message.Title[0]}" />
 
@@ -64,6 +65,7 @@
 							Padding="0,5"
 							BorderBrush="LightGray"
 							BorderThickness="0,0,0,1"
+							FontFamily="Calibri"
 							FontSize="16"
 							Text="{Binding Article.Message.Author, Converter={StaticResource AuthorsConverter}}" />
 
@@ -82,6 +84,7 @@
 									Padding="0,5"
 									BorderBrush="LightGray"
 									BorderThickness="0,0,0,1"
+									FontFamily="Calibri"
 									FontSize="16"
 									Text="{Binding Article.Message.Container[0]}" />
 							</StackPanel>
@@ -94,6 +97,7 @@
 									Padding="0,5"
 									BorderBrush="LightGray"
 									BorderThickness="0,0,0,1"
+									FontFamily="Calibri"
 									FontSize="16"
 									SelectedDate="{Binding Article.Message.Published, Converter={StaticResource DateConverter}}" />
 							</StackPanel>
@@ -116,6 +120,7 @@
 									Padding="0,5"
 									BorderBrush="LightGray"
 									BorderThickness="0,0,0,1"
+									FontFamily="Calibri"
 									FontSize="16"
 									Text="{Binding Article.Message.Volume}" />
 							</StackPanel>
@@ -128,6 +133,7 @@
 									Padding="0,5"
 									BorderBrush="LightGray"
 									BorderThickness="0,0,0,1"
+									FontFamily="Calibri"
 									FontSize="16"
 									Text="{Binding Article.Message.Issue}" />
 							</StackPanel>
@@ -140,6 +146,7 @@
 									Padding="0,5"
 									BorderBrush="LightGray"
 									BorderThickness="0,0,0,1"
+									FontFamily="Calibri"
 									FontSize="16"
 									Text="{Binding Article.Message.Page}" />
 							</StackPanel>
@@ -154,8 +161,22 @@
 							Padding="0,5"
 							BorderBrush="LightGray"
 							BorderThickness="0,0,0,1"
+							FontFamily="Calibri"
 							FontSize="16"
 							Text="{Binding Article.Message.Doi}" />
+
+						<TextBlock
+							Margin="0,5,0,2"
+							FontWeight="Bold"
+							Text="保存文件夹:" />
+						<TextBox
+							Margin="0,0,0,15"
+							Padding="0,5"
+							BorderBrush="LightGray"
+							BorderThickness="0,0,0,1"
+							FontFamily="Calibri"
+							FontSize="16"
+							Text="{Binding Article.Message.Folder}" />
 
 						<TextBlock
 							Margin="0,5,0,2"
@@ -166,6 +187,7 @@
 							Padding="0,5"
 							BorderBrush="LightGray"
 							BorderThickness="0,0,0,1"
+							FontFamily="Calibri"
 							FontSize="16"
 							Text="{Binding Article.Message.Url}" />
 
@@ -180,6 +202,7 @@
 							Background="#FAFAFA"
 							BorderBrush="LightGray"
 							BorderThickness="1"
+							FontFamily="Calibri"
 							FontSize="16"
 							IsReadOnly="True"
 							Text="{Binding Article.Message.Abstract}"

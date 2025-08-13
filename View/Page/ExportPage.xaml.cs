@@ -1,9 +1,14 @@
 ﻿using Citation.View.Controls;
 using System.Collections;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Citation.Model.Format;
+using Citation.Model.Reference;
+using Citation.Utils;
 
 namespace Citation.View.Page
 {
@@ -26,12 +31,9 @@ namespace Citation.View.Page
         private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = FindVisualParent<ArticleItem>(e.OriginalSource as DependencyObject);
-            if (item != null)
-            {
-                _draggedItem = item.DataContext;
-                _draggedIndex = ArticlesContainer.Items.IndexOf(_draggedItem);
-                DragDrop.DoDragDrop(item, _draggedItem, DragDropEffects.Move);
-            }
+            _draggedItem = item.DataContext;
+            _draggedIndex = ArticlesContainer.Items.IndexOf(_draggedItem);
+            DragDrop.DoDragDrop(item, _draggedItem, DragDropEffects.Move);
         }
 
         private void OnDrop(object sender, DragEventArgs e)
@@ -60,7 +62,46 @@ namespace Citation.View.Page
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
-            bool isMarkdown = MarkdownButton.IsChecked == true;
+            var exportBuilder = new StringBuilder();
+            var isMarkdown = MarkdownButton.IsChecked == true;
+
+            exportBuilder.AppendLine(isMarkdown ? "## Reference" : @"\section{Reference}");
+            for (int i = 0; i < ArticlesContainer.Items.Count; i++)
+            {
+                var builder = new Apa((JournalArticle)ArticlesContainer.Items[i]!);
+                exportBuilder.AppendLine(isMarkdown
+                    ? $"[{i + 1}] {builder.ToMarkdown()}"
+                    : $"[{i + 1}] {builder.ToLatex()}");
+            }
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.FileName = "reference";
+            if (isMarkdown)
+            {
+                saveFileDialog.Filter = "markdown文本 (*.md)|*.md|所有文件 (*.*)|*.*";
+                saveFileDialog.DefaultExt = "md";
+            }
+            else
+            {
+                saveFileDialog.Filter = "LaTex格式文本 (*.tex)|*.tex|所有文件 (*.*)|*.*";
+                saveFileDialog.DefaultExt = "tex";
+            }
+
+            var result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                var filePath = saveFileDialog.FileName;
+                try
+                {
+                    File.WriteAllText(filePath, exportBuilder.ToString());
+                    MainWindow.This.ShowToast("引用保存成功");
+                }
+                catch (IOException ex)
+                {
+                    LogException.Collect(ex, LogException.ExceptionLevel.Warning);
+                    MainWindow.This.ShowToast("保存失败，可能文件正在使用...");
+                }
+            }
         }
     }
 }

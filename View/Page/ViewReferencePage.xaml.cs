@@ -107,7 +107,20 @@ namespace Citation.View.Page
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
+            Clipboard.SetText(CitationBox.Text);
+            MainWindow.This.ShowToast("引用已经复制到剪切板");
+        }
 
+        private void LatexButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var apa = new Apa(SelectedArticle);
+            CitationBox.Text = apa.ToLatex();
+        }
+
+        private void MarkdownButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var apa = new Apa(SelectedArticle);
+            CitationBox.Text = apa.ToMarkdown();
         }
     }
 }

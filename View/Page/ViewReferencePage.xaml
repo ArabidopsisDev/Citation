@@ -310,6 +310,7 @@
 											x:Name="MarkdownButton"
 											Width="100"
 											Height="40"
+											 Click="MarkdownButton_OnClick"
 											BorderThickness="1,1,0,1"
 											Content="Markdown"
 											GroupName="ExportFormat"
@@ -320,6 +321,7 @@
 											Width="100"
 											Height="40"
 											BorderThickness="0,1,1,1"
+											Click="LatexButton_OnClick"
 											Content="LaTeX"
 											GroupName="ExportFormat"
 											Style="{StaticResource SegmentedButtonStyle}" />

@@ -14,7 +14,6 @@
 		<c:AuthorConverter x:Key="AuthorsConverter" />
 		<c:DateConverter x:Key="DateConverter" />
 
-		<!--  从ViewReferencePage复制的按钮样式  -->
 		<Style x:Key="SegmentedButtonStyle" TargetType="ToggleButton">
 			<Setter Property="Background" Value="White" />
 			<Setter Property="Foreground" Value="#0078D7" />
@@ -54,7 +53,6 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<!--  文章列表  -->
 		<ScrollViewer Grid.Row="0" Padding="20">
 			<ItemsControl x:Name="ArticlesContainer">
 				<ItemsControl.ItemTemplate>
@@ -65,7 +63,6 @@
 			</ItemsControl>
 		</ScrollViewer>
 
-		<!--  底部按钮栏 - 从ViewReferencePage复制  -->
 		<Border
 			Grid.Row="1"
 			Padding="20,10"
@@ -73,7 +70,6 @@
 			BorderBrush="#E0E0E0"
 			BorderThickness="0,1,0,0">
 			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-				<!--  引用格式选择  -->
 				<Border
 					Margin="0,0,20,0"
 					BorderBrush="#0078D7"
@@ -100,7 +96,6 @@
 					</StackPanel>
 				</Border>
 
-				<!--  导出引用按钮  -->
 				<Button
 					Width="120"
 					Height="40"
