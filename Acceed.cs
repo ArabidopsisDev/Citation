@@ -23,7 +23,12 @@ namespace Citation
 
         public void ReConnect(string dbPath)
         {
-            if (_Path == dbPath) return;
+            if (_Path == dbPath)
+            {
+                _connection.Open();
+                return;
+            }
+
             _Path = dbPath;
             _connection?.Close();
 

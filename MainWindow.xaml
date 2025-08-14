@@ -84,6 +84,11 @@
 						FontSize="15"
 						Header="打开" />
 					<MenuItem
+						Click="CloseProject_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="关闭" />
+					<MenuItem
 						Click="ExitSoftware_Click"
 						FontFamily="SimHei"
 						FontSize="15"
@@ -114,6 +119,16 @@
 						FontSize="15"
 						Header="导出引用" />
 				</MenuItem>
+				<MenuItem
+					FontFamily="SimHei"
+					FontSize="18"
+					Header="任务">
+					<MenuItem
+						Click="AddTask_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="规划任务" />
+				</MenuItem>
 			</Menu>
 
 			<Border
@@ -128,7 +143,7 @@
 						FontFamily="Consolas"
 						FontSize="26"
 						Foreground="White">
-						Welcome To Citation! (Version Dev_tfa1026b)
+						Welcome To Citation! (Version  Dev_tfa1037b)
 					</TextBlock>
 				</StackPanel>
 			</Border>

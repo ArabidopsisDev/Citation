@@ -11,6 +11,8 @@ using System.Windows.Threading;
 using Citation.Model.Reference;
 using System.Text.Json;
 using Citation.View.Page;
+using System;
+using System.Media;
 
 namespace Citation
 {
@@ -36,6 +38,8 @@ namespace Citation
 
             NavigateWithSlideAnimation(new Citation.View.Page.WelcomePage(), false);
             DataContext = Project;
+
+            MainFrame.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
         }
 
         private void NewProject_Click(object sender, RoutedEventArgs e)
@@ -136,6 +140,12 @@ namespace Citation
         public void ShowToast(string message)
         {
             ToastContainer.Children.Clear();
+
+            var stream = Application.GetResourceStream(
+                new Uri("pack://application:,,,/Citation;component/Images/alert.wav")).Stream;
+
+            SoundPlayer player = new SoundPlayer(stream);
+            player.Play();
 
             var border = new Border
             {
@@ -269,9 +279,42 @@ namespace Citation
             }
         }
 
+        private void CloseProject_Click(object sender, RoutedEventArgs e)
+        {
+            if (Project.Name == "尚未打开项目！")
+            {
+                ShowToast("您还未打开项目，无需关闭");
+                return;
+            }
+
+            // Clear back entry
+            while (MainFrame.CanGoForward)
+                MainFrame.GoForward();
+            MainFrame.RemoveBackEntry();
+
+            // Clear project buffer
+            Acceed.Shared.Close();
+            Project = new Project
+            {
+                Name = "尚未打开项目！",
+                Authors = new ObservableCollection<string>(),
+                Guid = System.Guid.NewGuid().ToString()
+            };
+
+            // Show for user
+            NavigateWithSlideAnimation(new Citation.View.Page.WelcomePage(), false);
+            ShowToast("项目已关闭");
+            DataContext = Project;
+        }
+
         private void ExitSoftware_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void AddTask_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new Citation.View.Page.AddTaskPage());
         }
     }
 }

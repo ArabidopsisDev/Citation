@@ -12,12 +12,15 @@
 
   <ItemGroup>
     <None Remove="dbtemplate.accdb" />
+    <None Remove="Images\alert.mp3" />
+    <None Remove="Images\alert.wav" />
     <None Remove="Images\article.png" />
     <None Remove="Images\citation.png" />
     <None Remove="Images\folder.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
     <PackageReference Include="System.Data.OleDb" Version="9.0.8" />
   </ItemGroup>
 
@@ -25,6 +28,7 @@
     <Content Include="dbtemplate.accdb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\alert.wav" />
     <Resource Include="Images\article.png" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\citation.png" />
