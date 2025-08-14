@@ -20,7 +20,7 @@ namespace Citation.Model
             var alertString = EndRemind ? "Yes" : "No";
 
             var sqlCommand = $"""
-                INSERT INTO tb_tasks (TaskName, TaskDescription,
+                INSERT INTO tb_Task (TaskName, TaskDescription,
                 TaskStart, TaskEnd, TaskStartRemind, TaskEndRemind)
                 VALUES ('{Name}', '{Description}', '{startString}', 
                 '{endString}', '{remindString}', '{alertString}')

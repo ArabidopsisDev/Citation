@@ -128,6 +128,11 @@
 						FontFamily="SimHei"
 						FontSize="15"
 						Header="规划任务" />
+					<MenuItem
+						Click="ViewTask_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="查看任务" />
 				</MenuItem>
 			</Menu>
 

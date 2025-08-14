@@ -23,7 +23,7 @@ namespace Citation
 
         public void ReConnect(string dbPath)
         {
-            if (_Path == dbPath)
+            if (_Path == dbPath && _connection.State != ConnectionState.Open)
             {
                 _connection.Open();
                 return;
@@ -41,8 +41,6 @@ namespace Citation
         {
             _connection.Close();
         }
-
-        public void CloseConnect() => _connection!.Close();
 
         public OleDbDataReader Query(string queryString)
         {

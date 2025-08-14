@@ -23,6 +23,9 @@ namespace Citation.View.Page
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var insertCommand = this.Task.ToSql();
+            Acceed.Shared.Execute(insertCommand);
+
+            MainWindow.This.ShowToast("任务添加成功");
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

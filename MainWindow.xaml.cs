@@ -13,6 +13,7 @@ using System.Text.Json;
 using Citation.View.Page;
 using System;
 using System.Media;
+using Task = Citation.Model.Task;
 
 namespace Citation
 {
@@ -315,6 +316,32 @@ namespace Citation
         private void AddTask_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new Citation.View.Page.AddTaskPage());
+        }
+
+        private void ViewTask_Click(object sender, RoutedEventArgs e)
+        {
+            // Find today's tasks
+            var reader = Acceed.Shared.Query("SELECT * FROM tb_Task");
+            var tasks = new List<Citation.Model.Task>();
+            while (reader.Read())
+                tasks.Add(Task.FromSql(reader));
+
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                var now = DateTime.Now;
+                var todayStart = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
+                var todayEnd = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59);
+
+                if (tasks[i].StartTime > todayEnd || tasks[i].EndTime < todayStart)
+                    tasks.RemoveAt(i);
+
+                // Normalization
+                tasks[i].EndTime = tasks[i].EndTime > todayEnd ? todayEnd : tasks[i].EndTime;
+                tasks[i].StartTime = tasks[i].StartTime < todayStart ? todayStart : tasks[i].StartTime;
+            }
+
+            var viewPage = new ViewTaskPage(tasks);
+            NavigateWithSlideAnimation(viewPage);
         }
     }
 }
