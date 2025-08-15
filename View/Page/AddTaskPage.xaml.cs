@@ -25,6 +25,17 @@ namespace Citation.View.Page
             var insertCommand = this.Task.ToSql();
             Acceed.Shared.Execute(insertCommand);
 
+            if (Task.StartRemind)
+            {
+                var alert = new Alert(Task.StartTime, Task.Name, Task.Description);
+                alert.AppendRealtime();
+            }
+            if (Task.EndRemind)
+            {
+                var alert = new Alert(Task.EndTime, Task.Name, Task.Description);
+                alert.AppendRealtime();
+            }
+
             MainWindow.This.ShowToast("任务添加成功");
         }
 

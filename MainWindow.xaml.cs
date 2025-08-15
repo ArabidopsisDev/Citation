@@ -1,18 +1,17 @@
-﻿using Citation.View;
-using System.Windows;
-using Citation.Model;
+﻿using Citation.Model;
+using Citation.Model.Reference;
+using Citation.View;
+using Citation.View.Page;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Net.Http;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
-using System.Windows.Media;
-using System.Windows.Threading;
-using Citation.Model.Reference;
-using System.Text.Json;
-using Citation.View.Page;
-using System;
 using System.Media;
+using System.Net.Http;
+using System.Text.Json;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using Task = Citation.Model.Task;
 
 namespace Citation
@@ -23,13 +22,19 @@ namespace Citation
     public partial class MainWindow : Window
     {
         public Project Project { get; set; }
+
+        // Di su zhi
         internal static MainWindow This;
+        internal List<Alert> _alerts;
 
         public MainWindow()
         {
             InitializeComponent();
             This = this;
+        }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             Project ??= new Project
             {
                 Name = "尚未打开项目！",
@@ -95,6 +100,29 @@ namespace Citation
                 var authors = reader["ProjectAuthors"].ToString()!.Split('/');
                 Project.Authors = [.. authors];
             }
+
+            // Load alerts
+            reader = Acceed.Shared.Query("SELECT * FROM tb_Alert");
+            _alerts = new List<Alert>();
+
+            while (reader.Read())
+                _alerts.Add(Alert.FromSql(reader));
+
+            // Set scheduled reminders
+            var timer = new System.Timers.Timer(TimeSpan.FromSeconds(1));
+            timer.Elapsed += (_, _) =>
+            {
+                if (_alerts is null) return;
+                foreach (var item in _alerts)
+                {
+                    if (item.OccurTime >= DateTime.Now)
+                    {
+                        var alert = new AlertWindow(item);
+                        var deleteCommand = item.DeleteSql();
+                        Acceed.Shared.Execute(deleteCommand);
+                    }
+                }
+            };
         }
 
         internal void NavigateWithSlideAnimation(UserControl page, bool project = true)
@@ -295,6 +323,7 @@ namespace Citation
 
             // Clear project buffer
             Acceed.Shared.Close();
+            _alerts = null;
             Project = new Project
             {
                 Name = "尚未打开项目！",
@@ -320,6 +349,12 @@ namespace Citation
 
         private void ViewTask_Click(object sender, RoutedEventArgs e)
         {
+            if (Project.Name == "尚未打开项目！")
+            {
+                ShowToast("清先打开一个项目");
+                return;
+            }
+
             // Find today's tasks
             var reader = Acceed.Shared.Query("SELECT * FROM tb_Task");
             var tasks = new List<Citation.Model.Task>();
@@ -332,12 +367,12 @@ namespace Citation
                 var todayStart = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
                 var todayEnd = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59);
 
-                if (tasks[i].StartTime > todayEnd || tasks[i].EndTime < todayStart)
-                    tasks.RemoveAt(i);
-
                 // Normalization
                 tasks[i].EndTime = tasks[i].EndTime > todayEnd ? todayEnd : tasks[i].EndTime;
                 tasks[i].StartTime = tasks[i].StartTime < todayStart ? todayStart : tasks[i].StartTime;
+
+                if (tasks[i].StartTime > todayEnd || tasks[i].EndTime < todayStart)
+                    tasks.RemoveAt(i);
             }
 
             var viewPage = new ViewTaskPage(tasks);

@@ -8,6 +8,7 @@
 	Title="Arabidopsis Citation"
 	Width="1050"
 	Height="600"
+	Loaded="Window_Loaded"
 	mc:Ignorable="d">
 
 	<Window.Resources>

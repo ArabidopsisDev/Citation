@@ -117,7 +117,6 @@ namespace Citation.View.Page
 
         private SolidColorBrush GetContrastColor(Color color)
         {
-            // What is this JB algorithm?
             var luminance = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255;
             return luminance > 0.5 ? Brushes.Black : Brushes.White;
         }

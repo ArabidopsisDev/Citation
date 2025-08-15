@@ -1,10 +1,12 @@
-﻿using System.Text;
-using System.Windows.Controls;
-using Citation.Model.Reference;
+﻿using Citation.Model.Reference;
+using System.Text;
 
 namespace Citation.Model.Format
 {
-    public class Apa
+    /// <summary>
+    /// APA 7th formatter
+    /// </summary>
+    public class Apa : IFormatter
     {
         public Apa(JournalArticle article)
         {
@@ -97,8 +99,10 @@ namespace Citation.Model.Format
             switch (Authors?.Length)
             {
                 case 1:
-                    authorString = Authors[0];
-                    break;
+                    {
+                        authorString = Authors[0];
+                        break;
+                    }
                 case > 1:
                     {
                         for (var i = 0; i < Authors?.Length; i++)
