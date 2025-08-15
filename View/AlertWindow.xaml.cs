@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows;
+using System.Media;
 
 namespace Citation.View
 {
@@ -25,23 +26,29 @@ namespace Citation.View
             txtTime.Text = $"当前时间: {dateTime:yyyy-MM-dd HH:mm:ss}";
 
             Opacity = 0;
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.3));
+            var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.3));
             BeginAnimation(OpacityProperty, fadeIn);
+
+            var stream = Application.GetResourceStream(
+               new Uri("pack://application:,,,/Citation;component/Images/misc.wav")).Stream;
+
+            var player = new SoundPlayer(stream);
+            player.Play();
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private void Close_Click(object sender, RoutedEventArgs e)
         {
             CloseWindow();
         }
 
-        private void btnConfirm_Click(object sender, RoutedEventArgs e)
+        private void Confirm_Click(object sender, RoutedEventArgs e)
         {
             CloseWindow();
         }
 
         private void CloseWindow()
         {
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.2));
+            var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.2));
             fadeOut.Completed += (s, _) => Close();
             BeginAnimation(OpacityProperty, fadeOut);
         }

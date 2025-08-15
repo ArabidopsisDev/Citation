@@ -9,7 +9,7 @@ namespace Citation
 
         public static Acceed Shared { get; set; } = new Acceed("fuckSDAU");
 
-        private string _Path;
+        private string? _Path;
 
         public Acceed(string dbPath)
         {
@@ -23,6 +23,15 @@ namespace Citation
 
         public void ReConnect(string dbPath)
         {
+            // This part of fault tolerance
+            if (_connection is null)
+            {
+                var reconnectString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbPath}";
+                _connection = new OleDbConnection(reconnectString);
+                _connection.Open();
+                return;
+            }
+
             if (_Path == dbPath && _connection.State != ConnectionState.Open)
             {
                 _connection.Open();
@@ -39,7 +48,7 @@ namespace Citation
 
         public void Close()
         {
-            _connection.Close();
+            _connection?.Close();
         }
 
         public OleDbDataReader Query(string queryString)

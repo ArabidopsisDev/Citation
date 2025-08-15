@@ -17,6 +17,7 @@
     <None Remove="Images\article.png" />
     <None Remove="Images\citation.png" />
     <None Remove="Images\folder.png" />
+    <None Remove="Images\misc.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,7 @@
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\citation.png" />
     <Resource Include="Images\folder.png" />
+    <Resource Include="Images\misc.wav" />
   </ItemGroup>
 
 </Project>

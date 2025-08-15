@@ -20,7 +20,7 @@ namespace Citation.Model
         public static Alert FromSql(OleDbDataReader reader)
         {
             var title = reader["AlertTitle"].ToString();
-            var description = reader["Description"].ToString();
+            var description = reader["AlertDescription"].ToString();
             var time = DateTime.Parse(reader["AlertTime"].ToString()!);
 
             var instance = new Alert(time, title, description);

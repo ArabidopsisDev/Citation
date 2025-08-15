@@ -113,12 +113,16 @@ namespace Citation.View.Page
 
         private void LatexButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (SelectedArticle is null) return;
+
             var apa = new Apa(SelectedArticle);
             CitationBox.Text = apa.ToLatex();
         }
 
         private void MarkdownButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (SelectedArticle is null) return;
+
             var apa = new Apa(SelectedArticle);
             CitationBox.Text = apa.ToMarkdown();
         }

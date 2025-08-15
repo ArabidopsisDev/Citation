@@ -3,11 +3,11 @@
 namespace Citation.View.Page
 {
     /// <summary>
-    /// WelcomePage.xaml 的交互逻辑
+    /// Interaction logic for ImportFailurePage.xaml
     /// </summary>
-    public partial class WelcomePage : UserControl
+    public partial class ImportFailurePage : UserControl
     {
-        public WelcomePage()
+        public ImportFailurePage()
         {
             InitializeComponent();
         }

@@ -13,12 +13,7 @@ namespace Citation.View.Page
         public List<Citation.Model.Task> TodayTasks { get; set; }
         public List<TimeLabel> TimeLabels { get; } = [];
 
-        // What does it mean,,,
-        // In fact, it shouldn't be bound here, but the code is running,
-        // and I don't dare to touch it, so let it be
-        public string CurrentTime { get; set; } = DateTime.Now.ToString("HH:mm:ss");
-
-        private System.Windows.Threading.DispatcherTimer _indicateTimer;
+        private readonly System.Windows.Threading.DispatcherTimer _indicateTimer = new();
         private DateTime _lastUpdateTime;
 
         public ViewTaskPage(List<Citation.Model.Task> todayTasks)
@@ -33,14 +28,16 @@ namespace Citation.View.Page
             RenderTasks();
 
             // Big and small core technology (not)
-            _indicateTimer = new System.Windows.Threading.DispatcherTimer();
             _indicateTimer.Interval = TimeSpan.FromSeconds(15);
             _indicateTimer.Tick += (_, _) => UpdateCurrentTimeIndicator();
             _indicateTimer.Start();
 
             // So strong? Just how strong?
-            var displayTimer = new System.Windows.Threading.DispatcherTimer();
-            displayTimer.Interval = TimeSpan.FromSeconds(1);
+            var displayTimer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+
             displayTimer.Tick += (_, _) =>
             {
                 var now = DateTime.Now;
@@ -105,7 +102,7 @@ namespace Citation.View.Page
             }
         }
 
-        private Color GetTaskColor(string taskName)
+        private static Color GetTaskColor(string taskName)
         {
             var hash = taskName.GetHashCode();
             return Color.FromRgb(
@@ -115,7 +112,7 @@ namespace Citation.View.Page
             ).AdjustBrightness(0.7);
         }
 
-        private SolidColorBrush GetContrastColor(Color color)
+        private static SolidColorBrush GetContrastColor(Color color)
         {
             var luminance = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255;
             return luminance > 0.5 ? Brushes.Black : Brushes.White;

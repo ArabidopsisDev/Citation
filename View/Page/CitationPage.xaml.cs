@@ -62,6 +62,12 @@ namespace Citation.View.Page
             }
 
             var journalArticle = JsonSerializer.Deserialize<JournalArticle>(source);
+            if (journalArticle is null || journalArticle.Message is null)
+            {
+                MainWindow.This.ShowToast("获取失败，请检查您的网络环境或文章链接。");
+                return;
+            }
+
             journalArticle.Message.AfterWards();
             Status = $"【{journalArticle!.Message!.Title![0]}】 获取成功";
 

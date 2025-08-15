@@ -1,5 +1,6 @@
 ﻿using Citation.Model;
 using Citation.Model.Reference;
+using Citation.Utils;
 using Citation.View;
 using Citation.View.Page;
 using System.Collections.ObjectModel;
@@ -25,23 +26,25 @@ namespace Citation
 
         // Di su zhi
         internal static MainWindow This;
-        internal List<Alert> _alerts;
+
+        internal List<Alert>? _alerts;
 
         public MainWindow()
         {
             InitializeComponent();
-            This = this;
+
+            Project ??= new Project
+            {
+                Name = "尚未打开项目！",
+                Authors = [],
+                Guid = System.Guid.NewGuid().ToString()
+            };
+
+            MainWindow.This = this;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Project ??= new Project
-            {
-                Name = "尚未打开项目！",
-                Authors = new ObservableCollection<string>(),
-                Guid = System.Guid.NewGuid().ToString()
-            };
-
             NavigateWithSlideAnimation(new Citation.View.Page.WelcomePage(), false);
             DataContext = Project;
 
@@ -103,7 +106,7 @@ namespace Citation
 
             // Load alerts
             reader = Acceed.Shared.Query("SELECT * FROM tb_Alert");
-            _alerts = new List<Alert>();
+            _alerts = [];
 
             while (reader.Read())
                 _alerts.Add(Alert.FromSql(reader));
@@ -113,16 +116,26 @@ namespace Citation
             timer.Elapsed += (_, _) =>
             {
                 if (_alerts is null) return;
-                foreach (var item in _alerts)
+
+                for (int i = 0; i< _alerts.Count; i++)
                 {
-                    if (item.OccurTime >= DateTime.Now)
+                    Alert? item = _alerts[i];
+                    if (item.OccurTime <= DateTime.Now)
                     {
-                        var alert = new AlertWindow(item);
-                        var deleteCommand = item.DeleteSql();
-                        Acceed.Shared.Execute(deleteCommand);
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            var alert = new AlertWindow(item);
+                            alert.Show();
+
+                            var deleteCommand = item.DeleteSql();
+                            Acceed.Shared.Execute(deleteCommand);
+                        });
+                        _alerts.Remove(item);
                     }
                 }
             };
+
+            timer.Start();
         }
 
         internal void NavigateWithSlideAnimation(UserControl page, bool project = true)
@@ -173,7 +186,7 @@ namespace Citation
             var stream = Application.GetResourceStream(
                 new Uri("pack://application:,,,/Citation;component/Images/alert.wav")).Stream;
 
-            SoundPlayer player = new SoundPlayer(stream);
+            SoundPlayer player = new(stream);
             player.Play();
 
             var border = new Border
@@ -242,14 +255,14 @@ namespace Citation
 
                 db.Afterward();
                 var paper = JournalArticle.FromArticle(db);
-                paper.Message.AfterWards();
+
+                paper.Message!.AfterWards();
                 papers.Add(paper);
             }
 
             exportPage.ArticlesContainer.ItemsSource = papers;
             NavigateWithSlideAnimation(exportPage);
         }
-
         private async void ImportCitation_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
@@ -293,6 +306,12 @@ namespace Citation
                         var source = await response.Content.ReadAsStringAsync();
 
                         var journalArticle = JsonSerializer.Deserialize<JournalArticle>(source);
+                        if (journalArticle is null ||journalArticle.Message is null)
+                        {
+                            ShowToast($"[{doi}] 获取失败");
+                            continue;
+                        }
+
                         journalArticle.Message.AfterWards();
 
                         var insertCommand = journalArticle.ToSql();
@@ -301,6 +320,7 @@ namespace Citation
                     }
                     catch (Exception ex)
                     {
+                        LogException.Collect(ex, LogException.ExceptionLevel.Info);
                         ShowToast($"[{doi}] 获取失败");
                     }
                 }
@@ -327,7 +347,7 @@ namespace Citation
             Project = new Project
             {
                 Name = "尚未打开项目！",
-                Authors = new ObservableCollection<string>(),
+                Authors = [],
                 Guid = System.Guid.NewGuid().ToString()
             };
 
@@ -377,6 +397,11 @@ namespace Citation
 
             var viewPage = new ViewTaskPage(tasks);
             NavigateWithSlideAnimation(viewPage);
+        }
+
+        private void ImportFailure_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new ImportFailurePage());
         }
     }
 }

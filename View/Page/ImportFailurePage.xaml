@@ -1,0 +1,180 @@
+﻿<UserControl
+	x:Class="Citation.View.Page.ImportFailurePage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:Citation.View.Page"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+	Background="#FFF0F0F0"
+	mc:Ignorable="d">
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<Border
+			Grid.Row="0"
+			Padding="15,10"
+			Background="Gray"
+			CornerRadius="5">
+			<TextBlock
+				HorizontalAlignment="Center"
+				FontFamily="SimHei"
+				FontSize="24"
+				FontWeight="Bold"
+				Foreground="White"
+				Text="为什么会出现导入失败？" />
+		</Border>
+
+		<ScrollViewer Grid.Row="1" Margin="0,20,0,0">
+			<StackPanel>
+				<Border
+					Margin="0,0,0,15"
+					Padding="15"
+					Background="White"
+					CornerRadius="5">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Grid.Column="0"
+							Margin="0,0,10,0"
+							FontFamily="Times New Roman"
+							FontSize="16"
+							FontWeight="Bold"
+							Text="1." />
+						<TextBlock
+							Grid.Column="1"
+							FontFamily="Times New Roman, SimSun"
+							FontSize="14"
+							Text="如果导入时，软件提示文件损坏，那么是ris格式文件已经损坏，请您重新下载构建ris文件，之后导入。"
+							TextWrapping="Wrap" />
+					</Grid>
+				</Border>
+
+				<Border
+					Margin="0,0,0,15"
+					Padding="15"
+					Background="White"
+					CornerRadius="5">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Grid.Column="0"
+							Margin="0,0,10,0"
+							FontFamily="Times New Roman"
+							FontSize="16"
+							FontWeight="Bold"
+							Text="2." />
+						<TextBlock
+							Grid.Column="1"
+							FontFamily="Times New Roman, SimSun"
+							FontSize="14"
+							Text="如果您未连接互联网，将会导致全部文献导入失败，请确保您已经连接到互联网。"
+							TextWrapping="Wrap" />
+					</Grid>
+				</Border>
+
+				<Border
+					Margin="0,0,0,15"
+					Padding="15"
+					Background="White"
+					CornerRadius="5">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Grid.Column="0"
+							Margin="0,0,10,0"
+							FontFamily="Times New Roman"
+							FontSize="16"
+							FontWeight="Bold"
+							Text="3." />
+						<TextBlock
+							Grid.Column="1"
+							FontFamily="Times New Roman,SimSun"
+							FontSize="14"
+							Text="如果导入速度缓慢，且部分或全部不成功，请暂时关闭电脑上运行的vpn或刷新dns缓存后重试。"
+							TextWrapping="Wrap" />
+					</Grid>
+				</Border>
+
+				<Border
+					Margin="0,0,0,15"
+					Padding="15"
+					Background="White"
+					CornerRadius="5">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Grid.Column="0"
+							Margin="0,0,10,0"
+							FontFamily="Times New Roman"
+							FontSize="16"
+							FontWeight="Bold"
+							Text="4." />
+						<TextBlock
+							Grid.Column="1"
+							FontFamily="SimSun"
+							FontSize="14"
+							Text="如果小部分最近的文献导入不成功，说明该文献还没有被正式同步，请您过几天之后重试，或者在单个导入界面中，手动输入论文相关信息。"
+							TextWrapping="Wrap" />
+					</Grid>
+				</Border>
+
+				<Border
+					Padding="15"
+					Background="White"
+					CornerRadius="5">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							Grid.Column="0"
+							Margin="0,0,10,0"
+							FontFamily="Times New Roman"
+							FontSize="16"
+							FontWeight="Bold"
+							Text="5." />
+						<TextBlock
+							Grid.Column="1"
+							FontFamily="SimSun"
+							FontSize="14"
+							Text="如果遇到其他问题，请加入用户群或者发送邮件反馈。"
+							TextWrapping="Wrap" />
+					</Grid>
+				</Border>
+			</StackPanel>
+		</ScrollViewer>
+
+		<Border
+			Grid.Row="2"
+			Margin="0,20,0,0"
+			Padding="10"
+			Background="#FFE0E0E0"
+			CornerRadius="5">
+			<TextBlock
+				HorizontalAlignment="Center"
+				FontFamily="Times New Roman,SimSun"
+				FontSize="14"
+				FontStyle="Italic"
+				Text="感谢您使用 Arabidopsis Citation！我们将持续改进产品体验。" />
+		</Border>
+	</Grid>
+</UserControl>
