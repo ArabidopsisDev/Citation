@@ -34,6 +34,8 @@ namespace Citation.Model.Format
         public string? Page { get; private set; }
         public string? Url { get; private set; }
 
+        public string FormatName { get; } = "APA 7th Edition";
+
         public string ToMarkdown()
         {
             var authorString = "";

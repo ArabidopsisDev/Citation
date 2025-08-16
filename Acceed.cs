@@ -5,7 +5,7 @@ namespace Citation
 {
     class Acceed
     {
-        private OleDbConnection? _connection = null;
+        public OleDbConnection Connection { get; set; }
 
         public static Acceed Shared { get; set; } = new Acceed("fuckSDAU");
 
@@ -17,51 +17,51 @@ namespace Citation
 
             _Path = dbPath;
             var connectString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbPath}";
-            _connection = new OleDbConnection(connectString);
-            _connection.Open();
+            Connection = new OleDbConnection(connectString);
+            Connection.Open();
         }
 
         public void ReConnect(string dbPath)
         {
             // This part of fault tolerance
-            if (_connection is null)
+            if (Connection is null)
             {
                 var reconnectString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbPath}";
-                _connection = new OleDbConnection(reconnectString);
-                _connection.Open();
+                Connection = new OleDbConnection(reconnectString);
+                Connection.Open();
                 return;
             }
 
-            if (_Path == dbPath && _connection.State != ConnectionState.Open)
+            if (_Path == dbPath && Connection.State != ConnectionState.Open)
             {
-                _connection.Open();
+                Connection.Open();
                 return;
             }
 
             _Path = dbPath;
-            _connection?.Close();
+            Connection?.Close();
 
             var connectString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbPath}";
-            _connection = new OleDbConnection(connectString);
-            _connection.Open();
+            Connection = new OleDbConnection(connectString);
+            Connection.Open();
         }
 
         public void Close()
         {
-            _connection?.Close();
+            Connection?.Close();
         }
 
         public OleDbDataReader Query(string queryString)
         {
-            using var command = new OleDbCommand(queryString, _connection);
+            using var command = new OleDbCommand(queryString, Connection);
             var reader = command.ExecuteReader();
             return reader;
         }
 
         public int Execute(string commandString)
         {
-            if (_connection?.State is ConnectionState.Closed) _connection.Open();
-            using var command = new OleDbCommand(commandString, _connection);
+            if (Connection?.State is ConnectionState.Closed) Connection.Open();
+            using var command = new OleDbCommand(commandString, Connection);
             return command.ExecuteNonQuery();
         }
     }

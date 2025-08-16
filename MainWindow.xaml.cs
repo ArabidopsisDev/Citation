@@ -127,8 +127,7 @@ namespace Citation
                             var alert = new AlertWindow(item);
                             alert.Show();
 
-                            var deleteCommand = item.DeleteSql();
-                            Acceed.Shared.Execute(deleteCommand);
+                            item.DeleteSql(Acceed.Shared.Connection);
                         });
                         _alerts.Remove(item);
                     }

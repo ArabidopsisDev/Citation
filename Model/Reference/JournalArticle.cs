@@ -227,9 +227,9 @@ namespace Citation.Model.Reference
 
         public void Afterward()
         {
-            Container = ContainerString.Split('/').Where(x => x != "").ToArray();
-            Title = TitleString.Split('/').Where(x => x != "").ToArray();
-            Author = AuthorString.Split('/').Where(x => x != "").ToArray();
+            Container = [.. ContainerString.Split('/').Where(x => x != "")];
+            Title = [.. TitleString.Split('/').Where(x => x != "")];
+            Author = [.. AuthorString.Split('/').Where(x => x != "")];
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Data.OleDb;
+using System.Xml.Linq;
 
 namespace Citation.Model
 {
@@ -11,10 +12,9 @@ namespace Citation.Model
 
         public void AppendRealtime() 
         {
-            var insertCommand = ToSql();
-            Acceed.Shared.Execute(insertCommand);
+            ToSql(Acceed.Shared.Connection);
 
-            MainWindow.This._alerts.Add(this);
+            MainWindow.This._alerts!.Add(this);
         }
 
         public static Alert FromSql(OleDbDataReader reader)
@@ -27,23 +27,34 @@ namespace Citation.Model
             return instance;
         }
 
-        public string ToSql()
+        public void ToSql(OleDbConnection connection)
         {
             var timeString = OccurTime.ToString("yyyy/M/dd HH:mm:ss");
             var sqlCommand = $"""
                 INSERT INTO tb_Alert (AlertTitle, AlertDescription, AlertTime)
-                VALUES ('{Title}', '{Description}', '{timeString}')
+                VALUES (?, ?, ?)
                 """;
-            return sqlCommand;
+
+            var command = new OleDbCommand(sqlCommand, connection);
+            command.Parameters.AddWithValue("?", Title);
+            command.Parameters.AddWithValue("?", Description);
+            command.Parameters.AddWithValue("?", timeString);
+
+            command.ExecuteNonQuery();
         }
 
-        public string DeleteSql()
+        public void DeleteSql(OleDbConnection connection)
         {
             var sqlCommand = $"""
                 DELETE FROM tb_Alert
-                WHERE AlertTitle = '{Title}' and AlertDescription = '{Description}'
+                WHERE AlertTitle = ? and AlertDescription = ?
                 """;
-            return sqlCommand;
+
+            var command = new OleDbCommand(sqlCommand, connection);
+            command.Parameters.AddWithValue("?", Title);
+            command.Parameters.AddWithValue("?", Description);
+
+            command.ExecuteNonQuery();
         }
     }
 }

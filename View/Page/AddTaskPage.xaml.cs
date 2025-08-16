@@ -9,21 +9,18 @@ namespace Citation.View.Page
     /// </summary>
     public partial class AddTaskPage : UserControl
     {
-        public Citation.Model.Task Task { get; set; } = new Citation.Model.Task();
+        public Citation.Model.Task Task { get; set; } = new Citation.Model.Task(
+            string.Empty,string.Empty, DateTime.Now, DateTime.Now, false, false);
 
         public AddTaskPage()
         {
             InitializeComponent();
-
-            this.Task.StartTime = DateTime.Now;
-            this.Task.EndTime = DateTime.Now;
             this.DataContext = this;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var insertCommand = this.Task.ToSql();
-            Acceed.Shared.Execute(insertCommand);
+            Task.ToSql(Acceed.Shared.Connection);
 
             if (Task.StartRemind)
                 new Alert(Task.StartTime, Task.Name, Task.Description).AppendRealtime();

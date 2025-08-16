@@ -2,9 +2,9 @@
 
 namespace Citation.Model
 {
-    internal interface IDbContext<out T>
+    internal interface IDbContext<out TSource>
     {
-        public string ToSql();
-        public abstract static T FromSql(OleDbDataReader reader);
+        public void ToSql(OleDbConnection connection);
+        public abstract static TSource? FromSql(OleDbDataReader reader);
     }
 }
