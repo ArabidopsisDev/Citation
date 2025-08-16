@@ -90,6 +90,11 @@
 						FontSize="15"
 						Header="关闭" />
 					<MenuItem
+						Click="Setting_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="设置" />
+					<MenuItem
 						Click="ExitSoftware_Click"
 						FontFamily="SimHei"
 						FontSize="15"

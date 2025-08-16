@@ -1,4 +1,4 @@
-﻿namespace Citation.Model.Format
+﻿namespace Citation.Model
 {
     public interface IFormatter
     {

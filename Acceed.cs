@@ -53,6 +53,7 @@ namespace Citation
 
         public OleDbDataReader Query(string queryString)
         {
+            if (Connection?.State is ConnectionState.Closed) Connection.Open();
             using var command = new OleDbCommand(queryString, Connection);
             var reader = command.ExecuteReader();
             return reader;
@@ -62,6 +63,8 @@ namespace Citation
         {
             if (Connection?.State is ConnectionState.Closed) Connection.Open();
             using var command = new OleDbCommand(commandString, Connection);
+
+            // Access databases are incredibly fun, you know?
             return command.ExecuteNonQuery();
         }
     }

@@ -12,9 +12,7 @@ namespace Citation.Model.Format
         {
             _article = article;
 
-            Authors = article.Message?.Author?
-                 .Select(author => author.ToString())
-                 .ToArray();
+            Authors = BuildAuthorString(article.Message?.Author!);
             Year = article.Message?.Published?.DateParts?[0][0].ToString();
             PaperName = article.Message?.Title?[0];
             JournalName = article.Message?.Container?[0];
@@ -23,6 +21,8 @@ namespace Citation.Model.Format
             Page = article.Message?.Page;
             Url = article.Message?.Url;
         }
+
+        public Apa() { }
 
         private JournalArticle _article;
         public string[]? Authors { get; private set; }
@@ -78,13 +78,9 @@ namespace Citation.Model.Format
             if (string.IsNullOrEmpty(Page))
             {
                 if (volumeAndIssueString is not null)
-                    volumeAndIssueString =
-                        $"{volumeAndIssueString.Substring(0,
-                            volumeAndIssueString.Length - 1)}.";
+                    volumeAndIssueString = $"{volumeAndIssueString[..^1]}.";
                 else
-                    journalString =
-                        $"{journalString.Substring(0,
-                            journalString.Length - 1)}.";
+                    journalString =  $"{journalString[..^1]}.";
             }
             var pageString = !string.IsNullOrEmpty(Page) ? $"{Page}." : null;
 
@@ -92,6 +88,35 @@ namespace Citation.Model.Format
             markdownApaBuilder.AppendJoin(" ", [authorString, yearString, titleString,
                 journalString, volumeAndIssueString, pageString, Url]);
             return markdownApaBuilder.ToString();
+        }
+
+        private string[] BuildAuthorString(Author[] authors)
+        {
+            var authorList = new List<string>();
+
+            foreach (var author in authors)
+            {
+                if (string.IsNullOrWhiteSpace(author.Family))
+                {
+                    authorList.Add(string.IsNullOrWhiteSpace(author.Given) ? "Anonymous" : author.Given);
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(author.Given))
+                {
+                    authorList.Add(author.Family!);
+                    continue;
+                }
+
+                var initials = author.Given!.Split([' ', '-'], StringSplitOptions.RemoveEmptyEntries)
+                    .Where(part => !string.IsNullOrWhiteSpace(part))
+                    .Select(part => part[0].ToString().ToUpper() + ".")
+                    .ToArray();
+
+                authorList.Add($"{author.Family}, {string.Join(" ", initials)}");
+            }
+
+            return authorList.ToArray();
         }
 
         public string ToLatex()

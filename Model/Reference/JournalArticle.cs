@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using System.Windows.Controls;
 
 namespace Citation.Model.Reference
 {
@@ -50,9 +49,7 @@ namespace Citation.Model.Reference
 
         public static JournalArticle FromArticle(JournalArticleDb db)
         {
-            var author = db.Author
-                .Select(Author.ConvertBack)
-                .ToArray();
+            var author = db.Author.ToArray();
             Link[] link = [new Link() { Url = db.Link }];
 
             var published = new Published()
@@ -123,7 +120,7 @@ namespace Citation.Model.Reference
 
         [JsonPropertyName("published")]
         public Published? Published { get; set; }
-        
+
         public string Folder { get; set; } = "Default";
 
         public string AuthorString { get; set; } = "anonymous";
@@ -138,19 +135,19 @@ namespace Citation.Model.Reference
                     AuthorString = Author[0].ToString();
                     break;
                 case > 1:
-                {
-                    AuthorString = string.Empty;
-                    for (var i = 0; i < Author?.Length; i++)
                     {
-                        if (i < Author.Length - 2)
-                            AuthorString += $"{Author[i]}, ";
-                        else if (i == Author.Length - 2)
-                            AuthorString += $"{Author[i]}, & ";
-                        else
-                            AuthorString += Author[i];
+                        AuthorString = string.Empty;
+                        for (var i = 0; i < Author?.Length; i++)
+                        {
+                            if (i < Author.Length - 2)
+                                AuthorString += $"{Author[i]}, ";
+                            else if (i == Author.Length - 2)
+                                AuthorString += $"{Author[i]}, & ";
+                            else
+                                AuthorString += Author[i];
+                        }
+                        break;
                     }
-                    break;
-                }
             }
         }
     }
@@ -171,27 +168,19 @@ namespace Citation.Model.Reference
 
         public override string ToString()
         {
-            if (string.IsNullOrWhiteSpace(Family))
-                return string.IsNullOrWhiteSpace(Given) ? "Anonymous" : Given;
-
-            if (string.IsNullOrWhiteSpace(Given))
-                return Family;
-
-            var initials = Given.Split([' ', '-'], StringSplitOptions.RemoveEmptyEntries)
-                .Where(part => !string.IsNullOrWhiteSpace(part))
-                .Select(part => part[0].ToString().ToUpper() + ".")
-                .ToArray();
-
-            return $"{Family}, {string.Join(" ", initials)}";
+            return $"{Family} {Given}" ;
         }
 
         public static Author ConvertBack(string name)
         {
-            // Not even acting
+            if (name == string.Empty) return null;
+
+            // Reconstructed the previously unscalable stupid logic
+            var nameArray = name.Split(' ');
             var author = new Author()
             {
-                Family = name,
-                Given = null
+                Family = nameArray[0],
+                Given = nameArray[1]
             };
 
             return author;
@@ -218,7 +207,7 @@ namespace Citation.Model.Reference
         public string TitleString { get; set; }
         public string[] Title { get; set; }
         public string Volume { get; set; }
-        public string[] Author { get; set; }
+        public List<Author> Author { get; set; }
         public string AuthorString { get; set; }
         public string Link { get; set; }
         public string Url { get; set; }
@@ -229,7 +218,13 @@ namespace Citation.Model.Reference
         {
             Container = [.. ContainerString.Split('/').Where(x => x != "")];
             Title = [.. TitleString.Split('/').Where(x => x != "")];
-            Author = [.. AuthorString.Split('/').Where(x => x != "")];
+
+            Author = new List<Author>();
+            foreach (var item in AuthorString.Split('/'))
+            {
+                if (item != string.Empty)
+                Author.Add(Model.Reference.Author.ConvertBack(item));
+            }
         }
     }
 }

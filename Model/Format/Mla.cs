@@ -1,15 +1,18 @@
 ﻿using Citation.Model.Reference;
-using System.Linq;
 using System.Text;
 
 namespace Citation.Model.Format
 {
+    /// <summary>
+    /// MLA 8th Edition formatter
+    /// </summary>
     public class Mla : IFormatter
     {
         public Mla(JournalArticle article)
         {
             _article = article;
-            Authors = article.Message?.Author?.Select(author => author.ToString()).ToArray();
+
+            Authors = BuildAuthorString(article.Message?.Author!);
             Year = article.Message?.Published?.DateParts?[0][0].ToString();
             PaperName = article.Message?.Title?[0];
             JournalName = article.Message?.Container?[0];
@@ -18,6 +21,8 @@ namespace Citation.Model.Format
             Page = article.Message?.Page;
             Url = article.Message?.Url;
         }
+
+        public Mla() { }
 
         private JournalArticle _article;
         public string[]? Authors { get; private set; }
@@ -28,99 +33,128 @@ namespace Citation.Model.Format
         public string? Issue { get; private set; }
         public string? Page { get; private set; }
         public string? Url { get; private set; }
+
         public string FormatName { get; } = "MLA 8th Edition";
 
         public string ToMarkdown()
         {
-            var authorString = FormatAuthors();
-            var titleString = $"\"{PaperName}.\"";
-            var journalString = $"*{JournalName}*,";
-            var volumeIssueString = FormatVolumeIssue();
-            var yearString = $"{Year},";
-            var pageString = FormatPage();
-            var urlString = FormatUrl();
-
-            var parts = new[] { authorString, titleString, journalString,
-                             volumeIssueString, yearString, pageString, urlString }
-                .Where(p => !string.IsNullOrEmpty(p))
-                .ToArray();
-
-            return CleanTrailingPunctuation(string.Join(" ", parts));
+            return BuildCitationString(FormatItalicMarkdown);
         }
 
         public string ToLatex()
         {
-            var authorString = FormatAuthors();
-            var titleString = $"``{PaperName}.''";
-            var journalString = $@"\textit{{{JournalName}}},";
-            var volumeIssueString = FormatVolumeIssue();
-            var yearString = $"{Year},";
-            var pageString = FormatPage();
-            var urlString = FormatUrl();
-
-            var parts = new[] { authorString, titleString, journalString,
-                             volumeIssueString, yearString, pageString, urlString }
-                .Where(p => !string.IsNullOrEmpty(p))
-                .ToArray();
-
-            return CleanTrailingPunctuation(string.Join(" ", parts));
+            return BuildCitationString(FormatItalicLatex);
         }
 
-        private string FormatAuthors()
+        private string BuildCitationString(Func<string, string> formatItalic)
         {
-            if (Authors == null || Authors.Length == 0)
-                return string.Empty;
+            var authorString = JoinAuthorsMlaStyle(Authors);
+            var titleString = !string.IsNullOrEmpty(PaperName) ? $"\"{PaperName}.\"" : "\"[No title].\"";
+            var journalString = !string.IsNullOrEmpty(JournalName) ? formatItalic(JournalName) : formatItalic("[No journal]");
+            var yearString = !string.IsNullOrEmpty(Year) ? Year : "n.d.";
 
-            return Authors.Length switch
-            {
-                1 => $"{Authors[0]}.",
-                2 => $"{Authors[0]}, and {Authors[1]}.",
-                _ => $"{Authors[0]}, et al."
-            };
-        }
-
-        private string FormatVolumeIssue()
-        {
-            var parts = new StringBuilder();
-
+            // Build volume/issue info
+            var volumeIssue = new StringBuilder();
             if (!string.IsNullOrEmpty(Volume))
-                parts.Append($"vol. {Volume}");
-
+            {
+                volumeIssue.Append($"vol. {Volume}, ");
+            }
             if (!string.IsNullOrEmpty(Issue))
             {
-                if (parts.Length > 0) parts.Append(", ");
-                parts.Append($"no. {Issue}");
+                volumeIssue.Append($"no. {Issue}, ");
             }
 
-            return parts.Length > 0 ? $"{parts}," : string.Empty;
+            // Build page info
+            var pageString = "";
+            if (!string.IsNullOrEmpty(Page))
+            {
+                pageString = Page.Contains('-') || Page.Contains(',')
+                    ? $"pp. {Page}, "
+                    : $"p. {Page}, ";
+            }
+
+            // Construct main citation
+            var citation = new StringBuilder();
+            citation.Append(authorString).Append(". ");
+            citation.Append(titleString).Append(" ");
+            citation.Append(journalString).Append(", ");
+            citation.Append(volumeIssue);
+            citation.Append(yearString);
+
+            // Add page and URL if available
+            if (!string.IsNullOrEmpty(pageString))
+            {
+                citation.Append(", ").Append(pageString);
+            }
+            if (!string.IsNullOrEmpty(Url))
+            {
+                citation.Append(Url);
+            }
+
+            // Ensure proper ending punctuation
+            var result = citation.ToString().Trim();
+            if (!result.EndsWith('.'))
+            {
+                result += ".";
+            }
+
+            return result;
         }
 
-        private string FormatPage()
+        private string FormatItalicMarkdown(string text)
         {
-            if (string.IsNullOrEmpty(Page))
-                return string.Empty;
-
-            var prefix = Page.Contains('-') ? "pp. " : "p. ";
-            return $"{prefix}{Page},";
+            return $"*{text}*";
         }
 
-        private string FormatUrl()
+        private string FormatItalicLatex(string text)
         {
-            return !string.IsNullOrEmpty(Url)
-                ? Url.Replace("https://", "").Replace("http://", "")
-                : string.Empty;
+            return $@"\textit{{{text}}}";
         }
 
-        private string CleanTrailingPunctuation(string text)
+        private string JoinAuthorsMlaStyle(string[]? authors)
         {
-            text = text.Trim();
+            if (authors == null || authors.Length == 0)
+                return "Anonymous";
 
-            if (text.EndsWith(","))
-                text = text[..^1] + ".";
-            else if (!text.EndsWith("."))
-                text += ".";
+            if (authors.Length == 1)
+                return authors[0];
 
-            return text;
+            if (authors.Length == 2)
+                return $"{authors[0]} and {authors[1]}";
+
+            var allButLast = string.Join(", ", authors.Take(authors.Length - 1));
+            return $"{allButLast}, and {authors[^1]}";
+        }
+
+        private string[] BuildAuthorString(Author[] authors)
+        {
+            var authorList = new List<string>();
+
+            foreach (var author in authors)
+            {
+                if (string.IsNullOrWhiteSpace(author.Family))
+                {
+                    authorList.Add(string.IsNullOrWhiteSpace(author.Given)
+                        ? "Anonymous"
+                        : author.Given);
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(author.Given))
+                {
+                    authorList.Add(author.Family!);
+                    continue;
+                }
+
+                var initials = author.Given!.Split([' ', '-'], StringSplitOptions.RemoveEmptyEntries)
+                    .Where(part => !string.IsNullOrWhiteSpace(part))
+                    .Select(part => part[0].ToString().ToUpper() + ".")
+                    .ToArray();
+
+                authorList.Add($"{author.Family}, {string.Join(" ", initials)}");
+            }
+
+            return authorList.ToArray();
         }
     }
 }

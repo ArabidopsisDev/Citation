@@ -1,16 +1,19 @@
-﻿using Citation.Model.Reference;
+﻿using Citation.Model;
+using Citation.Model.Reference;
+using Citation.Utils;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using Citation.Model.Format;
 
 namespace Citation.View.Page
 {
     public partial class ViewReferencePage : UserControl, INotifyPropertyChanged
     {
         public List<JournalArticle>? Articles { get; set; }
+
+        private IFormatter? _formatter;
 
         public JournalArticle? SelectedArticle
         {
@@ -41,8 +44,17 @@ namespace Citation.View.Page
             if (e.NewValue is JournalArticle article)
             {
                 SelectedArticle = article;
-                var apa = new Apa(SelectedArticle);
-                CitationBox.Text = apa.ToMarkdown();
+
+                if (_formatter is null)
+                {
+                    LogException.Collect(new ArgumentException("指定格式化器不存在"), 
+                        LogException.ExceptionLevel.Warning);
+                    return;
+                }
+
+                var type = _formatter.GetType();
+                _formatter = (IFormatter)Activator.CreateInstance(type, [SelectedArticle])!;
+                CitationBox.Text = _formatter.ToMarkdown();
             }
         }
 
@@ -54,6 +66,7 @@ namespace Citation.View.Page
 
         private void ViewReferencePage_OnLoaded(object sender, RoutedEventArgs e)
         {
+            // Load reference & folder information
             var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
             var papers = new List<JournalArticle>();
             var folders = new List<FolderItem>();
@@ -98,6 +111,31 @@ namespace Citation.View.Page
 
             Articles = papers;
             FolderTreeView.ItemsSource = folders;
+
+            // Load specific formatter
+            var freader = Acceed.Shared.Query("SELECT * FROM tb_Setting");
+            string formatter = "";
+            while (freader.Read())
+                formatter = freader["Formatter"].ToString()!;
+
+            var targetNamespace = "Citation.Model.Format";
+            var assembly = Assembly.GetExecutingAssembly();
+            var formatters = assembly.GetTypes()
+            .Where(t => string.Equals(t.Namespace, targetNamespace, StringComparison.Ordinal)
+                && t.IsClass
+                && !t.IsAbstract
+                && typeof(IFormatter).IsAssignableFrom(t))
+            .Select(t => (IFormatter)Activator.CreateInstance(t)!)
+            .ToList();
+
+            foreach (var item in formatters)
+            {
+                if (item.FormatName == formatter)
+                {
+                    _formatter = item;
+                    break;
+                }
+            }
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
@@ -114,17 +152,13 @@ namespace Citation.View.Page
         private void LatexButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (SelectedArticle is null) return;
-
-            var apa = new Apa(SelectedArticle);
-            CitationBox.Text = apa.ToLatex();
+            CitationBox.Text = _formatter?.ToLatex();
         }
 
         private void MarkdownButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (SelectedArticle is null) return;
-
-            var apa = new Apa(SelectedArticle);
-            CitationBox.Text = apa.ToMarkdown();
+            CitationBox.Text = _formatter?.ToMarkdown();
         }
     }
 }

@@ -9,6 +9,8 @@ using System.Windows.Media;
 using Citation.Model.Format;
 using Citation.Model.Reference;
 using Citation.Utils;
+using System.Reflection;
+using Citation.Model;
 
 namespace Citation.View.Page
 {
@@ -43,8 +45,7 @@ namespace Citation.View.Page
             var targetItem = FindVisualParent<ArticleItem>(e.OriginalSource as DependencyObject);
             if (targetItem == null || targetItem.DataContext == _draggedItem) return;
 
-            var items = ArticlesContainer.ItemsSource as IList;
-            if (items == null) return;
+            if (ArticlesContainer.ItemsSource is not IList items) return;
 
             int targetIndex = ArticlesContainer.Items.IndexOf(targetItem.DataContext);
             items.RemoveAt(_draggedIndex);
@@ -55,7 +56,7 @@ namespace Citation.View.Page
 
         private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
         {
-            while (child != null && !(child is T))
+            while (child != null && child is not T)
                 child = VisualTreeHelper.GetParent(child);
             return child as T;
         }
@@ -65,17 +66,58 @@ namespace Citation.View.Page
             var exportBuilder = new StringBuilder();
             var isMarkdown = MarkdownButton.IsChecked == true;
 
-            exportBuilder.AppendLine(isMarkdown ? "## Reference" : @"\section{Reference}");
-            for (int i = 0; i < ArticlesContainer.Items.Count; i++)
+            // Load specific formatter
+            IFormatter? _formatter = null;
+            var freader = Acceed.Shared.Query("SELECT * FROM tb_Setting");
+            string formatter = "";
+            while (freader.Read())
+                formatter = freader["Formatter"].ToString()!;
+
+            var targetNamespace = "Citation.Model.Format";
+            var assembly = Assembly.GetExecutingAssembly();
+            var formatters = assembly.GetTypes()
+            .Where(t => string.Equals(t.Namespace, targetNamespace, StringComparison.Ordinal)
+                && t.IsClass
+                && !t.IsAbstract
+                && typeof(IFormatter).IsAssignableFrom(t))
+            .Select(t => (IFormatter)Activator.CreateInstance(t)!)
+            .ToList();
+
+            foreach (var item in formatters)
             {
-                var builder = new Apa((JournalArticle)ArticlesContainer.Items[i]!);
-                exportBuilder.AppendLine(isMarkdown
-                    ? $"[{i + 1}] {builder.ToMarkdown()}"
-                    : $"[{i + 1}] {builder.ToLatex()}");
+                if (item.FormatName == formatter)
+                {
+                    _formatter = item;
+                    break;
+                }
             }
 
-            var saveFileDialog = new Microsoft.Win32.SaveFileDialog();
-            saveFileDialog.FileName = "reference";
+            exportBuilder.AppendLine(isMarkdown ? "## Reference" : @"\section{Reference}");
+
+            // Build string
+            if (_formatter is null)
+            {
+                LogException.Collect(new ArgumentException("指定格式化器不存在"),
+                    LogException.ExceptionLevel.Warning);
+                return;
+            }
+
+            for (int i = 0; i < ArticlesContainer.Items.Count; i++)
+            {
+                var type = _formatter.GetType();
+                _formatter = (IFormatter)Activator.CreateInstance(type, 
+                    [(JournalArticle)ArticlesContainer.Items[i]!])!;
+
+                exportBuilder.AppendLine(isMarkdown
+                    ? $"[{i + 1}] {_formatter.ToMarkdown()}"
+                    : $"[{i + 1}] {_formatter.ToLatex()}");
+            }
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = "reference"
+            };
+
             if (isMarkdown)
             {
                 saveFileDialog.Filter = "markdown文本 (*.md)|*.md|所有文件 (*.*)|*.*";

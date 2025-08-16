@@ -319,7 +319,7 @@ namespace Citation
                     }
                     catch (Exception ex)
                     {
-                        LogException.Collect(ex, LogException.ExceptionLevel.Info);
+                        LogException.Collect(ex, LogException.ExceptionLevel.Warning);
                         ShowToast($"[{doi}] 获取失败");
                     }
                 }
@@ -378,7 +378,7 @@ namespace Citation
             var reader = Acceed.Shared.Query("SELECT * FROM tb_Task");
             var tasks = new List<Citation.Model.Task>();
             while (reader.Read())
-                tasks.Add(Task.FromSql(reader));
+                tasks.Add(Task.FromSql(reader)!);
 
             for (int i = 0; i < tasks.Count; i++)
             {
@@ -401,6 +401,11 @@ namespace Citation
         private void ImportFailure_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new ImportFailurePage());
+        }
+
+        private void Setting_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new SettingPage());
         }
     }
 }
