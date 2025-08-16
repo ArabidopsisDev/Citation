@@ -1,5 +1,4 @@
-﻿// SettingPage.xaml.cs
-using Citation.Model;
+﻿using Citation.Model;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;

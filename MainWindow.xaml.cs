@@ -264,6 +264,12 @@ namespace Citation
         }
         private async void ImportCitation_Click(object sender, RoutedEventArgs e)
         {
+            if (Project.Name == "尚未打开项目！")
+            {
+                ShowToast("清先打开一个项目");
+                return;
+            }
+
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
                 DefaultExt = ".ris",
@@ -400,12 +406,17 @@ namespace Citation
 
         private void ImportFailure_Click(object sender, RoutedEventArgs e)
         {
-            NavigateWithSlideAnimation(new ImportFailurePage());
+            NavigateWithSlideAnimation(new ImportFailurePage(), false);
         }
 
         private void Setting_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new SettingPage());
+        }
+
+        private void AddAlert_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new AddAlertPage());
         }
     }
 }

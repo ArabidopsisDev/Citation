@@ -19,6 +19,7 @@ namespace Citation.View.Page
         public ViewTaskPage(List<Citation.Model.Task> todayTasks)
         {
             InitializeComponent();
+
             TodayTasks = todayTasks;
         }
 
@@ -60,6 +61,8 @@ namespace Citation.View.Page
                     Height = 100
                 });
             }
+
+            // Not the data I like, bind directly
             DataContext = this;
         }
 

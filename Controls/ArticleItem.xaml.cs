@@ -12,7 +12,6 @@ namespace Citation.View.Controls
             ExpandButton.MouseLeftButtonDown += ExpandButton_MouseLeftButtonDown;
         }
 
-        // 添加序号属性
         public static readonly DependencyProperty IndexProperty =
             DependencyProperty.Register("Index", typeof(int), typeof(ArticleItem),
                 new PropertyMetadata(0, OnIndexChanged));

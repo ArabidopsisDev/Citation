@@ -170,7 +170,7 @@
 				Background="LightGray"
 				BorderThickness="0"
 				Click="CancelButton_Click"
-				Content="取消"
+				Content="清空"
 				FontSize="16"
 				FontWeight="Medium"
 				Foreground="Black">

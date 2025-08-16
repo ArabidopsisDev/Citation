@@ -219,7 +219,7 @@ namespace Citation.Model.Reference
             Container = [.. ContainerString.Split('/').Where(x => x != "")];
             Title = [.. TitleString.Split('/').Where(x => x != "")];
 
-            Author = new List<Author>();
+            Author = [];
             foreach (var item in AuthorString.Split('/'))
             {
                 if (item != string.Empty)

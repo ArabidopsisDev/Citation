@@ -68,7 +68,6 @@
 							Text="{Binding Message.Container[0]}" />
 					</StackPanel>
 
-					<!--  按钮  -->
 					<TextBlock
 						x:Name="ExpandButton"
 						Grid.Column="1"
