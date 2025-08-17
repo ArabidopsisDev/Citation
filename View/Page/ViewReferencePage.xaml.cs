@@ -140,7 +140,7 @@ namespace Citation.View.Page
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.This.ShowToast("该功能尚未开发完毕...");
         }
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)
