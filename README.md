@@ -32,8 +32,11 @@ Arabidopsis Citation 是一款专为科研工作者设计的开源文献管理�
 ## 🛠 技术架构
 
 • 前端: WPF (Windows Presentation Foundation)
+
 • 框架: .NET 9
+
 • 数据库: Microsoft Access
+
 • 构建工具: dotnet
 
 ## 🚀 快速开始
@@ -85,5 +88,5 @@ dotnet build -c Release
 ---
 
 <p align="center">
-  <sub>📜 AGPL License | 🏷️ Version alpha 0.2</sub>
+  <sub>📜 AGPL License v3 | 🏷️ Version alpha 0.2x</sub>
 </p>

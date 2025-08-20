@@ -68,5 +68,22 @@ namespace Citation.Model
                 startRemind, endRemind);
         }
         // Damn, why is there a missing bracket here?
+
+        public void DeleteSql(OleDbConnection connection)
+        {
+            var startString = StartTime.ToString("yyyy/M/dd HH:mm:ss");
+
+            var sqlCommand = $"""
+                DELETE FROM tb_Task
+                WHERE TaskName = ?
+                AND TaskStart = ?
+                """;
+
+            var command = new OleDbCommand(sqlCommand, connection);
+
+            command.Parameters.AddWithValue("?", Name);
+            command.Parameters.AddWithValue("?", startString);
+            command.ExecuteNonQuery();
+        }
     }
 }

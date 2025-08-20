@@ -82,7 +82,7 @@ Citation 中拥有一套完善的文献引用管理机制，可以管理各个�
 
 ![查看引用](img/6-view-reference.png)
 
-点击“复制引用”即可将引用格式字符串复制到剪贴板，点击“删除引用”即可将引用移动到回收站（**Preview**）回收站中的引文将于30天后自动删除。
+点击“复制引用”即可将引用格式字符串复制到剪贴板，点击“删除引用”即可将引用删除。
 
 ### 导入引用
 
@@ -104,11 +104,16 @@ Citation 支持从ris格式文件中导入引用，ris格式文件可以在任�
 在示例中，导出的内容如下：
 
 > **Reference**
+
 > [1] Stevens, J., Culberson, E., Kinder, J., Ramiriqui, A., Gray, J., Bonfield, M., Shao, T. Y., Al, G., Peterson, L., Steinmeyer, S., Eshleman, E., Negi, S., Zacharias, W., Pryhuber, G., Paul, O., Sengupta, S., Alenghat, T., Way, S., & Deshmukh, H. (2025). Microbiota-derived inosine programs protective CD8+ T cell responses against influenza in newborns. *Cell*, *188*(16), 4239-4256.e19. https://doi.org/10.1016/j.cell.2025.05.013
-[2] Er, Y., Lee, S., Aneke, C., Conlan, S., Muslim, A., Deming, C., Che, Y., Yap, N., Tee, M., Abdull-Majid, N., Shahrizal, S., Leong, K., Han, J., Shen, Z., Than, L., Park, M., Mohd, S., Seyedmousavi, A., Kong, H., Loke, P., Segre, J., & Lim, Y. (2025). Trichophyton concentricum fungal infections and skin microbiomes of Indigenous Peninsular Malaysians. *Cell*, *188*(16), 4257-4274.e13. https://doi.org/10.1016/j.cell.2025.05.034
-[3] Sousa, A., Terrey, M., Sakai, H., Simmons, C., Arystarkhova, E., Morsci, N., Anderson, L., Xie, J., Suri-Payer, F., Laux, L., Roze, E., Forlani, S., Gao, G., Frost, S., Frost, N., Sweadner, K., George, A., Lutz, C., & Liu, D. (2025). In vivo prime editing rescues alternating hemiplegia of childhood in mice. *Cell*, *188*(16), 4275-4294.e23. https://doi.org/10.1016/j.cell.2025.06.038
-[4] Yagi, M., Bonilla, G., Hoetker, M., Tsopoulidis, N., Horng, J., Haggerty, C., Meissner, A., Sadreyev, R., Hock, H., & Hochedlinger, K. (2025). Bivalent chromatin instructs lineage specification during hematopoiesis. *Cell*, *188*(16), 4314-4331.e29. https://doi.org/10.1016/j.cell.2025.05.011
-[5] Biermann, L., Moffat, D., Sabel, C., & Stovin, T. (2025). The theoretical role of the wind in aerosolising microplastics and nanoplastics from coastal combined sewer overflows. *Sci Rep*, *15*(1).  https://doi.org/10.1038/s41598-025-06115-5
+
+>[2] Er, Y., Lee, S., Aneke, C., Conlan, S., Muslim, A., Deming, C., Che, Y., Yap, N., Tee, M., Abdull-Majid, N., Shahrizal, S., Leong, K., Han, J., Shen, Z., Than, L., Park, M., Mohd, S., Seyedmousavi, A., Kong, H., Loke, P., Segre, J., & Lim, Y. (2025). Trichophyton concentricum fungal infections and skin microbiomes of Indigenous Peninsular Malaysians. *Cell*, *188*(16), 4257-4274.e13. https://doi.org/10.1016/j.cell.2025.05.034
+
+>[3] Sousa, A., Terrey, M., Sakai, H., Simmons, C., Arystarkhova, E., Morsci, N., Anderson, L., Xie, J., Suri-Payer, F., Laux, L., Roze, E., Forlani, S., Gao, G., Frost, S., Frost, N., Sweadner, K., George, A., Lutz, C., & Liu, D. (2025). In vivo prime editing rescues alternating hemiplegia of childhood in mice. *Cell*, *188*(16), 4275-4294.e23. https://doi.org/10.1016/j.cell.2025.06.038
+
+>[4] Yagi, M., Bonilla, G., Hoetker, M., Tsopoulidis, N., Horng, J., Haggerty, C., Meissner, A., Sadreyev, R., Hock, H., & Hochedlinger, K. (2025). Bivalent chromatin instructs lineage specification during hematopoiesis. *Cell*, *188*(16), 4314-4331.e29. https://doi.org/10.1016/j.cell.2025.05.011
+
+>[5] Biermann, L., Moffat, D., Sabel, C., & Stovin, T. (2025). The theoretical role of the wind in aerosolising microplastics and nanoplastics from coastal combined sewer overflows. *Sci Rep*, *15*(1).  https://doi.org/10.1038/s41598-025-06115-5
 
 ---
 
@@ -130,7 +135,7 @@ Citation 支持从ris格式文件中导入引用，ris格式文件可以在任�
 
 ![新建任务](img/9-view-task.png)
 
-点击表示任务的柱状空间，即可弹出该任务的详情界面，可以对该任务进行编辑或者直接删除（**Preview**），在团队协作者，该界面将通过并行的多列展示每个人的任务情况（**Future**）从而可以方便的安排合作和其他任务。
+点击表示任务的柱状空间，即可弹出该任务的详情界面，可以对该任务进行编辑或者直接删除，在团队协作者，该界面将通过并行的多列展示每个人的任务情况（**Future**）从而可以方便的安排合作和其他任务。
 
 ### 添加提醒
 

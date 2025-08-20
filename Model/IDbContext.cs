@@ -6,5 +6,6 @@ namespace Citation.Model
     {
         public void ToSql(OleDbConnection connection);
         public abstract static TSource? FromSql(OleDbDataReader reader);
+        public void DeleteSql(OleDbConnection connection);
     }
 }

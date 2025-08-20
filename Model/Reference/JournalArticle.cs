@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Data.OleDb;
+using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace Citation.Model.Reference
 {
@@ -45,6 +47,20 @@ namespace Citation.Model.Reference
                              '{Message.Folder}')
                              """;
             return sqlString;
+        }
+
+        public void DeleteSql(OleDbConnection connection)
+        {
+            var sqlCommand = $"""
+                              DELETE FROM tb_Paper
+                              WHERE PaperUrl = ?
+                              """;
+
+            var command = new OleDbCommand(sqlCommand, connection);
+
+            if (Message is null) return;
+            command.Parameters.AddWithValue("?", Message.Url);
+            command.ExecuteNonQuery();
         }
 
         public static JournalArticle FromArticle(JournalArticleDb db)

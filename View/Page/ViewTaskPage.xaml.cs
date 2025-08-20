@@ -2,38 +2,155 @@
 using Citation.Utils;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Citation;
 
 namespace Citation.View.Page
 {
     public partial class ViewTaskPage : UserControl
     {
-        // When duplication occurs, it is more polite to write the fully qualified name
+        private Citation.Model.Task _selectedTask;
+
+        public ViewTaskPage(List<Citation.Model.Task> todayTasks)
+        {
+            InitializeComponent();
+            TodayTasks = todayTasks;
+        }
+
+        private void RenderTasks()
+        {
+            ScheduleCanvas.Children.Clear();
+
+            foreach (var task in TodayTasks)
+            {
+                var top = task.StartTime.Hour * 100 + task.StartTime.Minute * 100 / 60.0;
+                var height = (task.EndTime - task.StartTime).TotalHours * 100;
+
+                var color = GetTaskColor(task.Name);
+
+                var taskBlock = new Border
+                {
+                    Width = ScheduleCanvas.ActualWidth - 5,
+                    Height = height,
+                    Background = new SolidColorBrush(color),
+                    BorderBrush = Brushes.Gray,
+                    BorderThickness = new Thickness(1),
+                    CornerRadius = new CornerRadius(3),
+                    Tag = task
+                };
+
+                taskBlock.MouseDown += TaskBlock_MouseDown;
+
+                taskBlock.MouseEnter += (s, e) =>
+                {
+                    taskBlock.Background = new SolidColorBrush(color.AdjustBrightness(0.9));
+                    taskBlock.Cursor = Cursors.Hand;
+                };
+
+                taskBlock.MouseLeave += (s, e) =>
+                {
+                    taskBlock.Background = new SolidColorBrush(color);
+                    taskBlock.Cursor = Cursors.Arrow;
+                };
+
+                Canvas.SetTop(taskBlock, top);
+                Canvas.SetLeft(taskBlock, 2.5);
+
+                var textBlock = new TextBlock
+                {
+                    FontFamily = new FontFamily("Calibri"),
+                    Text = $"{task.Name}\n{task.StartTime:HH:mm}-{task.EndTime:HH:mm}",
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = GetContrastColor(color),
+                    FontSize = 16,
+                    Margin = new Thickness(5)
+                };
+
+                taskBlock.Child = textBlock;
+                ScheduleCanvas.Children.Add(taskBlock);
+            }
+        }
+
+        private void TaskBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var border = sender as Border;
+            if (border?.Tag is Citation.Model.Task task)
+            {
+                _selectedTask = task;
+                ShowTaskDetails(task);
+            }
+        }
+
+        private void ShowTaskDetails(Citation.Model.Task task)
+        {
+            DetailName.Text = task.Name;
+            DetailDescription.Text = task.Description;
+            DetailStartTime.Text = $"开始: {task.StartTime:yyyy-MM-dd HH:mm}";
+            DetailEndTime.Text = $"结束: {task.EndTime:yyyy-MM-dd HH:mm}";
+            DetailStartRemind.IsChecked = task.StartRemind;
+            DetailEndRemind.IsChecked = task.EndRemind;
+
+            TaskDetailPanel.Visibility = Visibility.Visible;
+        }
+
+        private void CloseDetail_Click(object sender, RoutedEventArgs e)
+        {
+            TaskDetailPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void DeleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedTask == null) return;
+
+            try
+            {
+                using (var connection = Acceed.Shared.Connection)
+                {
+                    if (connection.State == System.Data.ConnectionState.Closed)
+                    {
+                        connection.Open();
+                    }
+
+                    _selectedTask.DeleteSql(connection);
+                }
+
+                // Remove alert
+                if (_selectedTask.StartRemind)
+                    MainWindow.This.RemoveAlert(_selectedTask.Name, _selectedTask.StartTime);
+                if (_selectedTask.EndRemind)
+                    MainWindow.This.RemoveAlert(_selectedTask.Name, _selectedTask.EndTime);
+
+                // Remove visual
+                TodayTasks.Remove(_selectedTask);
+                RenderTasks();
+                TaskDetailPanel.Visibility = Visibility.Collapsed;
+                MainWindow.This.ShowToast("任务已成功删除");
+            }
+            catch (Exception ex)
+            {
+                LogException.Collect(ex, LogException.ExceptionLevel.Warning);
+                MainWindow.This.ShowToast("未能删除任务");
+            }
+        }
+
+
         public List<Citation.Model.Task> TodayTasks { get; set; }
         public List<TimeLabel> TimeLabels { get; } = [];
 
         private readonly System.Windows.Threading.DispatcherTimer _indicateTimer = new();
         private DateTime _lastUpdateTime;
 
-        public ViewTaskPage(List<Citation.Model.Task> todayTasks)
-        {
-            InitializeComponent();
-
-            TodayTasks = todayTasks;
-        }
-
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             GenerateTimeLabels();
             RenderTasks();
 
-            // Big and small core technology (not)
             _indicateTimer.Interval = TimeSpan.FromSeconds(15);
             _indicateTimer.Tick += (_, _) => UpdateCurrentTimeIndicator();
             _indicateTimer.Start();
 
-            // So strong? Just how strong?
             var displayTimer = new System.Windows.Threading.DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(1)
@@ -62,47 +179,7 @@ namespace Citation.View.Page
                 });
             }
 
-            // Not the data I like, bind directly
             DataContext = this;
-        }
-
-        private void RenderTasks()
-        {
-            ScheduleCanvas.Children.Clear();
-
-            foreach (var task in TodayTasks)
-            {
-                var top = task.StartTime.Hour * 100 + task.StartTime.Minute * 100 / 60.0;
-                var height = (task.EndTime - task.StartTime).TotalHours * 100;
-
-                var color = GetTaskColor(task.Name);
-
-                var taskBlock = new Border
-                {
-                    Width = ScheduleCanvas.ActualWidth - 5,
-                    Height = height,
-                    Background = new SolidColorBrush(color),
-                    BorderBrush = Brushes.Gray,
-                    BorderThickness = new Thickness(1),
-                    CornerRadius = new CornerRadius(3)
-                };
-
-                Canvas.SetTop(taskBlock, top);
-                Canvas.SetLeft(taskBlock, 2.5);
-
-                var textBlock = new TextBlock
-                {
-                    FontFamily = new FontFamily("Calibri"),
-                    Text = $"{task.Name}\n{task.StartTime:HH:mm}-{task.EndTime:HH:mm}",
-                    TextWrapping = TextWrapping.Wrap,
-                    Foreground = GetContrastColor(color),
-                    FontSize = 16,
-                    Margin = new Thickness(5)
-                };
-
-                taskBlock.Child = textBlock;
-                ScheduleCanvas.Children.Add(taskBlock);
-            }
         }
 
         private static Color GetTaskColor(string taskName)

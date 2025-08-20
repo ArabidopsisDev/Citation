@@ -11,7 +11,17 @@ namespace Citation.View.Page
 {
     public partial class ViewReferencePage : UserControl, INotifyPropertyChanged
     {
-        public List<JournalArticle>? Articles { get; set; }
+        public List<JournalArticle>? Articles
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Articles));
+            }
+        }
+
+        private List<FolderItem> _folders = [];
 
         private IFormatter? _formatter;
 
@@ -47,7 +57,7 @@ namespace Citation.View.Page
 
                 if (_formatter is null)
                 {
-                    LogException.Collect(new ArgumentException("指定格式化器不存在"), 
+                    LogException.Collect(new ArgumentException("指定格式化器不存在"),
                         LogException.ExceptionLevel.Warning);
                     return;
                 }
@@ -69,7 +79,6 @@ namespace Citation.View.Page
             // Load reference & folder information
             var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
             var papers = new List<JournalArticle>();
-            var folders = new List<FolderItem>();
 
             while (reader.Read())
             {
@@ -91,7 +100,7 @@ namespace Citation.View.Page
 
                 db.Afterward();
                 var paper = JournalArticle.FromArticle(db);
-                var folder = folders.FirstOrDefault(item => item.Name == paper.Message!.Folder);
+                var folder = _folders.FirstOrDefault(item => item.Name == paper.Message!.Folder);
 
                 if (folder is null)
                 {
@@ -101,7 +110,7 @@ namespace Citation.View.Page
                         Articles = [paper]
                     };
 
-                    folders.Add(newFolder);
+                    _folders.Add(newFolder);
                 }
                 else
                 {
@@ -110,7 +119,7 @@ namespace Citation.View.Page
             }
 
             Articles = papers;
-            FolderTreeView.ItemsSource = folders;
+            FolderTreeView.ItemsSource = _folders;
 
             // Load specific formatter
             var freader = Acceed.Shared.Query("SELECT * FROM tb_Setting");
@@ -140,7 +149,24 @@ namespace Citation.View.Page
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.This.ShowToast("该功能尚未开发完毕...");
+            if (SelectedArticle is null) return;
+
+            SelectedArticle.DeleteSql(Acceed.Shared.Connection);
+            Articles!.Remove(SelectedArticle);
+
+            foreach (var folder in _folders)
+            {
+                for (int j = 0; j < folder.Articles.Count; j++)
+                {
+                    if (folder.Articles[j].Message!.Title![0] == 
+                        SelectedArticle.Message!.Title![0])
+                        folder.Articles.RemoveAt(j);
+                    break;
+                }
+            }
+
+            FolderTreeView.ItemsSource = _folders;
+            MainWindow.This.ShowToast("引用已删除");
         }
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)

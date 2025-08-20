@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.OleDb;
 using System.Text;
 
 namespace Citation.Model
@@ -32,6 +33,19 @@ namespace Citation.Model
             }
         }
 
+        public string? Password
+        {
+            get;
+            set
+            {
+                if (field != value)
+                {
+                    field = value;
+                    OnPropertyChanged(nameof(Password));
+                }
+            }
+        }
+
         public ObservableCollection<string> Authors
         {
             get;
@@ -44,18 +58,28 @@ namespace Citation.Model
 
         public string? Guid { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public string ToSql()
+        public void ToSql(OleDbConnection connection)
         {
             var authorsBuild = new StringBuilder();
             foreach (var projectAuthor in Authors)
                 authorsBuild.Append($"{projectAuthor}/");
-            return
-                $"INSERT INTO tb_Basic (ProjectName, ProjectPath, ProjectAuthors, ProjectGuid) " +
-                $"VALUES ('{Name}', '{Path}', '{authorsBuild}', '{Guid}');";
+            var sqlCommand = 
+                $"INSERT INTO tb_Basic (ProjectName, ProjectPath, ProjectAuthors, ProjectGuid, ProjectPassword) " +
+                $"VALUES (?, ?, ?, ?, ?);";
+
+            var command = new OleDbCommand(sqlCommand, connection);
+
+            command.Parameters.AddWithValue("?", Name);
+            command.Parameters.AddWithValue("?", Path);
+            command.Parameters.AddWithValue("?", authorsBuild.ToString());
+            command.Parameters.AddWithValue("?", Guid);
+            command.Parameters.AddWithValue("?", Password);
+
+            command.ExecuteNonQuery();
         }
     }
 }

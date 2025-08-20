@@ -27,7 +27,7 @@ namespace Citation
         // Di su zhi
         internal static MainWindow This;
 
-        internal List<Alert>? _alerts;
+        internal List<Alert>? _alerts = [];
 
         public MainWindow()
         {
@@ -417,6 +417,30 @@ namespace Citation
         private void AddAlert_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new AddAlertPage());
+        }
+
+        internal void RemoveAlert(string title, DateTime alertTime)
+        {
+            for (int i = 0; i < _alerts.Count; i++)
+            {
+                if (_alerts[i].Title == title && _alerts[i].OccurTime == alertTime)
+                {
+                    _alerts[i].DeleteSql(Acceed.Shared.Connection);
+                    _alerts.RemoveAt(i);
+                }
+            }
+        }
+
+        private void AuthorizeProject_Click(object sender, RoutedEventArgs e)
+        {
+            if (Project.Name == "尚未打开项目！")
+            {
+                ShowToast("清先打开一个项目");
+                return;
+            }
+
+            var authorizationWindow = new AuthorizationWindow();
+            authorizationWindow.Show();
         }
     }
 }

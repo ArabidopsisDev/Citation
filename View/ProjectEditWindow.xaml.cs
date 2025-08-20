@@ -15,16 +15,17 @@ namespace Citation.View
         public ProjectEditWindow(Project? project = null, Action<string, bool>? callback = null)
         {
             InitializeComponent();
-
             Project = project ?? new Project
             {
                 Name = "新项目",
                 Authors = new ObservableCollection<string>(),
                 Guid = System.Guid.NewGuid().ToString(),
+                Password = ""
             };
-            _Callback = callback;
 
+            _Callback = callback;
             DataContext = Project;
+            PasswordBox.Password = Project.Password;
         }
 
         private void AddAuthor_Click(object sender, RoutedEventArgs e)
@@ -46,24 +47,21 @@ namespace Citation.View
         {
             if (Project?.Path is null or "")
             {
-                System.Windows.MessageBox.Show("请填写项目路径", "创建失败",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("请填写项目路径", "创建失败", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             var destinationPath = Path.Combine(Project.Path, "data.accdb");
             if (!Directory.Exists(Project.Path))
                 Directory.CreateDirectory(Project.Path);
-            var sourcePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                "dbtemplate.accdb");
+            var sourcePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dbtemplate.accdb");
             File.Copy(sourcePath, destinationPath, true);
 
             Acceed.Shared.ReConnect(destinationPath);
-            Acceed.Shared.Execute(Project.ToSql());
-            System.Windows.MessageBox.Show("项目创建成功！", "创建成功",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            Project.ToSql(Acceed.Shared.Connection);
+            MessageBox.Show("项目创建成功！", "创建成功", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            _Callback.Invoke(destinationPath, false);
+            _Callback?.Invoke(destinationPath, false);
             Acceed.Shared.Close();
             Close();
         }
@@ -79,6 +77,14 @@ namespace Citation.View
             var result = dialog.ShowDialog();
             if (result == true)
                 Project.Path = dialog.FolderName;
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (Project != null)
+            {
+                Project.Password = PasswordBox.Password;
+            }
         }
     }
 }

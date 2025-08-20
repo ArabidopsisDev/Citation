@@ -6,30 +6,124 @@
 	xmlns:local="clr-namespace:Citation.Model"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="项目信息编辑"
-	Width="600"
-	Height="450"
+	Width="650"
+	Height="550"
+	Background="#FFF5F5F5"
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d">
 
 	<Window.Resources>
+		<SolidColorBrush x:Key="PrimaryBrush" Color="#FF2C3E50" />
+		<SolidColorBrush x:Key="LightBrush" Color="#FFECF0F1" />
+		<SolidColorBrush x:Key="BorderBrush" Color="#FFBDC3C7" />
+		<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#FFF0F0F0" />
+
+		<LinearGradientBrush x:Key="HeaderBrush" StartPoint="0,0" EndPoint="0,1">
+			<GradientStop Offset="0" Color="#FF2C3E50" />
+			<GradientStop Offset="1" Color="#FF3498DB" />
+		</LinearGradientBrush>
+
+		<LinearGradientBrush x:Key="ButtonBrush" StartPoint="0,0" EndPoint="0,1">
+			<GradientStop Offset="0" Color="#FF3498DB" />
+			<GradientStop Offset="1" Color="#FF2980B9" />
+		</LinearGradientBrush>
+
+		<LinearGradientBrush x:Key="SaveButtonBrush" StartPoint="0,0" EndPoint="0,1">
+			<GradientStop Offset="0" Color="#FF2ECC71" />
+			<GradientStop Offset="1" Color="#FF27AE60" />
+		</LinearGradientBrush>
+
+		<Style x:Key="HeaderText" TargetType="TextBlock">
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="FontSize" Value="16" />
+			<Setter Property="FontWeight" Value="Bold" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="Margin" Value="10,0" />
+		</Style>
+
 		<Style TargetType="TextBox">
 			<Setter Property="Margin" Value="5" />
-			<Setter Property="Padding" Value="3" />
+			<Setter Property="Padding" Value="8" />
+			<Setter Property="Background" Value="{StaticResource LightBrush}" />
+			<Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="FontFamily" Value="Calibri" />
+		</Style>
+
+		<Style TargetType="PasswordBox">
+			<Setter Property="Margin" Value="5" />
+			<Setter Property="Padding" Value="8" />
+			<Setter Property="Background" Value="{StaticResource LightBrush}" />
+			<Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="FontFamily" Value="Calibri" />
 		</Style>
 
 		<Style TargetType="Label">
-			<Setter Property="Margin" Value="5,5,5,0" />
+			<Setter Property="Margin" Value="5,8,5,2" />
 			<Setter Property="FontWeight" Value="DemiBold" />
+			<Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
 		</Style>
 
 		<Style TargetType="Button">
-			<Setter Property="Margin" Value="10" />
-			<Setter Property="Padding" Value="8,4" />
+			<Setter Property="Margin" Value="5" />
+			<Setter Property="Padding" Value="12,6" />
 			<Setter Property="MinWidth" Value="80" />
+			<Setter Property="Background" Value="{StaticResource ButtonBrush}" />
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="FontWeight" Value="Bold" />
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Opacity" Value="0.9" />
+				</Trigger>
+				<Trigger Property="IsPressed" Value="True">
+					<Setter Property="Opacity" Value="0.8" />
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style
+			x:Key="SaveButton"
+			BasedOn="{StaticResource {x:Type Button}}"
+			TargetType="Button">
+			<Setter Property="Background" Value="{StaticResource SaveButtonBrush}" />
+			<Setter Property="MinWidth" Value="100" />
+			<Setter Property="FontSize" Value="14" />
+		</Style>
+
+		<Style TargetType="GroupBox">
+			<Setter Property="Margin" Value="0,0,0,15" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Background" Value="White" />
+			<Setter Property="Foreground" Value="White" />
+		</Style>
+
+		<Style TargetType="ListBox">
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+			<Setter Property="Background" Value="White" />
+		</Style>
+
+		<Style TargetType="Border">
+			<Setter Property="CornerRadius" Value="4" />
+			<Setter Property="Background" Value="White" />
+			<Setter Property="BorderBrush" Value="#10000000" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="Padding" Value="10" />
+			<Setter Property="Effect">
+				<Setter.Value>
+					<DropShadowEffect
+						BlurRadius="10"
+						Opacity="0.2"
+						ShadowDepth="2" />
+				</Setter.Value>
+			</Setter>
 		</Style>
 	</Window.Resources>
 
-	<Grid Margin="10">
+	<Grid Margin="15">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -38,126 +132,155 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<GroupBox
-			Grid.Row="0"
-			Margin="0,0,0,10"
-			Header="基本信息">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-
-				<Label
-					Grid.Row="0"
-					Grid.Column="0"
-					Content="项目名称:" />
-				<TextBox
-					Grid.Row="0"
-					Grid.Column="1"
-					FontFamily="Calibri"
-					Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-
-				<Label
-					Grid.Row="1"
-					Grid.Column="0"
-					Content="项目路径:" />
-				<Grid Grid.Row="1" Grid.Column="1">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-					<TextBox
-						Grid.Column="0"
-						FontFamily="Calibri"
-						Text="{Binding Path}" />
-					<Button
-						Grid.Column="1"
-						Margin="5,5,0,5"
-						Padding="5,2"
-						Click="SaveFile_Click"
-						Content="浏览..." />
-				</Grid>
-
-				<Label
-					Grid.Row="2"
-					Grid.Column="0"
-					Content="唯一标识:" />
-				<TextBox
-					Grid.Row="2"
-					Grid.Column="1"
-					Background="#FFF0F0F0"
-					FontFamily="Calibri"
-					IsEnabled="False"
-					Text="{Binding Guid}" />
-			</Grid>
-		</GroupBox>
-
-		<GroupBox
-			Grid.Row="1"
-			Margin="0,0,0,10"
-			Header="作者列表">
+		<Border Grid.Row="0">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
-				<StackPanel
+				<Border
 					Grid.Row="0"
-					HorizontalAlignment="Right"
-					Orientation="Horizontal">
-					<TextBox
-						x:Name="NewAuthorTextBox"
-						Width="200"
-						Margin="5"
-						FontFamily="Calibri" />
-					<Button
-						Margin="5"
-						Click="AddAuthor_Click"
-						Content="添加" />
-				</StackPanel>
+					Background="{StaticResource HeaderBrush}"
+					CornerRadius="3,3,0,0">
+					<TextBlock Style="{StaticResource HeaderText}" Text="基本信息" />
+				</Border>
 
-				<ListBox
-					Grid.Row="1"
-					Margin="5"
-					FontFamily="Calibri"
-					FontSize="15"
-					ItemsSource="{Binding Authors}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock
-									Margin="0,0,10,0"
-									VerticalAlignment="Center"
-									FontSize="10"
-									Text="{Binding}" />
-								<Button
-									HorizontalAlignment="Right"
-									Click="RemoveAuthor_Click"
-									Content="删除"
-									FontSize="10"
-									Tag="{Binding}" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
+				<Grid Grid.Row="1" Margin="0,10,0,0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<Label
+						Grid.Row="0"
+						Grid.Column="0"
+						Content="项目名称:" />
+					<TextBox
+						Grid.Row="0"
+						Grid.Column="1"
+						Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+
+					<Label
+						Grid.Row="1"
+						Grid.Column="0"
+						Content="项目路径:" />
+					<Grid Grid.Row="1" Grid.Column="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<TextBox Grid.Column="0" Text="{Binding Path}" />
+						<Button
+							Grid.Column="1"
+							Margin="5,5,0,5"
+							Click="SaveFile_Click"
+							Content="浏览..." />
+					</Grid>
+
+					<Label
+						Grid.Row="2"
+						Grid.Column="0"
+						Content="密码:" />
+					<PasswordBox
+						x:Name="PasswordBox"
+						Grid.Row="2"
+						Grid.Column="1"
+						PasswordChanged="PasswordBox_PasswordChanged" />
+
+					<Label
+						Grid.Row="3"
+						Grid.Column="0"
+						Content="唯一标识:" />
+					<TextBox
+						Grid.Row="3"
+						Grid.Column="1"
+						Background="{StaticResource DisabledBackgroundBrush}"
+						IsEnabled="False"
+						Text="{Binding Guid}" />
+				</Grid>
 			</Grid>
-		</GroupBox>
+		</Border>
+
+		<Border Grid.Row="1" Margin="0,15,0,0">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+
+				<Border
+					Grid.Row="0"
+					Background="{StaticResource HeaderBrush}"
+					CornerRadius="3,3,0,0">
+					<TextBlock Style="{StaticResource HeaderText}" Text="作者列表" />
+				</Border>
+
+				<Grid Grid.Row="1" Margin="0,10,0,0">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+
+					<StackPanel
+						Grid.Row="0"
+						HorizontalAlignment="Right"
+						Orientation="Horizontal">
+						<TextBox
+							x:Name="NewAuthorTextBox"
+							Width="200"
+							Margin="5"
+							FontFamily="Calibri" />
+						<Button
+							Margin="5"
+							Click="AddAuthor_Click"
+							Content="添加" />
+					</StackPanel>
+
+					<ListBox
+						Grid.Row="1"
+						Margin="5"
+						FontFamily="Calibri"
+						FontSize="15"
+						ItemsSource="{Binding Authors}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock
+										Margin="0,0,10,0"
+										VerticalAlignment="Center"
+										FontSize="10"
+										Text="{Binding}" />
+									<Button
+										HorizontalAlignment="Right"
+										Click="RemoveAuthor_Click"
+										Content="删除"
+										FontSize="10"
+										Tag="{Binding}" />
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</Grid>
+			</Grid>
+		</Border>
 
 		<StackPanel
 			Grid.Row="4"
+			Margin="0,15,0,0"
 			HorizontalAlignment="Right"
 			Orientation="Horizontal">
 			<Button
 				Margin="10,0,0,0"
 				Click="Submit_Click"
-				Content="保存" />
+				Content="保存"
+				Style="{StaticResource SaveButton}" />
 		</StackPanel>
 	</Grid>
 </Window>

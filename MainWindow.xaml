@@ -95,6 +95,11 @@
 						FontSize="15"
 						Header="项目设置" />
 					<MenuItem
+						Click="AuthorizeProject_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="分享授权" />
+					<MenuItem
 						Click="ExitSoftware_Click"
 						FontFamily="SimHei"
 						FontSize="15"
