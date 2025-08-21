@@ -158,10 +158,12 @@ namespace Citation.View.Page
             {
                 for (int j = 0; j < folder.Articles.Count; j++)
                 {
-                    if (folder.Articles[j].Message!.Title![0] == 
+                    if (folder.Articles[j].Message!.Title![0] ==
                         SelectedArticle.Message!.Title![0])
+                    {
                         folder.Articles.RemoveAt(j);
-                    break;
+                        break;
+                    }
                 }
             }
 

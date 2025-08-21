@@ -155,6 +155,16 @@
 						FontSize="15"
 						Header="添加提醒" />
 				</MenuItem>
+				<MenuItem
+					FontFamily="SimHei"
+					FontSize="18"
+					Header="其它">
+					<MenuItem
+						Click="GenerateSerial_Click"
+						FontFamily="SimHei"
+						FontSize="18"
+						Header="本机序列号" />
+				</MenuItem>
 			</Menu>
 
 			<Border

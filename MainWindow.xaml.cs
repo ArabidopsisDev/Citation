@@ -3,10 +3,11 @@ using Citation.Model.Reference;
 using Citation.Utils;
 using Citation.View;
 using Citation.View.Page;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Media;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,9 +21,25 @@ namespace Citation
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public Project Project { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        internal bool Limited = false;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public Project Project
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Project));
+            }
+        }
 
         // Di su zhi
         internal static MainWindow This;
@@ -99,9 +116,33 @@ namespace Citation
                 Project.Name = reader["ProjectName"].ToString();
                 Project.Path = reader["ProjectPath"].ToString();
                 Project.Guid = reader["ProjectGuid"].ToString();
-
+                Project.Password = reader["ProjectPassword"].ToString();
                 var authors = reader["ProjectAuthors"].ToString()!.Split('/');
                 Project.Authors = [.. authors];
+            }
+
+            if (!string.IsNullOrEmpty(Project.Password))
+            {
+                // Start verify process
+                var authWindow = new VerifyWindow(Authorize);
+                var result = authWindow.ShowDialog();
+
+                if (result == true)
+                {
+                    ShowToast("授权验证成功");
+                }
+                else
+                {
+                    ShowToast("授权失败或已取消");
+
+                    this.Project = new Project
+                    {
+                        Name = "尚未打开项目！",
+                        Authors = [],
+                        Guid = ""
+                    };
+                    return;
+                }
             }
 
             // Load alerts
@@ -183,7 +224,8 @@ namespace Citation
             ToastContainer.Children.Clear();
 
             var stream = Application.GetResourceStream(
-                new Uri("pack://application:,,,/Citation;component/Images/alert.wav")).Stream;
+                new Uri("pack://application:,,,/Citation;component/Images/alert.wav"))
+                ?.Stream;
 
             SoundPlayer player = new(stream);
             player.Play();
@@ -353,7 +395,7 @@ namespace Citation
             {
                 Name = "尚未打开项目！",
                 Authors = [],
-                Guid = System.Guid.NewGuid().ToString()
+                Guid = ""
             };
 
             // Show for user
@@ -433,6 +475,12 @@ namespace Citation
 
         private void AuthorizeProject_Click(object sender, RoutedEventArgs e)
         {
+            if (Limited)
+            {
+                ShowToast("通过文件授权的项目不能够创建授权文件");
+                return;
+            }
+
             if (Project.Name == "尚未打开项目！")
             {
                 ShowToast("清先打开一个项目");
@@ -441,6 +489,26 @@ namespace Citation
 
             var authorizationWindow = new AuthorizationWindow();
             authorizationWindow.Show();
+        }
+
+        private bool Authorize(string passwordOrFile, bool usePassword)
+        {
+            if (usePassword)
+            {
+                var byteArray = Encoding.UTF8.GetBytes(passwordOrFile);
+                Limited = false;
+                return Verify.ConfirmByPassword(Convert.ToBase64String(byteArray));
+            }
+
+            Limited = true;
+            return Verify.ConfirmByFile(passwordOrFile);
+        }
+
+        private void GenerateSerial_Click(object sender, RoutedEventArgs e)
+        {
+            var serial = new HardIdentifier().ToString();
+            Clipboard.SetText(serial);
+            ShowToast("已复制到剪切板");
         }
     }
 }

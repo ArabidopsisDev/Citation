@@ -17,6 +17,7 @@
     <None Remove="Images\article.png" />
     <None Remove="Images\citation.png" />
     <None Remove="Images\folder.png" />
+    <None Remove="Images\lock.png" />
     <None Remove="Images\misc.wav" />
     <None Remove="Images\warning.png" />
   </ItemGroup>
@@ -24,6 +25,7 @@
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
     <PackageReference Include="System.Data.OleDb" Version="9.0.8" />
+    <PackageReference Include="System.Management" Version="9.0.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +34,7 @@
     </Content>
     <Resource Include="Images\alert.wav" />
     <Resource Include="Images\article.png" />
+    <Resource Include="Images\lock.png" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\citation.png" />
     <Resource Include="Images\folder.png" />

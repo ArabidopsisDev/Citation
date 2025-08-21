@@ -172,7 +172,7 @@
 				FontSize="20"
 				FontWeight="SemiBold"
 				Foreground="#E74C3C"
-				Text="警告" />
+				Text="（危险操作）" />
 		</StackPanel>
 
 		<Border
@@ -192,10 +192,10 @@
 					Text="⚠️" />
 				<TextBlock
 					AllowDrop="True"
-					FontFamily="SimSun"
+					FontFamily="Times New Roman,SimSun"
 					FontSize="14"
 					Foreground="#E74C3C"
-					Text="您正在创建授权文件，这将允许他人访问您的科研项目文件。&#x0A;请谨慎操作，确保只将授权文件交给可信人员，并设置合理的过期时间。（某项留空代表不限制）"
+					Text="您正在创建授权文件，这将允许他人访问您的科研项目文件。（某项留空代表不限制）&#x0A;Citation的授权功能只是一把君子锁，最重要的是保管好自己的项目文件不要泄露。"
 					TextAlignment="Left"
 					TextWrapping="Wrap" />
 			</StackPanel>
@@ -216,7 +216,7 @@
 					Margin="0,0,0,8"
 					FontSize="15"
 					FontWeight="SemiBold"
-					Text="项目密码" />
+					Text="项目密码（本项必填，用于验证您的身份）" />
 				<TextBox Text="{Binding Authorization.Password, UpdateSourceTrigger=PropertyChanged}" />
 			</StackPanel>
 
@@ -228,16 +228,16 @@
 					Margin="0,0,0,8"
 					FontSize="15"
 					FontWeight="SemiBold"
-					Text="IP地址列表" />
+					Text="本机序列号列表" />
 
 				<StackPanel Margin="0,0,0,10" Orientation="Horizontal">
 					<TextBox
 						x:Name="NewIpTextBox"
-						Width="250"
+						Width="350"
 						Foreground="#95A5A6"
 						GotFocus="NewIpTextBox_GotFocus"
 						LostFocus="NewIpTextBox_LostFocus"
-						Text="输入IP地址 (例如: 192.168.1.1)" />
+						Text="输入本机序列号 (例如: 0A06A2-123733-5AC45C)" />
 					<Button
 						Width="90"
 						Margin="30,0,0,0"

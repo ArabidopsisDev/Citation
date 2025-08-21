@@ -401,3 +401,5 @@ FodyWeavers.xsd
 Acceed.cs
 Model/Authorization.cs
 Utils/Cryptography.cs
+Acceed.cs
+Utils/Verify.cs

@@ -1,16 +1,16 @@
-﻿using System.ComponentModel;
+﻿using Citation.Model;
+using Citation.Utils;
+using System.ComponentModel;
+using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using Citation.Model;
-using Citation.Utils;
 
 namespace Citation.View
 {
     public partial class AuthorizationWindow : Window, INotifyPropertyChanged
     {
-        public Authorization Authorization 
+        public Authorization Authorization
         {
             get;
             set
@@ -34,7 +34,7 @@ namespace Citation.View
             Authorization = new Authorization()
             {
                 ExpirationTime = DateTime.Now,
-                IpAddresses = ["111.111.111.111"],
+                IpAddresses = [],
                 Password = ""
             };
 
@@ -83,8 +83,29 @@ namespace Citation.View
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
+            if (MainWindow.This.Limited) return;
+
             var saveString = JsonSerializer.Serialize(Authorization);
-            var enString = Cryptography.Encrypt(saveString);
+            var byteArray = Cryptography.Encrypt(saveString);
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = "license",
+                Filter = "Citation授权文件 (*.clc)|*.clc"
+            };
+
+            var result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                var filePath = saveFileDialog.FileName;
+
+                using var fs = new FileStream(filePath, FileMode.Create);
+                using var binaryWriter = new BinaryWriter(fs);
+                binaryWriter.Write(byteArray);
+
+                MainWindow.This.ShowToast("授权文件保存成功");
+            }
+            Close();
         }
     }
 }
