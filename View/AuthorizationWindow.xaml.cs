@@ -43,11 +43,8 @@ namespace Citation.View
 
         private void AddIp_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(NewIpTextBox.Text) &&
-                NewIpTextBox.Text != "输入IP地址 (例如: 192.168.1.1)")
-            {
-                Authorization.IpAddresses!.Add(NewIpTextBox.Text.Trim());
-            }
+            Authorization.IpAddresses!.Add(NewIpTextBox.Text.Trim());
+            NewIpTextBox.Text = string.Empty;
         }
 
         private void RemoveIp_Click(object sender, RoutedEventArgs e)
@@ -60,7 +57,7 @@ namespace Citation.View
 
         private void NewIpTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (NewIpTextBox.Text == "输入IP地址 (例如: 192.168.1.1)")
+            if (NewIpTextBox.Text == "输入本机序列号 (例如: 0A06A2-123733-5AC45C)")
             {
                 NewIpTextBox.Text = "";
                 NewIpTextBox.Foreground = System.Windows.Media.Brushes.Black;
@@ -71,7 +68,7 @@ namespace Citation.View
         {
             if (string.IsNullOrWhiteSpace(NewIpTextBox.Text))
             {
-                NewIpTextBox.Text = "输入IP地址 (例如: 192.168.1.1)";
+                NewIpTextBox.Text = "输入本机序列号 (例如: 0A06A2-123733-5AC45C)";
                 NewIpTextBox.Foreground = System.Windows.Media.Brushes.Gray;
             }
         }
@@ -83,10 +80,12 @@ namespace Citation.View
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.This.Limited) return;
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            if (mainWindow!.Limited) return;
 
+            Authorization.CreateTime = DateTime.Now;
             var saveString = JsonSerializer.Serialize(Authorization);
-            var byteArray = Cryptography.Encrypt(saveString);
+            var byteArray = new Cryptography().Encrypt(saveString);
 
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
@@ -103,7 +102,7 @@ namespace Citation.View
                 using var binaryWriter = new BinaryWriter(fs);
                 binaryWriter.Write(byteArray);
 
-                MainWindow.This.ShowToast("授权文件保存成功");
+                mainWindow.ShowToast("授权文件保存成功");
             }
             Close();
         }

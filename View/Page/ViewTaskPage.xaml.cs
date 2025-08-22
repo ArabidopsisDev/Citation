@@ -117,21 +117,25 @@ namespace Citation.View.Page
                 }
 
                 // Remove alert
+                var mainWindow = Application.Current.MainWindow as MainWindow;
                 if (_selectedTask.StartRemind)
-                    MainWindow.This.RemoveAlert(_selectedTask.Name, _selectedTask.StartTime);
+                    mainWindow!.RemoveAlert(_selectedTask.Name, _selectedTask.StartTime);
                 if (_selectedTask.EndRemind)
-                    MainWindow.This.RemoveAlert(_selectedTask.Name, _selectedTask.EndTime);
+                    mainWindow!.RemoveAlert(_selectedTask.Name, _selectedTask.EndTime);
 
                 // Remove visual
                 TodayTasks.Remove(_selectedTask);
                 RenderTasks();
+
                 TaskDetailPanel.Visibility = Visibility.Collapsed;
-                MainWindow.This.ShowToast("任务已成功删除");
+                mainWindow?.ShowToast("任务已成功删除");
             }
             catch (Exception ex)
             {
                 LogException.Collect(ex, LogException.ExceptionLevel.Warning);
-                MainWindow.This.ShowToast("未能删除任务");
+
+                var mainWindow = Application.Current.MainWindow as MainWindow;
+                mainWindow?.ShowToast("未能删除任务");
             }
         }
 

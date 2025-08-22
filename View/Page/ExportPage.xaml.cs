@@ -133,15 +133,17 @@ namespace Citation.View.Page
             if (result == true)
             {
                 var filePath = saveFileDialog.FileName;
+                var mainWindow = Application.Current.MainWindow as MainWindow;
+
                 try
                 {
                     File.WriteAllText(filePath, exportBuilder.ToString());
-                    MainWindow.This.ShowToast("引用保存成功");
+                    mainWindow?.ShowToast("引用保存成功");
                 }
                 catch (IOException ex)
                 {
                     LogException.Collect(ex, LogException.ExceptionLevel.Warning);
-                    MainWindow.This.ShowToast("保存失败，可能文件正在使用...");
+                    mainWindow?.ShowToast("保存失败，可能文件正在使用...");
                 }
             }
         }

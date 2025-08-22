@@ -58,6 +58,9 @@ namespace Citation.Model
 
         public string? Guid { get; set; }
 
+        public string? AesKey { get; set; }
+        public string? AesIv { get; set; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -68,8 +71,8 @@ namespace Citation.Model
             foreach (var projectAuthor in Authors)
                 authorsBuild.Append($"{projectAuthor}/");
             var sqlCommand = 
-                $"INSERT INTO tb_Basic (ProjectName, ProjectPath, ProjectAuthors, ProjectGuid, ProjectPassword) " +
-                $"VALUES (?, ?, ?, ?, ?);";
+                $"INSERT INTO tb_Basic (ProjectName, ProjectPath, ProjectAuthors, ProjectGuid, ProjectPassword, ProjectKey, ProjectIv) " +
+                $"VALUES (?, ?, ?, ?, ?, ?, ?);";
 
             var command = new OleDbCommand(sqlCommand, connection);
 
@@ -78,6 +81,8 @@ namespace Citation.Model
             command.Parameters.AddWithValue("?", authorsBuild.ToString());
             command.Parameters.AddWithValue("?", Guid);
             command.Parameters.AddWithValue("?", Password);
+            command.Parameters.AddWithValue("?", AesKey);
+            command.Parameters.AddWithValue("?", AesIv);
 
             command.ExecuteNonQuery();
         }

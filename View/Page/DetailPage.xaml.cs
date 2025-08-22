@@ -24,12 +24,14 @@ namespace Citation.View.Page
             var insertCommand = Article.ToSql();
             Acceed.Shared.Execute(insertCommand);
 
-            MainWindow.This.NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.This.MainFrame.RemoveBackEntry();
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.MainFrame.RemoveBackEntry();
         }
     }
 }

@@ -42,8 +42,9 @@ namespace Citation.View.Page
         {
             Alert?.AppendRealtime();
 
-            MainWindow.This.ShowToast("提醒添加成功");
-            MainWindow.This.MainFrame.GoBack();
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow!.ShowToast("提醒添加成功");
+            mainWindow.MainFrame.GoBack();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

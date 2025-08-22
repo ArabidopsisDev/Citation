@@ -62,9 +62,11 @@ namespace Citation.View.Page
             }
 
             var journalArticle = JsonSerializer.Deserialize<JournalArticle>(source);
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
             if (journalArticle is null || journalArticle.Message is null)
             {
-                MainWindow.This.ShowToast("获取失败，请检查您的网络环境或文章链接。");
+                mainWindow?.ShowToast("获取失败，请检查您的网络环境或文章链接。");
                 return;
             }
 
@@ -72,7 +74,7 @@ namespace Citation.View.Page
             Status = $"【{journalArticle!.Message!.Title![0]}】 获取成功";
 
             var detailPage = new DetailPage(journalArticle);
-            MainWindow.This.NavigateWithSlideAnimation(detailPage);
+            mainWindow?.NavigateWithSlideAnimation(detailPage);
         }
     }
 }

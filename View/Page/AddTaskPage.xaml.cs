@@ -41,11 +41,12 @@ namespace Citation.View.Page
             Task.ToSql(Acceed.Shared.Connection);
 
             if (Task.StartRemind)
-                new Alert(Task.StartTime, Task.Name, Task.Description).AppendRealtime();
+                new Alert(Task.StartTime, $"{Task.Name}开始了", Task.Description).AppendRealtime();
             if (Task.EndRemind)
-                new Alert(Task.EndTime, Task.Name, Task.Description).AppendRealtime();
+                new Alert(Task.EndTime, $"{Task.Name}结束了", Task.Description).AppendRealtime();
 
-            MainWindow.This.ShowToast("任务添加成功");
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.ShowToast("任务添加成功");
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

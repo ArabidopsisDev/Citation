@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using Citation.Utils;
 
 namespace Citation.View
 {
@@ -18,9 +19,11 @@ namespace Citation.View
             Project = project ?? new Project
             {
                 Name = "新项目",
-                Authors = new ObservableCollection<string>(),
+                Authors = [],
                 Guid = System.Guid.NewGuid().ToString(),
-                Password = ""
+                Password = "",
+                AesKey = Randomization.RandomSeries(),
+                AesIv = Randomization.RandomSeries()
             };
 
             _Callback = callback;

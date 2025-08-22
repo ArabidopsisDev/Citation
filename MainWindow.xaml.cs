@@ -3,8 +3,10 @@ using Citation.Model.Reference;
 using Citation.Utils;
 using Citation.View;
 using Citation.View.Page;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Compression;
 using System.Media;
 using System.Net.Http;
 using System.Text;
@@ -41,10 +43,15 @@ namespace Citation
             }
         }
 
-        // Di su zhi
-        internal static MainWindow This;
-
-        internal List<Alert>? _alerts = [];
+        public ObservableCollection<Alert>? _alerts
+        {
+            get => field;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(_alerts));
+            }
+        }
 
         public MainWindow()
         {
@@ -56,8 +63,6 @@ namespace Citation
                 Authors = [],
                 Guid = System.Guid.NewGuid().ToString()
             };
-
-            MainWindow.This = this;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -95,8 +100,11 @@ namespace Citation
             if (check)
             {
                 // Verify file type
-                List<int> fileHead = [0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E,
-                0x64, 0x61, 0x72, 0x64, 0x20, 0x41, 0x43, 0x45, 0x20, 0x44, 0x42];
+                List<int> fileHead =
+                [
+                    0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E,
+                    0x64, 0x61, 0x72, 0x64, 0x20, 0x41, 0x43, 0x45, 0x20, 0x44, 0x42
+                ];
                 using var fs = new FileStream(filename, FileMode.Open);
                 var binaryReader = new BinaryReader(fs);
 
@@ -105,6 +113,7 @@ namespace Citation
                     ShowToast("打开失败：未知项目类型或项目损坏");
                     return;
                 }
+
                 fs.Close();
             }
 
@@ -117,6 +126,8 @@ namespace Citation
                 Project.Path = reader["ProjectPath"].ToString();
                 Project.Guid = reader["ProjectGuid"].ToString();
                 Project.Password = reader["ProjectPassword"].ToString();
+                Project.AesKey = reader["ProjectKey"].ToString();
+                Project.AesIv = reader["ProjectIv"].ToString();
                 var authors = reader["ProjectAuthors"].ToString()!.Split('/');
                 Project.Authors = [.. authors];
             }
@@ -158,9 +169,9 @@ namespace Citation
             {
                 if (_alerts is null) return;
 
-                for (int i = 0; i< _alerts.Count; i++)
+                for (int i = 0; i < _alerts.Count; i++)
                 {
-                    Alert? item = _alerts[i];
+                    var item = _alerts[i];
                     if (item.OccurTime <= DateTime.Now)
                     {
                         Dispatcher.BeginInvoke(() =>
@@ -211,10 +222,7 @@ namespace Citation
             storyboard.Children.Add(fadeInAnimation);
             storyboard.Children.Add(slideAnimation);
 
-            MainFrame.Navigated += (sender, e) =>
-            {
-                storyboard.Begin(page);
-            };
+            MainFrame.Navigated += (sender, e) => { storyboard.Begin(page); };
 
             MainFrame.Navigate(page);
         }
@@ -224,7 +232,7 @@ namespace Citation
             ToastContainer.Children.Clear();
 
             var stream = Application.GetResourceStream(
-                new Uri("pack://application:,,,/Citation;component/Images/alert.wav"))
+                    new Uri("pack://application:,,,/Citation;component/Images/alert.wav"))
                 ?.Stream;
 
             SoundPlayer player = new(stream);
@@ -304,6 +312,7 @@ namespace Citation
             exportPage.ArticlesContainer.ItemsSource = papers;
             NavigateWithSlideAnimation(exportPage);
         }
+
         private async void ImportCitation_Click(object sender, RoutedEventArgs e)
         {
             if (Project.Name == "尚未打开项目！")
@@ -353,7 +362,7 @@ namespace Citation
                         var source = await response.Content.ReadAsStringAsync();
 
                         var journalArticle = JsonSerializer.Deserialize<JournalArticle>(source);
-                        if (journalArticle is null ||journalArticle.Message is null)
+                        if (journalArticle is null || journalArticle.Message is null)
                         {
                             ShowToast($"[{doi}] 获取失败");
                             continue;
@@ -371,6 +380,7 @@ namespace Citation
                         ShowToast($"[{doi}] 获取失败");
                     }
                 }
+
                 ShowToast($"导入结束");
             }
         }
@@ -509,6 +519,43 @@ namespace Citation
             var serial = new HardIdentifier().ToString();
             Clipboard.SetText(serial);
             ShowToast("已复制到剪切板");
+        }
+
+        private void BackupProject_Click(object sender, RoutedEventArgs e)
+        {
+            if (Project.Name == "尚未打开项目！")
+            {
+                ShowToast("您还未打开项目，无需备份");
+                return;
+            }
+
+            var path = Project.Path;
+            CloseProject_Click(this, null!);
+
+            var dialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                FileName = "backup",
+                DefaultExt = ".zip",
+                Filter = "Zip file (.zip)|*.zip|All files (*.*)|*.*"
+            };
+
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                if (path is not null)
+                {
+                    ZipFile.CreateFromDirectory(path, dialog.FileName);
+                    ShowToast("项目备份完成");
+                    return;
+                }
+            }
+
+            ShowToast("取消项目备份");
+        }
+
+        private void SetAlert_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new ViewAlertPage());
         }
     }
 }

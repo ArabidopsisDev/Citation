@@ -168,13 +168,17 @@ namespace Citation.View.Page
             }
 
             FolderTreeView.ItemsSource = _folders;
-            MainWindow.This.ShowToast("引用已删除");
+                
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.ShowToast("引用已删除");
         }
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(CitationBox.Text);
-            MainWindow.This.ShowToast("引用已经复制到剪切板");
+
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.ShowToast("引用已经复制到剪切板");
         }
 
         private void LatexButton_OnClick(object sender, RoutedEventArgs e)

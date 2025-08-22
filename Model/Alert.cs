@@ -1,20 +1,55 @@
-﻿using System.Data.OleDb;
-using System.Xml.Linq;
+﻿using System.ComponentModel;
+using System.Data.OleDb;
+using System.Windows;
 
 namespace Citation.Model
 {
-    public class Alert(DateTime occurTime, string? title, string? description) : IDbContext<Alert>
+    public class Alert(DateTime occurTime, string? title, string? description)
+        : IDbContext<Alert>, INotifyPropertyChanged
     {
-        public DateTime OccurTime { get; set; } = occurTime;
-        public string? Title { get; set; } = title;
+        public DateTime OccurTime
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(OccurTime));
+            }
+        } = occurTime;
 
-        public string? Description { get; set; } = description;
+        public string? Title
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        } = title;
 
-        public void AppendRealtime() 
+        public string? Description
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Description));
+            }
+        } = description;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void AppendRealtime()
         {
             ToSql(Acceed.Shared.Connection);
 
-            MainWindow.This._alerts!.Add(this);
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?._alerts!.Add(this);
         }
 
         public static Alert FromSql(OleDbDataReader reader)
