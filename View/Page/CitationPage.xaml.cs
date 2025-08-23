@@ -76,5 +76,14 @@ namespace Citation.View.Page
             var detailPage = new DetailPage(journalArticle);
             mainWindow?.NavigateWithSlideAnimation(detailPage);
         }
+
+        private void Manual_Click(object sender, RoutedEventArgs e)
+        {
+            var journalArticle = new JournalArticle();
+
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var detailPage = new DetailPage(journalArticle);
+            mainWindow?.NavigateWithSlideAnimation(detailPage);
+        }
     }
 }

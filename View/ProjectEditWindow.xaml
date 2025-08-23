@@ -188,11 +188,11 @@
 						Grid.Row="2"
 						Grid.Column="0"
 						Content="密码:" />
-					<PasswordBox
+					<TextBox
 						x:Name="PasswordBox"
 						Grid.Row="2"
 						Grid.Column="1"
-						PasswordChanged="PasswordBox_PasswordChanged" />
+						TextChanged="PasswordBox_PasswordChanged" />
 
 					<Label
 						Grid.Row="3"

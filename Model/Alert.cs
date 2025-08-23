@@ -46,7 +46,7 @@ namespace Citation.Model
 
         public void AppendRealtime()
         {
-            ToSql(Acceed.Shared.Connection);
+            ToSql(Acceed.Shared.AgCl);
 
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow?._alerts!.Add(this);

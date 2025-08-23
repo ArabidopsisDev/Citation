@@ -89,5 +89,5 @@ dotnet build -c Release
 ---
 
 <p align="center">
-  <sub>📜 AGPL License v3 | 🏷️ Version alpha 0.2x</sub>
+  <sub>📜 AGPL License v3 | 🏷️ Version alpha 0.3x</sub>
 </p>

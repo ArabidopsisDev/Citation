@@ -22,7 +22,7 @@ namespace Citation.View.Page
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var insertCommand = Article.ToSql();
-            Acceed.Shared.Execute(insertCommand);
+            Acceed.Shared.FeBr(insertCommand);
 
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow?.NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());

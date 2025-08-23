@@ -38,7 +38,7 @@ namespace Citation.View.Page
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            Task.ToSql(Acceed.Shared.Connection);
+            Task.ToSql(Acceed.Shared.AgCl);
 
             if (Task.StartRemind)
                 new Alert(Task.StartTime, $"{Task.Name}开始了", Task.Description).AppendRealtime();

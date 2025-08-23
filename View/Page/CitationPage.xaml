@@ -94,6 +94,34 @@
 					</ControlTemplate>
 				</Button.Template>
 			</Button>
+			<Button
+				Width="120"
+				Height="40"
+				Margin="50,0,0,0"
+				Background="Gray"
+				BorderThickness="0"
+				Click="Manual_Click"
+				Content="Manual"
+				FontFamily="Calibri"
+				FontSize="16"
+				FontWeight="Medium"
+				Foreground="White">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Border
+							x:Name="border"
+							Background="{TemplateBinding Background}"
+							BorderThickness="0"
+							CornerRadius="20">
+							<ContentPresenter
+								x:Name="contentPresenter"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center" />
+						</Border>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+
 		</StackPanel>
 	</Grid>
 </UserControl>

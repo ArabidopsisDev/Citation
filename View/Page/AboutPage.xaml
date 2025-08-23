@@ -1,0 +1,128 @@
+﻿<UserControl
+	x:Class="Citation.View.Page.AboutPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:Citation.View.Page"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+	mc:Ignorable="d">
+	<UserControl.Resources>
+		<Style TargetType="TextBlock">
+			<Setter Property="TextWrapping" Value="Wrap" />
+			<Setter Property="Margin" Value="0,5" />
+		</Style>
+		<DropShadowEffect
+			x:Key="DropShadowEffect"
+			BlurRadius="10"
+			Opacity="0.2"
+			ShadowDepth="3" />
+	</UserControl.Resources>
+
+	<Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+		<Border
+			Margin="20"
+			Background="White"
+			CornerRadius="10"
+			Effect="{StaticResource DropShadowEffect}">
+			<Grid Margin="20">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<StackPanel
+					Grid.Row="0"
+					Margin="0,0,0,20"
+					HorizontalAlignment="Center"
+					Orientation="Horizontal">
+					<Image
+						Width="60"
+						Height="60"
+						Margin="0,0,15,0"
+						Source="pack://application:,,,/Citation;component/Images/pjm.png" />
+					<StackPanel>
+						<TextBlock
+							HorizontalAlignment="Center"
+							FontSize="28"
+							FontWeight="Bold"
+							Foreground="#FF0066CC"
+							Text="Citation" />
+						<TextBlock
+							HorizontalAlignment="Center"
+							FontSize="16"
+							Foreground="Gray"
+							Text="参考文献管理工具" />
+					</StackPanel>
+				</StackPanel>
+
+				<Grid Grid.Row="1">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<StackPanel Grid.Column="0" Margin="0,0,15,0">
+						<TextBlock
+							Margin="0,0,0,10"
+							FontSize="18"
+							FontWeight="Bold"
+							Foreground="#FF0066CC"
+							Text="开发团队" />
+
+						<TextBlock FontWeight="SemiBold" Text="开发人员: Arabidopsis" />
+						<TextBlock FontWeight="SemiBold" Text="组织: Project MethodBox" />
+
+						<TextBlock
+							Margin="0,20,0,0"
+							FontWeight="SemiBold"
+							Text="联系方式:" />
+						<TextBlock Text="邮箱: arab@methodbox.top" />
+
+						<TextBlock
+							Margin="0,20,0,0"
+							FontWeight="SemiBold"
+							Text="邮寄地址:" />
+						<TextBlock Text="山东省泰安市泰山区泮河大街7号 山东农业大学泮河校区 农学院 Arabidopsis（收）" TextWrapping="Wrap" />
+					</StackPanel>
+
+					<StackPanel Grid.Column="1" Margin="15,0,0,0">
+						<TextBlock
+							Margin="0,0,0,10"
+							FontSize="18"
+							FontWeight="Bold"
+							Foreground="#FF0066CC"
+							Text="软件信息" />
+
+						<TextBlock Text="版本: v3（内部版本 Dev_tfa1075s）" />
+						<TextBlock Text="© 2025 Arabidopsis. 保留所有权利。" TextWrapping="Wrap" />
+
+						<TextBlock
+							Margin="0,20,0,0"
+							FontWeight="SemiBold"
+							Text="致谢" />
+						<TextBlock
+							FontStyle="Italic"
+							Text="感谢您使用Citation软件！您的支持是我们持续改进的动力。如有任何建议或问题，请随时与我们联系。"
+							TextWrapping="Wrap" />
+					</StackPanel>
+				</Grid>
+
+				<Border
+					Grid.Row="2"
+					Margin="0,20,0,0"
+					Padding="10"
+					Background="#FFEEEEEE"
+					CornerRadius="5">
+					<TextBlock
+						HorizontalAlignment="Center"
+						FontStyle="Italic"
+						Foreground="Gray"
+						Text="本软件为免费软件，受《计算机软件保护条例》及其它国家或地区同等权利保护，未经许可，不得用于商业用途。任何侵权行为都将受到法律允许的最大程度的追究。" />
+				</Border>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

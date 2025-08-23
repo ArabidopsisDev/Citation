@@ -9,6 +9,45 @@
     <LangVersion>preview</LangVersion>
     <Platforms>AnyCPU;x64;x86;ARM32</Platforms>
     <ApplicationIcon>logo.ico</ApplicationIcon>
+    <Copyright>Copyright Arabidipsis. All right reserved.</Copyright>
+    <PackageReadmeFile>manual-cn.md</PackageReadmeFile>
+    <SignAssembly>False</SignAssembly>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <AssemblyVersion>3.0</AssemblyVersion>
+    <FileVersion>3.0</FileVersion>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM32'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM32'">
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +59,7 @@
     <None Remove="Images\folder.png" />
     <None Remove="Images\lock.png" />
     <None Remove="Images\misc.wav" />
+    <None Remove="Images\pjm.png" />
     <None Remove="Images\warning.png" />
   </ItemGroup>
 
@@ -41,7 +81,15 @@
     <Resource Include="Images\citation.png" />
     <Resource Include="Images\folder.png" />
     <Resource Include="Images\misc.wav" />
+    <Resource Include="Images\pjm.png" />
     <Resource Include="Images\warning.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Docs\manual-cn.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

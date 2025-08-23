@@ -172,8 +172,13 @@
 					<MenuItem
 						Click="GenerateSerial_Click"
 						FontFamily="SimHei"
-						FontSize="18"
+						FontSize="15"
 						Header="本机序列号" />
+					<MenuItem
+						Click="About_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="关于" />
 				</MenuItem>
 			</Menu>
 
@@ -189,7 +194,7 @@
 						FontFamily="Consolas"
 						FontSize="26"
 						Foreground="White">
-						Welcome To Citation! (Version  Dev_tfa1073b)
+						Welcome To Citation! (Version  Dev_tfa1075s)
 					</TextBlock>
 				</StackPanel>
 			</Border>

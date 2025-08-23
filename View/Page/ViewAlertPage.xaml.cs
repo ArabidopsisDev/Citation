@@ -53,7 +53,7 @@ namespace Citation.View.Page
             {
                 try
                 {
-                    alertToDelete.DeleteSql(Acceed.Shared.Connection);
+                    alertToDelete.DeleteSql(Acceed.Shared.AgCl);
                     _mainWindow._alerts!.Remove(alertToDelete);
                     _mainWindow.ShowToast("提醒已删除");
                 }
@@ -94,18 +94,18 @@ namespace Citation.View.Page
                         TitleTextBox.Text,
                         DescriptionTextBox.Text);
 
-                    newAlert.ToSql(Acceed.Shared.Connection);
+                    newAlert.ToSql(Acceed.Shared.AgCl);
                     _mainWindow._alerts!.Add(newAlert);
                 }
                 else if (_currentAlert != null)
                 {
-                    _currentAlert.DeleteSql(Acceed.Shared.Connection);
+                    _currentAlert.DeleteSql(Acceed.Shared.AgCl);
 
                     _currentAlert.Title = TitleTextBox.Text;
                     _currentAlert.Description = DescriptionTextBox.Text;
                     _currentAlert.OccurTime = occurTime;
 
-                    _currentAlert.ToSql(Acceed.Shared.Connection);
+                    _currentAlert.ToSql(Acceed.Shared.AgCl);
                 }
 
                 _mainWindow.ShowToast("保存成功");

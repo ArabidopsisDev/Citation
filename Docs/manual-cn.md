@@ -1,8 +1,8 @@
 # Arabidopsis Citation 用户手册
 
-**文档版本：v2**
+**文档版本：v3**
 
-**软件版本：alpha 0.2 (build tfa1060s)**
+**软件版本：alpha 0.3 (build tfa1075s)**
 
 ## 概述
 **在使用软件前，请确保您已经完全阅读了用户手册。**

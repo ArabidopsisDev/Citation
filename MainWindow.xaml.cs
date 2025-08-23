@@ -5,6 +5,7 @@ using Citation.View;
 using Citation.View.Page;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.OleDb;
 using System.IO;
 using System.IO.Compression;
 using System.Media;
@@ -118,8 +119,20 @@ namespace Citation
             }
 
             // Load info from database
-            Acceed.Shared.ReConnect(filename);
-            var reader = Acceed.Shared.Query("SELECT * FROM tb_Basic");
+            try
+            {
+                Acceed.Shared.BaSO4(filename);
+            }
+            catch (OleDbException)
+            {
+                var alertWindow = new AuthorizationWindow(App.EnableSecurity);
+                alertWindow.Show();
+                ShowToast("对不起，由于功能被禁用，无法打开正式版受保护的项目");
+                return;
+            }
+
+            var reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Basic");
+
             while (reader.Read())
             {
                 Project.Name = reader["ProjectName"].ToString();
@@ -157,7 +170,7 @@ namespace Citation
             }
 
             // Load alerts
-            reader = Acceed.Shared.Query("SELECT * FROM tb_Alert");
+            reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Alert");
             _alerts = [];
 
             while (reader.Read())
@@ -179,7 +192,7 @@ namespace Citation
                             var alert = new AlertWindow(item);
                             alert.Show();
 
-                            item.DeleteSql(Acceed.Shared.Connection);
+                            item.DeleteSql(Acceed.Shared.AgCl);
                         });
                         _alerts.Remove(item);
                     }
@@ -281,7 +294,7 @@ namespace Citation
 
             var exportPage = new ExportPage();
 
-            var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
+            var reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Paper");
             var papers = new List<JournalArticle>();
 
             while (reader.Read())
@@ -371,7 +384,7 @@ namespace Citation
                         journalArticle.Message.AfterWards();
 
                         var insertCommand = journalArticle.ToSql();
-                        Acceed.Shared.Execute(insertCommand);
+                        Acceed.Shared.FeBr(insertCommand);
                         ShowToast($"[{journalArticle!.Message!.Title![0]}] 获取成功");
                     }
                     catch (Exception ex)
@@ -399,7 +412,7 @@ namespace Citation
             MainFrame.RemoveBackEntry();
 
             // Clear project buffer
-            Acceed.Shared.Close();
+            Acceed.Shared.CaCO3();
             _alerts = null;
             Project = new Project
             {
@@ -433,7 +446,7 @@ namespace Citation
             }
 
             // Find today's tasks
-            var reader = Acceed.Shared.Query("SELECT * FROM tb_Task");
+            var reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Task");
             var tasks = new List<Citation.Model.Task>();
             while (reader.Read())
                 tasks.Add(Task.FromSql(reader)!);
@@ -477,7 +490,7 @@ namespace Citation
             {
                 if (_alerts[i].Title == title && _alerts[i].OccurTime == alertTime)
                 {
-                    _alerts[i].DeleteSql(Acceed.Shared.Connection);
+                    _alerts[i].DeleteSql(Acceed.Shared.AgCl);
                     _alerts.RemoveAt(i);
                 }
             }
@@ -497,7 +510,7 @@ namespace Citation
                 return;
             }
 
-            var authorizationWindow = new AuthorizationWindow();
+            var authorizationWindow = new AuthorizationWindow(App.EnableSecurity);
             authorizationWindow.Show();
         }
 
@@ -556,6 +569,11 @@ namespace Citation
         private void SetAlert_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new ViewAlertPage());
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new AboutPage(), false);
         }
     }
 }

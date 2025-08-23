@@ -398,6 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Closed-source content
-Acceed.cs
 Model/Authorization.cs
 Utils/Verify.cs

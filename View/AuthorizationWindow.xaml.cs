@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace Citation.View
 {
@@ -27,9 +28,15 @@ namespace Citation.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AuthorizationWindow()
+        public AuthorizationWindow(bool cSecurity = true)
         {
             InitializeComponent();
+
+            if (!cSecurity)
+            {
+                DisabledOverlay.Visibility = Visibility.Visible;
+                IsEnabled = false;
+            }
 
             Authorization = new Authorization()
             {
@@ -105,6 +112,12 @@ namespace Citation.View
                 mainWindow.ShowToast("授权文件保存成功");
             }
             Close();
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.ShowToast("在部分试用和演示版中，该功能会被禁用");
         }
     }
 }

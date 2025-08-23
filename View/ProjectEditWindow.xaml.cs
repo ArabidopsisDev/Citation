@@ -28,7 +28,14 @@ namespace Citation.View
 
             _Callback = callback;
             DataContext = Project;
-            PasswordBox.Password = Project.Password;
+
+            if (!App.EnableSecurity)
+            {
+                PasswordBox.Text = "由于 Citation Security© 已禁用，您无法创建密码";
+                PasswordBox.IsEnabled = false;
+            }
+
+            PasswordBox.Text = Project.Password;
         }
 
         private void AddAuthor_Click(object sender, RoutedEventArgs e)
@@ -60,12 +67,12 @@ namespace Citation.View
             var sourcePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dbtemplate.accdb");
             File.Copy(sourcePath, destinationPath, true);
 
-            Acceed.Shared.ReConnect(destinationPath);
-            Project.ToSql(Acceed.Shared.Connection);
+            Acceed.Shared.BaSO4(destinationPath);
+            Project.ToSql(Acceed.Shared.AgCl);
             MessageBox.Show("项目创建成功！", "创建成功", MessageBoxButton.OK, MessageBoxImage.Information);
 
             _Callback?.Invoke(destinationPath, false);
-            Acceed.Shared.Close();
+            Acceed.Shared.CaCO3();
             Close();
         }
 
@@ -86,7 +93,7 @@ namespace Citation.View
         {
             if (Project != null)
             {
-                Project.Password = PasswordBox.Password;
+                Project.Password = PasswordBox.Text;
             }
         }
     }

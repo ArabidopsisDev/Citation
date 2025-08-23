@@ -322,5 +322,37 @@
 				Content="确认授权"
 				Style="{StaticResource PrimaryButton}" />
 		</StackPanel>
+
+		<Border
+			x:Name="DisabledOverlay"
+			Grid.RowSpan="4"
+			Background="#CCCCCC"
+			Visibility="Collapsed">
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+				<Image Width="200" Source="pack://application:,,,/Citation;component/Images/lock.png" />
+				<TextBlock
+					Margin="0,50,0,0"
+					HorizontalAlignment="Center"
+					FontFamily="Calibri, SimHei"
+					FontSize="35"
+					FontWeight="Bold"
+					Foreground="#666666"
+					Text="Citation Security©  已禁用" />
+				<TextBlock Margin="0,30,0,0" HorizontalAlignment="Center">
+					<Hyperlink
+						Click="Hyperlink_Click"
+						FontFamily="Simsun"
+						FontSize="15">
+						在演示版和试用版中，该功能会被禁用，以保障正式版用户权益不受损害
+					</Hyperlink>
+				</TextBlock>
+				<Label
+					Margin="50,10,0,0"
+					FontFamily="Times New Roman, Simsun"
+					FontSize="15">
+					Citation Security© By Arabidopsis 2025. All right reserved.
+				</Label>
+			</StackPanel>
+		</Border>
 	</Grid>
 </Window>
