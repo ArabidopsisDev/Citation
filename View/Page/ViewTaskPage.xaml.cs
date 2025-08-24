@@ -106,7 +106,7 @@ namespace Citation.View.Page
 
             try
             {
-                using (var connection = Acceed.Shared.AgCl)
+                using (var connection = Acceed.Shared.Connection)
                 {
                     if (connection.State == System.Data.ConnectionState.Closed)
                     {

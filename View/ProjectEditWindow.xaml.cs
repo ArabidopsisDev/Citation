@@ -11,7 +11,7 @@ namespace Citation.View
     public partial class ProjectEditWindow : Window
     {
         public Project? Project { get; set; }
-        private Action<string, bool>? _Callback = null;
+        private readonly Action<string, bool>? _callback = null;
 
         public ProjectEditWindow(Project? project = null, Action<string, bool>? callback = null)
         {
@@ -26,7 +26,7 @@ namespace Citation.View
                 AesIv = Randomization.RandomSeries()
             };
 
-            _Callback = callback;
+            _callback = callback;
             DataContext = Project;
 
             if (!App.EnableSecurity)
@@ -61,18 +61,20 @@ namespace Citation.View
                 return;
             }
 
+            Project.Password = Cryptography.ComputeHash(Project.Password!);
+
             var destinationPath = Path.Combine(Project.Path, "data.accdb");
             if (!Directory.Exists(Project.Path))
                 Directory.CreateDirectory(Project.Path);
             var sourcePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dbtemplate.accdb");
             File.Copy(sourcePath, destinationPath, true);
 
-            Acceed.Shared.BaSO4(destinationPath);
-            Project.ToSql(Acceed.Shared.AgCl);
+            Acceed.Shared.ReConnect(destinationPath);
+            Project.ToSql(Acceed.Shared.Connection);
             MessageBox.Show("项目创建成功！", "创建成功", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            _Callback?.Invoke(destinationPath, false);
-            Acceed.Shared.CaCO3();
+            _callback?.Invoke(destinationPath, false);
+            Acceed.Shared.Close();
             Close();
         }
 

@@ -10,15 +10,15 @@ namespace Citation.Utils
         private readonly string _key = "hoMo1145HomO1145";
         private readonly string _iv = "oiiaiiooiiaiioai";
 
-        public Cryptography()
+        public Cryptography(string? key = null, string? iv = null)
         {
             var mainWindow = Application.Current.MainWindow as MainWindow;
             if (mainWindow!.Project.AesKey is null ||
                 mainWindow.Project.AesIv is null)
                 return;
 
-            _key = mainWindow.Project.AesKey;
-            _iv = mainWindow.Project.AesIv;
+            _key = key ?? mainWindow.Project.AesKey;
+            _iv = iv ?? mainWindow.Project.AesIv;
         }
 
         internal byte[] Encrypt(string plainText)
@@ -42,6 +42,19 @@ namespace Citation.Utils
             return encrypted;
         }
 
+        internal static string Candor(byte[]? data)
+        {
+            if (data is null || data.Length == 0)
+                return string.Empty;
+
+            return Convert.ToBase64String(data);
+        }
+
+        internal static byte[] Qualitative(string base64String)
+        {
+            return Convert.FromBase64String(base64String.Trim());
+        }
+
         internal string Decrypt(byte[] cipher)
         {
             string plaintext = null;
@@ -60,6 +73,20 @@ namespace Citation.Utils
             plaintext = srDecrypt.ReadToEnd();
 
             return plaintext;
+        }
+
+        public static string ComputeHash(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return string.Empty;
+
+            using var sha256 = SHA256.Create();
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            var builder = new StringBuilder();
+            foreach (var bit in bytes)
+                builder.Append(bit.ToString("x2"));
+            return builder.ToString();
         }
     }
 }

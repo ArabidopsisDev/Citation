@@ -1,14 +1,14 @@
-﻿using Microsoft.Win32;
+﻿using Citation.Model;
+using Microsoft.Win32;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Citation.View
 {
     public partial class VerifyWindow : Window
     {
-        private readonly Func<string, bool, bool> _authorizeCallback;
+        private readonly Func<string, bool, FailedMessage> _authorizeCallback;
 
-        public VerifyWindow(Func<string, bool, bool> callback)
+        public VerifyWindow(Func<string, bool, FailedMessage> callback)
         {
             InitializeComponent();
             _authorizeCallback = callback;
@@ -22,7 +22,8 @@ namespace Citation.View
                 return;
             }
 
-            bool result = _authorizeCallback(PasswordBox.Password, true);
+            var reason = _authorizeCallback(PasswordBox.Password, true);
+            var result = reason.Reason == FailedMessage.FailedReason.Success;
 
             if (result)
             {
@@ -31,7 +32,7 @@ namespace Citation.View
             }
             else
             {
-                StatusText.Text = "授权失败，请检查密码是否正确";
+                StatusText.Text = reason.Message;
                 PasswordBox.Clear();
             }
         }
@@ -57,7 +58,8 @@ namespace Citation.View
                 return;
             }
 
-            var result = _authorizeCallback(FilePathTextBox.Text, false);
+            var reason = _authorizeCallback(FilePathTextBox.Text, false);
+            var result = reason.Reason == FailedMessage.FailedReason.Success;
 
             if (result)
             {
@@ -66,7 +68,7 @@ namespace Citation.View
             }
             else
             {
-                StatusText.Text = "授权文件无效或已损坏";
+                StatusText.Text = reason.Message;
             }
         }
 

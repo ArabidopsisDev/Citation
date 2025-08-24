@@ -54,7 +54,7 @@
 							HorizontalAlignment="Center"
 							FontSize="16"
 							Foreground="Gray"
-							Text="参考文献管理工具" />
+							Text="科研一站式管理工具" />
 					</StackPanel>
 				</StackPanel>
 
@@ -105,7 +105,7 @@
 							Text="致谢" />
 						<TextBlock
 							FontStyle="Italic"
-							Text="感谢您使用Citation软件！您的支持是我们持续改进的动力。如有任何建议或问题，请随时与我们联系。"
+							Text="感谢您使用 Arabidopsis Citation！您的支持是我们持续改进的动力。如有任何建议或问题，请随时与我们联系。"
 							TextWrapping="Wrap" />
 					</StackPanel>
 				</Grid>

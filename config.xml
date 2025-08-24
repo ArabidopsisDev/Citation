@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<config>
+  <DbPassword>default</DbPassword>
+  <EnableSecurity>true</EnableSecurity>
+  <SecurityVersion>v2</SecurityVersion>
+</config>

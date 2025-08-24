@@ -5,7 +5,6 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 
 namespace Citation.View
 {
@@ -87,8 +86,27 @@ namespace Citation.View
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
+            if (Authorization.Password is null)
+            {
+                var window = Application.Current.MainWindow! as MainWindow;
+                window!.ShowToast("身份验证失败，请填写授权密码");
+
+                return;
+            }
+
             var mainWindow = Application.Current.MainWindow as MainWindow;
             if (mainWindow!.Limited) return;
+
+            var keySeries = new Keys
+            {
+                ReEncryptKey = Randomization.RandomSeries(),
+                ReEncryptIv = Randomization.RandomSeries()
+            };
+            Authorization.Keys = keySeries;
+
+            Authorization.Password = Cryptography.Candor(new Cryptography
+                    (keySeries.ReEncryptKey, keySeries.ReEncryptIv)
+                .Encrypt(Authorization.Password));
 
             Authorization.CreateTime = DateTime.Now;
             var saveString = JsonSerializer.Serialize(Authorization);

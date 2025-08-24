@@ -46,10 +46,10 @@ namespace Citation.Model
 
         public void AppendRealtime()
         {
-            ToSql(Acceed.Shared.AgCl);
+            ToSql(Acceed.Shared.Connection);
 
             var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow?._alerts!.Add(this);
+            mainWindow?.Alerts!.Add(this);
         }
 
         public static Alert FromSql(OleDbDataReader reader)

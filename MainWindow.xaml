@@ -168,7 +168,21 @@
 				<MenuItem
 					FontFamily="SimHei"
 					FontSize="18"
+					Header="记录">
+					<MenuItem
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="便签" />
+				</MenuItem>
+				<MenuItem
+					FontFamily="SimHei"
+					FontSize="18"
 					Header="其它">
+					<MenuItem
+						Click="SoftwareSetting_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="软件设置" />
 					<MenuItem
 						Click="GenerateSerial_Click"
 						FontFamily="SimHei"

@@ -22,7 +22,7 @@
                             INSERT into tb_Exception (ExceptionType, ExceptionLevel, ExceptionMsg)
                             VALUES ('{exceptionType}', '{exceptionLevel}', '{exceptionMsg}')
                             """;
-            Acceed.Shared.FeBr(insertString);
+            Acceed.Shared.Execute(insertString);
         }
     }
 }

@@ -46,12 +46,12 @@ namespace Citation.View.Page
             }
 
             var index = FormatComboBox.SelectedIndex;
-            Acceed.Shared.FeBr($"UPDATE tb_Setting SET Formatter = '{Formats[index].FormatName}'");
+            Acceed.Shared.Execute($"UPDATE tb_Setting SET Formatter = '{Formats[index].FormatName}'");
         }
 
         private int BuildIndex()
         {
-            var reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Setting");
+            var reader = Acceed.Shared.Query("SELECT * FROM tb_Setting");
             string formatter = "";
             while (reader.Read())
                 formatter = reader["Formatter"].ToString()!;

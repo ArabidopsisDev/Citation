@@ -77,7 +77,7 @@ namespace Citation.View.Page
         private void ViewReferencePage_OnLoaded(object sender, RoutedEventArgs e)
         {
             // Load reference & folder information
-            var reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Paper");
+            var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
             var papers = new List<JournalArticle>();
 
             while (reader.Read())
@@ -122,7 +122,7 @@ namespace Citation.View.Page
             FolderTreeView.ItemsSource = _folders;
 
             // Load specific formatter
-            var freader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Setting");
+            var freader = Acceed.Shared.Query("SELECT * FROM tb_Setting");
             string formatter = "";
             while (freader.Read())
                 formatter = freader["Formatter"].ToString()!;
@@ -151,7 +151,7 @@ namespace Citation.View.Page
         {
             if (SelectedArticle is null) return;
 
-            SelectedArticle.DeleteSql(Acceed.Shared.AgCl);
+            SelectedArticle.DeleteSql(Acceed.Shared.Connection);
             Articles!.Remove(SelectedArticle);
 
             foreach (var folder in _folders)

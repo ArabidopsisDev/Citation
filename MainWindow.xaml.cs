@@ -44,13 +44,13 @@ namespace Citation
             }
         }
 
-        public ObservableCollection<Alert>? _alerts
+        public ObservableCollection<Alert>? Alerts
         {
             get => field;
             set
             {
                 field = value;
-                OnPropertyChanged(nameof(_alerts));
+                OnPropertyChanged(nameof(Alerts));
             }
         }
 
@@ -96,6 +96,9 @@ namespace Citation
 
         private void LoadProject(string dbPath, bool check = true)
         {
+            if (Project.Name != "尚未打开项目！")
+                CloseProject_Click(this, null!);
+
             var filename = dbPath;
 
             if (check)
@@ -106,22 +109,32 @@ namespace Citation
                     0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E,
                     0x64, 0x61, 0x72, 0x64, 0x20, 0x41, 0x43, 0x45, 0x20, 0x44, 0x42
                 ];
-                using var fs = new FileStream(filename, FileMode.Open);
-                var binaryReader = new BinaryReader(fs);
 
-                if (fileHead.Any(bit => binaryReader.ReadChar() != (char)bit))
+                try
                 {
-                    ShowToast("打开失败：未知项目类型或项目损坏");
-                    return;
-                }
+                    using var fs = new FileStream(filename, FileMode.Open);
+                    var binaryReader = new BinaryReader(fs);
 
-                fs.Close();
+                    if (fileHead.Any(bit => binaryReader.ReadChar() != (char)bit))
+                    {
+                        ShowToast("打开失败：未知项目类型或项目损坏");
+                        return;
+                    }
+                    fs.Close();
+                }
+                catch (IOException)
+                {
+                    ShowToast("加载失败，请关闭其它可能的占用程序后重试");
+
+                    // Release file lock
+                    Unlock.ReleaseFile(filename);
+                }
             }
 
             // Load info from database
             try
             {
-                Acceed.Shared.BaSO4(filename);
+                Acceed.Shared.ReConnect(filename);
             }
             catch (OleDbException)
             {
@@ -131,7 +144,7 @@ namespace Citation
                 return;
             }
 
-            var reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Basic");
+            var reader = Acceed.Shared.Query("SELECT * FROM tb_Basic");
 
             while (reader.Read())
             {
@@ -157,6 +170,7 @@ namespace Citation
                 }
                 else
                 {
+                    CloseProject_Click(this, null!);
                     ShowToast("授权失败或已取消");
 
                     this.Project = new Project
@@ -170,21 +184,21 @@ namespace Citation
             }
 
             // Load alerts
-            reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Alert");
-            _alerts = [];
+            reader = Acceed.Shared.Query("SELECT * FROM tb_Alert");
+            Alerts = [];
 
             while (reader.Read())
-                _alerts.Add(Alert.FromSql(reader));
+                Alerts.Add(Alert.FromSql(reader));
 
             // Set scheduled reminders
             var timer = new System.Timers.Timer(TimeSpan.FromSeconds(1));
             timer.Elapsed += (_, _) =>
             {
-                if (_alerts is null) return;
+                if (Alerts is null) return;
 
-                for (int i = 0; i < _alerts.Count; i++)
+                for (int i = 0; i < Alerts.Count; i++)
                 {
-                    var item = _alerts[i];
+                    var item = Alerts[i];
                     if (item.OccurTime <= DateTime.Now)
                     {
                         Dispatcher.BeginInvoke(() =>
@@ -192,9 +206,9 @@ namespace Citation
                             var alert = new AlertWindow(item);
                             alert.Show();
 
-                            item.DeleteSql(Acceed.Shared.AgCl);
+                            item.DeleteSql(Acceed.Shared.Connection);
                         });
-                        _alerts.Remove(item);
+                        Alerts.Remove(item);
                     }
                 }
             };
@@ -294,7 +308,7 @@ namespace Citation
 
             var exportPage = new ExportPage();
 
-            var reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Paper");
+            var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
             var papers = new List<JournalArticle>();
 
             while (reader.Read())
@@ -384,7 +398,7 @@ namespace Citation
                         journalArticle.Message.AfterWards();
 
                         var insertCommand = journalArticle.ToSql();
-                        Acceed.Shared.FeBr(insertCommand);
+                        Acceed.Shared.Execute(insertCommand);
                         ShowToast($"[{journalArticle!.Message!.Title![0]}] 获取成功");
                     }
                     catch (Exception ex)
@@ -407,13 +421,20 @@ namespace Citation
             }
 
             // Clear back entry
-            while (MainFrame.CanGoForward)
-                MainFrame.GoForward();
-            MainFrame.RemoveBackEntry();
+            try
+            {
+                while (MainFrame.CanGoForward)
+                    MainFrame.GoForward();
+                MainFrame.RemoveBackEntry();
+            }
+            catch
+            {
+                // ignored
+            }
 
             // Clear project buffer
-            Acceed.Shared.CaCO3();
-            _alerts = null;
+            Acceed.Shared.Close();
+            Alerts = null;
             Project = new Project
             {
                 Name = "尚未打开项目！",
@@ -446,7 +467,7 @@ namespace Citation
             }
 
             // Find today's tasks
-            var reader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Task");
+            var reader = Acceed.Shared.Query("SELECT * FROM tb_Task");
             var tasks = new List<Citation.Model.Task>();
             while (reader.Read())
                 tasks.Add(Task.FromSql(reader)!);
@@ -486,12 +507,12 @@ namespace Citation
 
         internal void RemoveAlert(string title, DateTime alertTime)
         {
-            for (int i = 0; i < _alerts.Count; i++)
+            for (int i = 0; i < Alerts.Count; i++)
             {
-                if (_alerts[i].Title == title && _alerts[i].OccurTime == alertTime)
+                if (Alerts[i].Title == title && Alerts[i].OccurTime == alertTime)
                 {
-                    _alerts[i].DeleteSql(Acceed.Shared.AgCl);
-                    _alerts.RemoveAt(i);
+                    Alerts[i].DeleteSql(Acceed.Shared.Connection);
+                    Alerts.RemoveAt(i);
                 }
             }
         }
@@ -514,13 +535,13 @@ namespace Citation
             authorizationWindow.Show();
         }
 
-        private bool Authorize(string passwordOrFile, bool usePassword)
+        private FailedMessage Authorize(string passwordOrFile, bool usePassword)
         {
             if (usePassword)
             {
-                var byteArray = Encoding.UTF8.GetBytes(passwordOrFile);
                 Limited = false;
-                return Verify.ConfirmByPassword(Convert.ToBase64String(byteArray));
+                return Verify.ConfirmByPassword(
+                    Cryptography.ComputeHash(passwordOrFile));
             }
 
             Limited = true;
@@ -574,6 +595,11 @@ namespace Citation
         private void About_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new AboutPage(), false);
+        }
+
+        private void SoftwareSetting_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new SoftwareSettingPage(), false);
         }
     }
 }

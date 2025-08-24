@@ -68,7 +68,7 @@ namespace Citation.View.Page
 
             // Load specific formatter
             IFormatter? _formatter = null;
-            var freader = Acceed.Shared.ZnNO3("SELECT * FROM tb_Setting");
+            var freader = Acceed.Shared.Query("SELECT * FROM tb_Setting");
             string formatter = "";
             while (freader.Read())
                 formatter = freader["Formatter"].ToString()!;

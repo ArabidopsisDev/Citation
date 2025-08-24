@@ -23,7 +23,7 @@ namespace Citation.View.Page
         {
             // Damn! I can actually write like this
             _mainWindow = Application.Current.MainWindow as MainWindow;
-            DataContext = _mainWindow?._alerts;
+            DataContext = _mainWindow?.Alerts;
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -47,14 +47,13 @@ namespace Citation.View.Page
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var alertToDelete = button?.Tag as Alert;
 
-            if (alertToDelete != null && _mainWindow != null)
+            if (button?.Tag is Alert alertToDelete)
             {
                 try
                 {
-                    alertToDelete.DeleteSql(Acceed.Shared.AgCl);
-                    _mainWindow._alerts!.Remove(alertToDelete);
+                    alertToDelete.DeleteSql(Acceed.Shared.Connection);
+                    _mainWindow.Alerts!.Remove(alertToDelete);
                     _mainWindow.ShowToast("提醒已删除");
                 }
                 catch (Exception ex)
@@ -94,18 +93,18 @@ namespace Citation.View.Page
                         TitleTextBox.Text,
                         DescriptionTextBox.Text);
 
-                    newAlert.ToSql(Acceed.Shared.AgCl);
-                    _mainWindow._alerts!.Add(newAlert);
+                    newAlert.ToSql(Acceed.Shared.Connection);
+                    _mainWindow.Alerts!.Add(newAlert);
                 }
                 else if (_currentAlert != null)
                 {
-                    _currentAlert.DeleteSql(Acceed.Shared.AgCl);
+                    _currentAlert.DeleteSql(Acceed.Shared.Connection);
 
                     _currentAlert.Title = TitleTextBox.Text;
                     _currentAlert.Description = DescriptionTextBox.Text;
                     _currentAlert.OccurTime = occurTime;
 
-                    _currentAlert.ToSql(Acceed.Shared.AgCl);
+                    _currentAlert.ToSql(Acceed.Shared.Connection);
                 }
 
                 _mainWindow.ShowToast("保存成功");
