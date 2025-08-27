@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Xml.Serialization;
 
 namespace Citation.Model
@@ -7,13 +8,17 @@ namespace Citation.Model
     [XmlRoot("config")]
     public class Config : INotifyPropertyChanged
     {
+
         public string DbPassword
         {
             get;
             set
             {
-                field = value;
-                OnPropertyChanged(nameof(DbPassword));
+                if (field != value)
+                {
+                    field = value;
+                    OnPropertyChanged(nameof(DbPassword));
+                }
             }
         }
 
@@ -22,8 +27,11 @@ namespace Citation.Model
             get;
             set
             {
-                field = value;
-                OnPropertyChanged(nameof(EnableSecurity));
+                if (field != value)
+                {
+                    field = value;
+                    OnPropertyChanged(nameof(EnableSecurity));
+                }
             }
         }
 
@@ -32,13 +40,28 @@ namespace Citation.Model
             get;
             set
             {
-                field = value;
-                OnPropertyChanged(nameof(SecurityVersion));
+                if (field != value)
+                {
+                    field = value;
+                    OnPropertyChanged(nameof(SecurityVersion));
+                }
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void SaveToFile(string filePath = "config.xml")
+        {
+            var serializer = new XmlSerializer(typeof(Config));
+            using (var writer = new StreamWriter(filePath))
+            {
+                serializer.Serialize(writer, this);
+            }
+        }
     }
 }

@@ -400,3 +400,5 @@ FodyWeavers.xsd
 # Closed-source content
 Model/Authorization.cs
 Utils/Verify.cs
+Utils/Cryptography.cs
+Acceed.cs

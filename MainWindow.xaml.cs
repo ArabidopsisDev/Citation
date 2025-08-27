@@ -10,13 +10,13 @@ using System.IO;
 using System.IO.Compression;
 using System.Media;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using System.Xml.Serialization;
 using Task = Citation.Model.Task;
 
 namespace Citation
@@ -28,6 +28,8 @@ namespace Citation
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         internal bool Limited = false;
+        internal Config Config;
+        internal string verify = "";
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -70,6 +72,10 @@ namespace Citation
         {
             NavigateWithSlideAnimation(new Citation.View.Page.WelcomePage(), false);
             DataContext = Project;
+
+            var serializer = new XmlSerializer(typeof(Config));
+            using (var reader = new StreamReader("config.xml"))
+                Config = (Config)serializer.Deserialize(reader)!;
 
             MainFrame.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
         }
@@ -161,14 +167,17 @@ namespace Citation
             if (!string.IsNullOrEmpty(Project.Password))
             {
                 // Start verify process
-                var authWindow = new VerifyWindow(Authorize);
+                VerifyWindow authWindow = new VerifyWindow(Authorize);
+                if (Config.SecurityVersion == "CryptoDB")
+                    authWindow = new VerifyWindow(Crypto);
+
                 var result = authWindow.ShowDialog();
 
                 if (result == true)
                 {
                     ShowToast("授权验证成功");
                 }
-                else
+                else if (Config.SecurityVersion == "AntiJump")
                 {
                     CloseProject_Click(this, null!);
                     ShowToast("授权失败或已取消");
@@ -181,6 +190,7 @@ namespace Citation
                     };
                     return;
                 }
+
             }
 
             // Load alerts
@@ -193,25 +203,25 @@ namespace Citation
             // Set scheduled reminders
             var timer = new System.Timers.Timer(TimeSpan.FromSeconds(1));
             timer.Elapsed += (_, _) =>
-            {
-                if (Alerts is null) return;
-
-                for (int i = 0; i < Alerts.Count; i++)
                 {
-                    var item = Alerts[i];
-                    if (item.OccurTime <= DateTime.Now)
-                    {
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            var alert = new AlertWindow(item);
-                            alert.Show();
+                    if (Alerts is null) return;
 
-                            item.DeleteSql(Acceed.Shared.Connection);
-                        });
-                        Alerts.Remove(item);
+                    for (int i = 0; i<Alerts.Count; i++)
+                    {
+                        var item = Alerts[i];
+                        if (item.OccurTime <= DateTime.Now)
+                        {
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                var alert = new AlertWindow(item);
+                                alert.Show();
+
+                                item.DeleteSql(Acceed.Shared.Connection);
+                            });
+                            Alerts.Remove(item);
+                        }
                     }
-                }
-            };
+                };
 
             timer.Start();
         }
@@ -540,12 +550,29 @@ namespace Citation
             if (usePassword)
             {
                 Limited = false;
-                return Verify.ConfirmByPassword(
-                    Cryptography.ComputeHash(passwordOrFile));
+                return Verify.ConfirmByPassword(passwordOrFile);
             }
 
             Limited = true;
             return Verify.ConfirmByFile(passwordOrFile);
+        }
+
+        private FailedMessage Crypto(string passwordOrFile, bool usePassword)
+        {
+            FailedMessage result;
+            if (usePassword)
+            {
+                Limited = false;
+                result = Verify.ConfirmByPassword(passwordOrFile, true);
+                goto end;
+            }
+
+            Limited = true;
+            result =  Verify.ConfirmByFile(passwordOrFile, true);
+
+        end:
+            verify = Cryptography.ComputeMd5(result.Password);
+            return result;
         }
 
         private void GenerateSerial_Click(object sender, RoutedEventArgs e)
@@ -600,6 +627,11 @@ namespace Citation
         private void SoftwareSetting_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new SoftwareSettingPage(), false);
+        }
+
+        private void AddNote_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new AddNotePage());
         }
     }
 }

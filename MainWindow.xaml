@@ -170,6 +170,7 @@
 					FontSize="18"
 					Header="记录">
 					<MenuItem
+						Click="AddNote_Click"
 						FontFamily="SimHei"
 						FontSize="15"
 						Header="便签" />

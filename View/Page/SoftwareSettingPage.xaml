@@ -34,6 +34,18 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<Style x:Key="SaveButtonStyle" TargetType="Button">
+			<Setter Property="Background" Value="#1A5E20" />
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="Padding" Value="8,4" />
+			<Setter Property="FontWeight" Value="SemiBold" />
+			<Setter Property="FontSize" Value="15" />
+			<Setter Property="Margin" Value="0,20,0,0" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Cursor" Value="Hand" />
+			<Setter Property="HorizontalAlignment" Value="Right" />
+			<Setter Property="Width" Value="120" />
+		</Style>
 	</UserControl.Resources>
 
 	<ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -109,7 +121,7 @@
 							Grid.Column="0"
 							Margin="0,0,10,0"
 							VerticalAlignment="Center"
-							Text="安全防护版本：" />
+							Text="安全防护算法：" />
 
 						<ComboBox
 							Grid.Column="1"
@@ -117,9 +129,9 @@
 							SelectedIndex="0"
 							SelectedValue="{Binding Config.SecurityVersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 							SelectedValuePath="Content">
-							<ComboBoxItem Content="v1" />
-							<ComboBoxItem Content="v2" />
-							<ComboBoxItem Content="v3" />
+							<ComboBoxItem Content="AntiJump" />
+							<ComboBoxItem Content="CryptoDB" />
+							<ComboBoxItem Content="v3（待开发）" />
 						</ComboBox>
 					</Grid>
 
@@ -140,6 +152,12 @@
 						Text="更多软件设置将在后续版本中提供..." />
 				</StackPanel>
 			</Border>
+
+			<Button
+				x:Name="SaveButton"
+				Click="SaveButton_Click"
+				Content="保存设置"
+				Style="{StaticResource SaveButtonStyle}" />
 		</StackPanel>
 	</ScrollViewer>
 </UserControl>

@@ -3,5 +3,5 @@
 <config>
   <DbPassword>default</DbPassword>
   <EnableSecurity>true</EnableSecurity>
-  <SecurityVersion>v2</SecurityVersion>
+  <SecurityVersion>CryptoDB</SecurityVersion>
 </config>

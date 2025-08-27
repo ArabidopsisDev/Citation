@@ -1,4 +1,6 @@
-﻿using System.Data.OleDb;
+﻿using Citation.Utils;
+using System.Data.OleDb;
+using System.Windows;
 
 namespace Citation.Model
 {
@@ -8,6 +10,8 @@ namespace Citation.Model
     /// </summary>
     public class Task : IDbContext<Task>
     {
+        public Task() { }
+
         public Task(string name, string description, DateTime startTime, DateTime endTime, bool startRemind, bool endRemind)
         {
             Name = name;
@@ -31,6 +35,11 @@ namespace Citation.Model
             var startString = StartTime.ToString("yyyy/M/dd HH:mm:ss");
             var endString = EndTime.ToString("yyyy/M/dd HH:mm:ss");
 
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var password = mainWindow!.verify;
+            startString = Cryptography.EncryptData(password, startString);
+            endString = Cryptography.EncryptData(password, endString);
+
             var sqlCommand = $"""
                 INSERT INTO tb_Task (TaskName, TaskDescription,
                 TaskStart, TaskEnd, TaskStartRemind, TaskEndRemind)
@@ -38,9 +47,10 @@ namespace Citation.Model
                 """;
 
             var command = new OleDbCommand(sqlCommand, connection);
+            var encrypt = Cryptography.EncryptObject(password, this);
 
-            command.Parameters.AddWithValue("?", Name);
-            command.Parameters.AddWithValue("?", Description);
+            command.Parameters.AddWithValue("?", encrypt.Name);
+            command.Parameters.AddWithValue("?", encrypt.Description);
             command.Parameters.AddWithValue("?", startString);
             command.Parameters.AddWithValue("?", endString);
             command.Parameters.AddWithValue("?", StartRemind ? "Yes" : "No");
@@ -54,20 +64,43 @@ namespace Citation.Model
             if (reader["TaskStart"].ToString() is null || reader["TaskEnd"].ToString() is null)
                 return null;
 
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var password = mainWindow!.verify;
+
             var name = reader["TaskName"].ToString();
             var description = reader["TaskDescription"].ToString();
-            var startTime = DateTime.Parse(reader["TaskStart"].ToString()!);
-            var endTime = DateTime.Parse(reader["TaskEnd"].ToString()!);
+
+            var startTime = new DateTime(
+                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 
+                Random.Shared.Next(0,12), Random.Shared.Next(0, 60), 
+                Random.Shared.Next(0, 60));
+            var endTime = new DateTime(
+                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                Random.Shared.Next(12, 24), Random.Shared.Next(0, 60),
+                Random.Shared.Next(0, 60));
+
+            try
+            {
+                startTime = DateTime.Parse(
+                   Cryptography.DecryptData(password, reader["TaskStart"].ToString()!));
+                endTime = DateTime.Parse(
+                   Cryptography.DecryptData(password, reader["TaskEnd"].ToString()!));
+            }
+            catch (System.FormatException)
+            {
+                // ignored
+            }
+
             var startRemind = (reader["TaskStartRemind"].ToString() == "Yes");
             var endRemind = (reader["TaskEndRemind"].ToString() == "Yes");
 
             // Ciallo～(∠・ω< )⌒★
             name ??= string.Empty;
             description ??= string.Empty;
-            return new Citation.Model.Task(name, description, startTime, endTime,
+            var model = new Citation.Model.Task(name, description, startTime, endTime,
                 startRemind, endRemind);
+            return Cryptography.DecryptObject(mainWindow.verify!, model);
         }
-        // Damn, why is there a missing bracket here?
 
         public void DeleteSql(OleDbConnection connection)
         {
@@ -80,9 +113,11 @@ namespace Citation.Model
                 """;
 
             var command = new OleDbCommand(sqlCommand, connection);
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var password = mainWindow!.verify;
 
-            command.Parameters.AddWithValue("?", Name);
-            command.Parameters.AddWithValue("?", startString);
+            command.Parameters.AddWithValue("?", Cryptography.EncryptData(password, Name));
+            command.Parameters.AddWithValue("?", Cryptography.EncryptData(password, startString));
             command.ExecuteNonQuery();
         }
     }

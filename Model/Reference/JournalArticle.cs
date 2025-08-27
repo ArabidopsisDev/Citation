@@ -1,5 +1,8 @@
-﻿using System.Data.OleDb;
+﻿using Citation.Utils;
+using System.Data.OleDb;
+using System.Reflection;
 using System.Text.Json.Serialization;
+using System.Windows;
 using System.Xml.Linq;
 
 namespace Citation.Model.Reference
@@ -37,14 +40,25 @@ namespace Citation.Model.Reference
             publicationTime = publicationTime.TrimEnd('/');
 
             // Oh my god, this code is of poor quality
+
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var password = mainWindow!.verify;
+
+            var encrypt = Cryptography.EncryptObject(password, this.Message);
+            containers = Cryptography.EncryptData(password, containers!);
+            titles = Cryptography.EncryptData(password, titles!);
+            authors = Cryptography.EncryptData(password, authors!);
+            link = Cryptography.EncryptData(password, link);
+            publicationTime = Cryptography.EncryptData(password, publicationTime);
+
             var sqlString = $"""
                              INSERT INTO tb_Paper(PaperIssue, PaperContainer, PaperAbstract, 
                              PaperDoi, PaperPage, PaperTitle, PaperVolume, PaperAuthor, 
                              PaperLink, PaperUrl, PaperPublished, PaperFolder)
-                             VALUES ('{Message.Issue}', '{containers}', '{Message.Abstract}', 
-                             '{Message.Doi}', '{Message.Page}', '{titles}', '{Message.Volume}',
-                             '{authors}', '{link}', '{Message.Url}', '{publicationTime}', 
-                             '{Message.Folder}')
+                             VALUES ('{encrypt.Issue}', '{containers}', '{encrypt.Abstract}', 
+                             '{encrypt.Doi}', '{encrypt.Page}', '{titles}', '{encrypt.Volume}',
+                             '{authors}', '{link}', '{encrypt.Url}', '{publicationTime}', 
+                             '{encrypt.Folder}')
                              """;
             return sqlString;
         }
@@ -57,9 +71,12 @@ namespace Citation.Model.Reference
                               """;
 
             var command = new OleDbCommand(sqlCommand, connection);
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var password = mainWindow!.verify;
 
             if (Message is null) return;
-            command.Parameters.AddWithValue("?", Message.Url);
+            command.Parameters.AddWithValue("?",
+                Cryptography.EncryptData(password!, Message.Url!));
             command.ExecuteNonQuery();
         }
 
@@ -67,14 +84,22 @@ namespace Citation.Model.Reference
         {
             var author = db.Author.ToArray();
             Link[] link = [new Link() { Url = db.Link }];
+            var published = new Published();
 
-            var published = new Published()
+            try
             {
-                DateParts = [[.. db.Published.Split('/')
+                published = new Published()
+                {
+                    DateParts = [[.. db.Published.Split('/')
                     .Select(int.Parse)
                     .ToArray()
-                ]]
-            };
+                    ]]
+                };
+            }
+            catch
+            {
+                // ignored
+            }
 
             var message = new Message()
             {
@@ -143,7 +168,7 @@ namespace Citation.Model.Reference
 
         public void AfterWards()
         {
-            Abstract ??= "Unable to get abstract.";
+            Abstract ??= $"Unable to get abstract {Url}.";
 
             switch (Author?.Length)
             {
@@ -184,7 +209,7 @@ namespace Citation.Model.Reference
 
         public override string ToString()
         {
-            return $"{Family} {Given}" ;
+            return $"{Family} {Given}";
         }
 
         public static Author ConvertBack(string name)
@@ -193,13 +218,25 @@ namespace Citation.Model.Reference
 
             // Reconstructed the previously unscalable stupid logic
             var nameArray = name.Split(' ');
-            var author = new Author()
-            {
-                Family = nameArray[0],
-                Given = nameArray[1]
-            };
 
-            return author;
+            try
+            {
+                var author = new Author()
+                {
+                    Family = nameArray[0],
+                    Given = nameArray[1]
+                };
+
+                return author;
+            }
+            catch
+            {
+                return new Author()
+                {
+                    Family = Randomization.RandomChinese(),
+                    Given = Randomization.RandomChinese()
+                };
+            }
         }
     }
 
@@ -232,6 +269,19 @@ namespace Citation.Model.Reference
 
         public void Afterward()
         {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var decrypt = Cryptography.DecryptObject(mainWindow!.verify, this);
+
+            // Reflection is a good way to copy properties
+            foreach (var prop in typeof(JournalArticleDb).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (prop.CanRead && prop.CanWrite)
+                {
+                    var value = prop.GetValue(decrypt, null);
+                    prop.SetValue(this, value, null);
+                }
+            }
+
             Container = [.. ContainerString.Split('/').Where(x => x != "")];
             Title = [.. TitleString.Split('/').Where(x => x != "")];
 
@@ -239,7 +289,7 @@ namespace Citation.Model.Reference
             foreach (var item in AuthorString.Split('/'))
             {
                 if (item != string.Empty)
-                Author.Add(Model.Reference.Author.ConvertBack(item));
+                    Author.Add(Model.Reference.Author.ConvertBack(item));
             }
         }
     }

@@ -1,12 +1,21 @@
-﻿using System.ComponentModel;
+﻿using Citation.Utils;
+using System.ComponentModel;
 using System.Data.OleDb;
 using System.Windows;
 
 namespace Citation.Model
 {
-    public class Alert(DateTime occurTime, string? title, string? description)
-        : IDbContext<Alert>, INotifyPropertyChanged
+    public class Alert : IDbContext<Alert>, INotifyPropertyChanged
     {
+        public Alert() { }
+
+        public Alert(DateTime occurTime, string? title, string? description)
+        {
+            OccurTime = occurTime;
+            Title = title;
+            Description = description;
+        }
+
         public DateTime OccurTime
         {
             get;
@@ -15,7 +24,7 @@ namespace Citation.Model
                 field = value;
                 OnPropertyChanged(nameof(OccurTime));
             }
-        } = occurTime;
+        }
 
         public string? Title
         {
@@ -25,7 +34,7 @@ namespace Citation.Model
                 field = value;
                 OnPropertyChanged(nameof(Title));
             }
-        } = title;
+        }
 
         public string? Description
         {
@@ -35,7 +44,7 @@ namespace Citation.Model
                 field = value;
                 OnPropertyChanged(nameof(Description));
             }
-        } = description;
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -54,12 +63,25 @@ namespace Citation.Model
 
         public static Alert FromSql(OleDbDataReader reader)
         {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
             var title = reader["AlertTitle"].ToString();
             var description = reader["AlertDescription"].ToString();
-            var time = DateTime.Parse(reader["AlertTime"].ToString()!);
+
+            var time = DateTime.MaxValue;
+            try
+            {
+                time = DateTime.Parse(Cryptography.DecryptData(
+                   mainWindow!.verify,
+                   reader["AlertTime"].ToString()!));
+            }
+            catch (System.FormatException)
+            {
+                // ignored
+            }
 
             var instance = new Alert(time, title, description);
-            return instance;
+            return Cryptography.DecryptObject(mainWindow!.verify, instance);
         }
 
         public void ToSql(OleDbConnection connection)
@@ -70,10 +92,14 @@ namespace Citation.Model
                 VALUES (?, ?, ?)
                 """;
 
+            var mainWindow = Application.Current.MainWindow as MainWindow;
             var command = new OleDbCommand(sqlCommand, connection);
-            command.Parameters.AddWithValue("?", Title);
-            command.Parameters.AddWithValue("?", Description);
-            command.Parameters.AddWithValue("?", timeString);
+            var encrypt = Cryptography.EncryptObject(mainWindow!.verify, this);
+
+            command.Parameters.AddWithValue("?", encrypt.Title);
+            command.Parameters.AddWithValue("?", encrypt.Description);
+            command.Parameters.AddWithValue("?",
+                Cryptography.EncryptData(mainWindow!.verify, timeString));
 
             command.ExecuteNonQuery();
         }
@@ -86,8 +112,11 @@ namespace Citation.Model
                 """;
 
             var command = new OleDbCommand(sqlCommand, connection);
-            command.Parameters.AddWithValue("?", Title);
-            command.Parameters.AddWithValue("?", Description);
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var password = mainWindow!.verify;
+
+            command.Parameters.AddWithValue("?", Cryptography.EncryptData(password!, Title!));
+            command.Parameters.AddWithValue("?", Cryptography.EncryptData(password!,Description!));
 
             command.ExecuteNonQuery();
         }

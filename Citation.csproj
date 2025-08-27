@@ -55,6 +55,9 @@
     <None Remove="dbtemplate.accdb" />
     <None Remove="Images\alert.mp3" />
     <None Remove="Images\alert.wav" />
+    <None Remove="Images\align-center.png" />
+    <None Remove="Images\align-left.png" />
+    <None Remove="Images\align-right.png" />
     <None Remove="Images\article.png" />
     <None Remove="Images\citation.png" />
     <None Remove="Images\folder.png" />
@@ -79,6 +82,9 @@
     </Content>
     <Content Include="logo.ico" />
     <Resource Include="Images\alert.wav" />
+    <Resource Include="Images\align-center.png" />
+    <Resource Include="Images\align-left.png" />
+    <Resource Include="Images\align-right.png" />
     <Resource Include="Images\article.png" />
     <Resource Include="Images\lock.png" />
     <Resource Include="Images\logo.png" />
