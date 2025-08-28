@@ -170,10 +170,35 @@
 					FontSize="18"
 					Header="记录">
 					<MenuItem
-						Click="AddNote_Click"
 						FontFamily="SimHei"
 						FontSize="15"
-						Header="便签" />
+						Header="便签">
+						<MenuItem
+							Click="AddNote_Click"
+							FontFamily="SimHei"
+							FontSize="15"
+							Header="快速新建" />
+						<MenuItem
+							Click="ViewNote_Click"
+							FontFamily="SimHei"
+							FontSize="15"
+							Header="查看便签" />
+					</MenuItem>
+					<MenuItem
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="实验">
+						<MenuItem
+							Click="AddInstrument_Click"
+							FontFamily="SimHei"
+							FontSize="15"
+							Header="添加仪器" />
+						<MenuItem
+							Click="ViewInstrument_Click"
+							FontFamily="SimHei"
+							FontSize="15"
+							Header="管理仪器" />
+					</MenuItem>
 				</MenuItem>
 				<MenuItem
 					FontFamily="SimHei"
@@ -209,7 +234,7 @@
 						FontFamily="Consolas"
 						FontSize="26"
 						Foreground="White">
-						Welcome To Citation! (Version  Dev_tfa1075s)
+						Welcome To Citation! (Version  Dev_tfa1086a)
 					</TextBlock>
 				</StackPanel>
 			</Border>

@@ -1,4 +1,5 @@
 ﻿using Citation.Model;
+using Citation.Model.Preserve;
 using Citation.Model.Reference;
 using Citation.Utils;
 using Citation.View;
@@ -632,6 +633,21 @@ namespace Citation
         private void AddNote_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new AddNotePage());
+        }
+
+        private void ViewNote_Click(object sender,RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new ViewNotePage());
+        }
+
+        private void AddInstrument_Click(object sender,RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new AddInstrumentPage());
+        }
+
+        private void ViewInstrument_Click(object sender,RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new ViewInstrumentPage());
         }
     }
 }

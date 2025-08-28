@@ -16,7 +16,9 @@ namespace Citation.Model
         }
 
         public string Title { get; set; }
+
         public string RichText { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         public void ToSql(OleDbConnection connection)

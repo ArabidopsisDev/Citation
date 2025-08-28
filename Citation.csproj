@@ -62,6 +62,7 @@
     <None Remove="Images\citation.png" />
     <None Remove="Images\folder.png" />
     <None Remove="Images\lock.png" />
+    <None Remove="Images\microscope.png" />
     <None Remove="Images\misc.wav" />
     <None Remove="Images\pjm.png" />
     <None Remove="Images\warning.png" />
@@ -90,6 +91,7 @@
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\citation.png" />
     <Resource Include="Images\folder.png" />
+    <Resource Include="Images\microscope.png" />
     <Resource Include="Images\misc.wav" />
     <Resource Include="Images\pjm.png" />
     <Resource Include="Images\warning.png" />

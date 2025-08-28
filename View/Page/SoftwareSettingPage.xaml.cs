@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using Citation.Model.Preserve;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
-using Citation.Model;
 
 namespace Citation.View.Page
 {

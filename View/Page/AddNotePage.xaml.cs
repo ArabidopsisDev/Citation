@@ -5,14 +5,25 @@ using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Citation.Utils;
+using System.Text;
 
 namespace Citation.View.Page
 {
     public partial class AddNotePage : UserControl
     {
-        public AddNotePage()
+        Note? prevNote;
+
+        public AddNotePage(Note? note = null)
         {
             InitializeComponent();
+            
+            prevNote = note;
+            if (note is not null)
+            {
+                LoadFromRtf(NoteEditor, note.RichText);
+                NoteTitleBox.Text = note.Title;
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -30,7 +41,10 @@ namespace Citation.View.Page
             var now = DateTime.Now;
             var note = new Note(title, rtf, now);
 
+            if (prevNote is not null)
+                prevNote.DeleteSql(Acceed.Shared.Connection);
             note.ToSql(Acceed.Shared.Connection);
+            prevNote = note;
             mainWindow!.ShowToast("便签保存成功");
         }
 
@@ -85,6 +99,17 @@ namespace Citation.View.Page
                 {
                     NoteEditor.Selection.ApplyPropertyValue(TextElement.FontSizeProperty, size);
                 }
+            }
+        }
+
+        public void LoadFromRtf(RichTextBox richTextBox, string rtfContent)
+        {
+            if (string.IsNullOrEmpty(rtfContent)) return;
+
+            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(rtfContent)))
+            {
+                var textRange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+                textRange.Load(stream, DataFormats.Rtf);
             }
         }
     }
