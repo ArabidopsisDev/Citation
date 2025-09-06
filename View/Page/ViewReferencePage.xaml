@@ -276,8 +276,6 @@
 								IsReadOnly="True"
 								Text="{Binding SelectedArticle.Message.Abstract}"
 								TextWrapping="Wrap" />
-
-
 							<TextBlock
 								Margin="0,5,0,2"
 								FontWeight="Bold"

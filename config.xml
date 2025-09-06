@@ -4,4 +4,6 @@
   <DbPassword>default</DbPassword>
   <EnableSecurity>true</EnableSecurity>
   <SecurityVersion>CryptoDB</SecurityVersion>
+
+  <ReadLicense>false</ReadLicense>
 </config>

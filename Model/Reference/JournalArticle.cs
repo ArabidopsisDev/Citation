@@ -233,8 +233,8 @@ namespace Citation.Model.Reference
             {
                 return new Author()
                 {
-                    Family = Randomization.RandomChinese(),
-                    Given = Randomization.RandomChinese()
+                    Family = Randomization.RandomBuddha(),
+                    Given = Randomization.RandomBuddha()
                 };
             }
         }
@@ -249,6 +249,9 @@ namespace Citation.Model.Reference
         public string? ContentType { get; set; }
     }
 
+    /// <summary>
+    /// Article database structure
+    /// </summary>
     public class JournalArticleDb
     {
         public string Issue { get; set; }
@@ -265,6 +268,10 @@ namespace Citation.Model.Reference
         public string Link { get; set; }
         public string Url { get; set; }
         public string Published { get; set; }
+
+        /// <summary>
+        /// (for sub-topics) Indicates which subtopic the article belongs to
+        /// </summary>
         public string Folder { get; set; }
 
         public void Afterward()

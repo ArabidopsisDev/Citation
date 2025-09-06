@@ -4,6 +4,7 @@ using Citation.Model.Reference;
 using Citation.Utils;
 using Citation.View;
 using Citation.View.Page;
+using Citation.View.Statement;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.OleDb;
@@ -79,6 +80,13 @@ namespace Citation
                 Config = (Config)serializer.Deserialize(reader)!;
 
             MainFrame.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
+            if (!Config.ReadLicense)
+            {
+                var license = new LicenseWindow();
+                var result = license.ShowDialog();
+
+                if (result != true) Environment.Exit(0);
+            }
         }
 
         private void NewProject_Click(object sender, RoutedEventArgs e)
@@ -565,13 +573,13 @@ namespace Citation
             {
                 Limited = false;
                 result = Verify.ConfirmByPassword(passwordOrFile, true);
-                goto end;
+            }
+            else
+            {
+                Limited = true;
+                result =  Verify.ConfirmByFile(passwordOrFile, true);
             }
 
-            Limited = true;
-            result =  Verify.ConfirmByFile(passwordOrFile, true);
-
-        end:
             verify = Cryptography.ComputeMd5(result.Password);
             return result;
         }
@@ -635,19 +643,24 @@ namespace Citation
             NavigateWithSlideAnimation(new AddNotePage());
         }
 
-        private void ViewNote_Click(object sender,RoutedEventArgs e)
+        private void ViewNote_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new ViewNotePage());
         }
 
-        private void AddInstrument_Click(object sender,RoutedEventArgs e)
+        private void AddInstrument_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new AddInstrumentPage());
         }
 
-        private void ViewInstrument_Click(object sender,RoutedEventArgs e)
+        private void ViewInstrument_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new ViewInstrumentPage());
+        }
+
+        private void ViewTimeline_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new ViewTimelinePage());
         }
     }
 }

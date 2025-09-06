@@ -125,6 +125,11 @@
 						FontSize="15"
 						Header="查看引用" />
 					<MenuItem
+						Click="ViewTimeline_Click"
+						FontFamily="SimHei"
+						FontSize="15"
+						Header="查看时间线" />
+					<MenuItem
 						Click="ImportCitation_Click"
 						FontFamily="SimHei"
 						FontSize="15"
@@ -187,7 +192,7 @@
 					<MenuItem
 						FontFamily="SimHei"
 						FontSize="15"
-						Header="实验">
+						Header="设备">
 						<MenuItem
 							Click="AddInstrument_Click"
 							FontFamily="SimHei"
@@ -234,7 +239,7 @@
 						FontFamily="Consolas"
 						FontSize="26"
 						Foreground="White">
-						Welcome To Citation! (Version  Dev_tfa1086a)
+						Welcome To Citation! (Version  Dev_tfs1090s)
 					</TextBlock>
 				</StackPanel>
 			</Border>

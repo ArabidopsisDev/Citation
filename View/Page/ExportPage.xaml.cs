@@ -1,16 +1,15 @@
-﻿using Citation.View.Controls;
+﻿using Citation.Model;
+using Citation.Model.Reference;
+using Citation.Utils;
+using Citation.View.Controls;
 using System.Collections;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Citation.Model.Format;
-using Citation.Model.Reference;
-using Citation.Utils;
-using System.Reflection;
-using Citation.Model;
 
 namespace Citation.View.Page
 {
@@ -32,7 +31,7 @@ namespace Citation.View.Page
 
         private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var item = FindVisualParent<ArticleItem>(e.OriginalSource as DependencyObject);
+            var item = FindVisualParent<ArticleItem>((DependencyObject)e.OriginalSource);
             _draggedItem = item.DataContext;
             _draggedIndex = ArticlesContainer.Items.IndexOf(_draggedItem);
             DragDrop.DoDragDrop(item, _draggedItem, DragDropEffects.Move);
@@ -42,7 +41,7 @@ namespace Citation.View.Page
         {
             if (_draggedItem == null) return;
 
-            var targetItem = FindVisualParent<ArticleItem>(e.OriginalSource as DependencyObject);
+            var targetItem = FindVisualParent<ArticleItem>((DependencyObject)e.OriginalSource);
             if (targetItem == null || targetItem.DataContext == _draggedItem) return;
 
             if (ArticlesContainer.ItemsSource is not IList items) return;
@@ -58,7 +57,7 @@ namespace Citation.View.Page
         {
             while (child != null && child is not T)
                 child = VisualTreeHelper.GetParent(child);
-            return child as T;
+            return (T)child!;
         }
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
@@ -99,6 +98,9 @@ namespace Citation.View.Page
             {
                 LogException.Collect(new ArgumentException("指定格式化器不存在"),
                     LogException.ExceptionLevel.Warning);
+
+                var mainWindow = Application.Current.MainWindow as MainWindow;
+                mainWindow!.ShowToast("格式化失败，原因是您设置了错误的格式化器");
                 return;
             }
 

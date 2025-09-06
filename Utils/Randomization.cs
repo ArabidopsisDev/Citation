@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Windows.Media;
 
 namespace Citation.Utils
 {
@@ -22,7 +23,7 @@ namespace Citation.Utils
 
         private static readonly Random random = new Random();
 
-        internal static string RandomChinese()
+        internal static string RandomBuddha()
         {
             string[] buddhaParticles =
             [
@@ -76,6 +77,29 @@ namespace Citation.Utils
             }
 
             return result.ToString();
+        }
+
+        public static Brush GenerateLightBrush()
+        {
+            var random = new Random();
+
+            byte r = (byte)random.Next(180, 256);
+            byte g = (byte)random.Next(180, 256);
+            byte b = (byte)random.Next(180, 256);
+
+            double luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+            while (luminance < 0.7)
+            {
+                // Adapting to high contrast
+                if (r <= g && r <= b) r = (byte)Math.Min(255, r + 20);
+                else if (g <= r && g <= b) g = (byte)Math.Min(255, g + 20);
+                else b = (byte)Math.Min(255, b + 20);
+
+                luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            }
+
+            return new SolidColorBrush(Color.FromRgb(r, g, b));
         }
     }
 }

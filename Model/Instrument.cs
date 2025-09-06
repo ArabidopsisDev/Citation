@@ -166,7 +166,7 @@ namespace Citation.Model
         {
             var sqlCommand = $"""
                 DELETE FROM tb_Instrument
-                WHERE Number = ?
+                WHERE InstrumentNumber = ?
                 """;
 
             var command = new OleDbCommand(sqlCommand, connection);

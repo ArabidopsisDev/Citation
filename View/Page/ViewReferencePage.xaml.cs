@@ -95,7 +95,7 @@ namespace Citation.View.Page
                     Link = reader["PaperLink"].ToString()!,
                     Url = reader["PaperUrl"].ToString()!,
                     Published = reader["PaperPublished"].ToString()!,
-                    Folder = reader["PaperFolder"].ToString()!
+                    Folder = reader["PaperFolder"].ToString()!,
                 };
 
                 db.Afterward();

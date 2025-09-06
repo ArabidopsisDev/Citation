@@ -216,6 +216,8 @@
 						<ComboBoxItem Content="18" />
 						<ComboBoxItem Content="20" />
 						<ComboBoxItem Content="24" />
+						<ComboBoxItem Content="28" />
+						<ComboBoxItem Content="32" />
 					</ComboBox>
 					<Button
 						x:Name="ColorButton"

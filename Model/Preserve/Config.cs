@@ -48,6 +48,8 @@ public class Config : INotifyPropertyChanged
         }
     }
 
+    public bool ReadLicense { get; set; }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected void OnPropertyChanged(string name)

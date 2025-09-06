@@ -82,6 +82,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="logo.ico" />
+    <Resource Include="Images\license.rtf" />
     <Resource Include="Images\alert.wav" />
     <Resource Include="Images\align-center.png" />
     <Resource Include="Images\align-left.png" />
