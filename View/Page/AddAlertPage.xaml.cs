@@ -1,5 +1,4 @@
 ﻿using Citation.Model;
-using Citation.Model.Reference;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;

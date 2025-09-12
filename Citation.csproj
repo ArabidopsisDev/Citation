@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -16,6 +16,7 @@
     <AssemblyVersion>3.0</AssemblyVersion>
     <FileVersion>3.0</FileVersion>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -59,13 +60,26 @@
     <None Remove="Images\align-left.png" />
     <None Remove="Images\align-right.png" />
     <None Remove="Images\article.png" />
+    <None Remove="Images\block_tool.png" />
     <None Remove="Images\citation.png" />
+    <None Remove="Images\field_tool.png" />
     <None Remove="Images\folder.png" />
+    <None Remove="Images\load_experiment.png" />
     <None Remove="Images\lock.png" />
     <None Remove="Images\microscope.png" />
     <None Remove="Images\misc.wav" />
+    <None Remove="Images\new_experiment.png" />
+    <None Remove="Images\pan_tool.png" />
     <None Remove="Images\pjm.png" />
+    <None Remove="Images\plot_tool.png" />
+    <None Remove="Images\save_experiment.png" />
+    <None Remove="Images\select_tool.png" />
+    <None Remove="Images\signboard_tool.png" />
     <None Remove="Images\warning.png" />
+    <None Remove="Images\zoom_fit.png" />
+    <None Remove="Images\zoom_in.png" />
+    <None Remove="Images\zoom_out.png" />
+    <None Remove="Images\zoom_tool.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -82,20 +96,33 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="logo.ico" />
+    <Resource Include="Images\plot_tool.png" />
+    <Resource Include="Images\block_tool.png" />
+    <Resource Include="Images\field_tool.png" />
     <Resource Include="Images\license.rtf" />
     <Resource Include="Images\alert.wav" />
     <Resource Include="Images\align-center.png" />
     <Resource Include="Images\align-left.png" />
     <Resource Include="Images\align-right.png" />
     <Resource Include="Images\article.png" />
+    <Resource Include="Images\load_experiment.png" />
     <Resource Include="Images\lock.png" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\citation.png" />
     <Resource Include="Images\folder.png" />
     <Resource Include="Images\microscope.png" />
     <Resource Include="Images\misc.wav" />
+    <Resource Include="Images\new_experiment.png" />
+    <Resource Include="Images\pan_tool.png" />
     <Resource Include="Images\pjm.png" />
+    <Resource Include="Images\save_experiment.png" />
+    <Resource Include="Images\select_tool.png" />
+    <Resource Include="Images\signboard_tool.png" />
     <Resource Include="Images\warning.png" />
+    <Resource Include="Images\zoom_fit.png" />
+    <Resource Include="Images\zoom_in.png" />
+    <Resource Include="Images\zoom_out.png" />
+    <Resource Include="Images\zoom_tool.png" />
   </ItemGroup>
 
   <ItemGroup>

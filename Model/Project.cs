@@ -70,7 +70,7 @@ namespace Citation.Model
             var authorsBuild = new StringBuilder();
             foreach (var projectAuthor in Authors)
                 authorsBuild.Append($"{projectAuthor}/");
-            var sqlCommand = 
+            var sqlCommand =
                 $"INSERT INTO tb_Basic (ProjectName, ProjectPath, ProjectAuthors, ProjectGuid, ProjectPassword, ProjectKey, ProjectIv) " +
                 $"VALUES (?, ?, ?, ?, ?, ?, ?);";
 

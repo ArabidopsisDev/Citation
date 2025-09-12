@@ -7,7 +7,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="450"
 	d:DesignWidth="800"
-	mc:Ignorable="d">
+	mc:Ignorable="d"
+    Loaded="UserControl_Loaded">
 	<UserControl.Resources>
 		<Style TargetType="TextBlock">
 			<Setter Property="TextWrapping" Value="Wrap" />
@@ -96,7 +97,7 @@
 							Foreground="#FF0066CC"
 							Text="软件信息" />
 
-						<TextBlock Text="版本: v3（内部版本 Dev_tfa1075s）" />
+						<TextBlock Text="版本: v4（内部版本 Dev_tfs1090s）" Name="VersionLabel" />
 						<TextBlock Text="© 2025 Arabidopsis. 保留所有权利。" TextWrapping="Wrap" />
 
 						<TextBlock

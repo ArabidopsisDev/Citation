@@ -1,6 +1,5 @@
 ﻿using Citation.Model.Reference;
 using System.Globalization;
-using System.Security.Policy;
 using System.Windows.Data;
 
 namespace Citation.Model.Convert

@@ -8,75 +8,143 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="600"
 	d:DesignWidth="800"
-	mc:Ignorable="d">
+	mc:Ignorable="d"
+    Loaded="UserControl_Loaded">
 
-	<UserControl.Resources>
-		<c:AuthorConverter x:Key="AuthorsConverter" />
-		<c:DateConverter x:Key="DateConverter" />
+    <UserControl.Resources>
+        <c:AuthorConverter x:Key="AuthorsConverter" />
+        <c:DateConverter x:Key="DateConverter" />
 
-		<Style x:Key="SegmentedButtonStyle" TargetType="ToggleButton">
-			<Setter Property="Background" Value="White" />
-			<Setter Property="Foreground" Value="#0078D7" />
-			<Setter Property="BorderBrush" Value="#0078D7" />
-			<Setter Property="BorderThickness" Value="1" />
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="ToggleButton">
-						<Border
+        <Style x:Key="FilterComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Width" Value="180" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="0,0,20,0" />
+            <Setter Property="BorderBrush" Value="#CCCCCC" />
+            <Setter Property="Background" Value="White" />
+        </Style>
+
+        <Style x:Key="FilterButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="Background" Value="#F0F0F0" />
+            <Setter Property="BorderBrush" Value="#CCCCCC" />
+            <Setter Property="Foreground" Value="#333333" />
+        </Style>
+
+        <Style x:Key="SegmentedButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#0078D7" />
+            <Setter Property="BorderBrush" Value="#0078D7" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border
 							x:Name="border"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							CornerRadius="0">
-							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsChecked" Value="True">
-								<Setter Property="Background" Value="#0078D7" />
-								<Setter Property="Foreground" Value="White" />
-								<Setter TargetName="border" Property="BorderBrush" Value="#0078D7" />
-							</Trigger>
-							<Trigger Property="IsChecked" Value="False">
-								<Setter Property="Background" Value="White" />
-								<Setter Property="Foreground" Value="#0078D7" />
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</UserControl.Resources>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" Value="#0078D7" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Background" Value="White" />
+                                <Setter Property="Foreground" Value="#0078D7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
-	<Grid Background="#F5F5F5">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
+    <Grid Background="#F5F5F5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-		<ScrollViewer Grid.Row="0" Padding="20">
-			<ItemsControl x:Name="ArticlesContainer">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<controls:ArticleItem Index="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=ContentPresenter}}" />
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</ScrollViewer>
+        <Border
+			Grid.Row="0"
+			Padding="20,15"
+			Background="White"
+			BorderBrush="#E0E0E0"
+			BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+					VerticalAlignment="Center"
+					FontWeight="SemiBold"
+					Foreground="#333333"
+					Text="筛选条件：" />
 
-		<Border
-			Grid.Row="1"
+                <ComboBox
+					x:Name="FolderFilterComboBox"
+					Style="{StaticResource FilterComboBoxStyle}"
+					DisplayMemberPath="."
+					ItemsSource="{Binding Folders}"
+					SelectionChanged="FilterComboBox_SelectionChanged"
+					ToolTip="按课题筛选">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+
+                <ComboBox
+					x:Name="PressFilterComboBox"
+					Style="{StaticResource FilterComboBoxStyle}"
+					DisplayMemberPath="."
+					ItemsSource="{Binding Presses}"
+					SelectionChanged="FilterComboBox_SelectionChanged"
+					ToolTip="按期刊筛选">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+
+                <Button
+					Style="{StaticResource FilterButtonStyle}"
+					Click="ClearFilterButton_Click"
+					Content="清除筛选"
+					ToolTip="清除所有筛选条件" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Padding="20">
+            <ItemsControl x:Name="ArticlesContainer">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:ArticleItem Index="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=ContentPresenter}}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Border
+			Grid.Row="2"
 			Padding="20,10"
 			Background="#F5F5F5"
 			BorderBrush="#E0E0E0"
 			BorderThickness="0,1,0,0">
-			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-				<Border
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Border
 					Margin="0,0,20,0"
 					BorderBrush="#0078D7"
 					BorderThickness="1"
 					CornerRadius="3">
-					<StackPanel Orientation="Horizontal">
-						<RadioButton
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton
 							x:Name="MarkdownButton"
 							Width="100"
 							Height="40"
@@ -85,7 +153,7 @@
 							GroupName="ExportFormat"
 							IsChecked="True"
 							Style="{StaticResource SegmentedButtonStyle}" />
-						<RadioButton
+                        <RadioButton
 							x:Name="LatexButton"
 							Width="100"
 							Height="40"
@@ -93,10 +161,10 @@
 							Content="LaTeX"
 							GroupName="ExportFormat"
 							Style="{StaticResource SegmentedButtonStyle}" />
-					</StackPanel>
-				</Border>
+                    </StackPanel>
+                </Border>
 
-				<Button
+                <Button
 					Width="120"
 					Height="40"
 					Margin="40,0,20,0"
@@ -107,22 +175,22 @@
 					FontSize="16"
 					FontWeight="Medium"
 					Foreground="White">
-					<Button.Template>
-						<ControlTemplate TargetType="Button">
-							<Border
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border
 								x:Name="border"
 								Background="{TemplateBinding Background}"
 								BorderThickness="0"
 								CornerRadius="20">
-								<ContentPresenter
+                                <ContentPresenter
 									x:Name="contentPresenter"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center" />
-							</Border>
-						</ControlTemplate>
-					</Button.Template>
-				</Button>
-			</StackPanel>
-		</Border>
-	</Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>

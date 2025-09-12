@@ -1,4 +1,6 @@
-﻿using Citation.Model;
+﻿using Citation.Constant;
+using Citation.Model;
+using Citation.Model.Exchange;
 using Citation.Model.Preserve;
 using Citation.Model.Reference;
 using Citation.Utils;
@@ -66,7 +68,7 @@ namespace Citation
             {
                 Name = "尚未打开项目！",
                 Authors = [],
-                Guid = System.Guid.NewGuid().ToString()
+                Guid = Guid.NewGuid().ToString()
             };
         }
 
@@ -87,6 +89,12 @@ namespace Citation
 
                 if (result != true) Environment.Exit(0);
             }
+
+#if DEBUG
+            WelcomeBanner.Text = $"Welcome To Citation! (Version Dev_{AppInfo.AppVersion.ToString()})";
+#else            
+            MainGrid.Children.Remove(WelcomeBanner);
+#endif
         }
 
         private void NewProject_Click(object sender, RoutedEventArgs e)
@@ -121,8 +129,8 @@ namespace Citation
                 // Verify file type
                 List<int> fileHead =
                 [
-                    0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E,
-                    0x64, 0x61, 0x72, 0x64, 0x20, 0x41, 0x43, 0x45, 0x20, 0x44, 0x42
+                    0x00, 0x01, 0x00, 0x00, 0x53, 0x74, 0x61, 0x6E, 0x64,
+                    0x61, 0x72, 0x64, 0x20, 0x41, 0x43, 0x45, 0x20, 0x44, 0x42
                 ];
 
                 try
@@ -370,14 +378,18 @@ namespace Citation
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
                 DefaultExt = ".ris",
-                Filter = "参考文献文件 (.ris)|*.ris"
+                Filter = "参考文献文件 (.ris)|*.ris|Citation交换文献文件 (.cit)|*.cit"
             };
 
             var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                var fileName = dialog.FileName;
 
+            if (result != true)
+                return;
+
+            var fileName = dialog.FileName;
+
+            if (fileName.EndsWith(".ris"))
+            {
                 using var reader = new StreamReader(fileName);
                 var text = await reader.ReadToEndAsync();
                 var cites = text.Split('\n');
@@ -426,10 +438,44 @@ namespace Citation
                         ShowToast($"[{doi}] 获取失败");
                     }
                 }
-
-                ShowToast($"导入结束");
             }
+            else if (fileName.EndsWith("cit"))
+            {
+                try
+                {
+                    using var reader = new StreamReader(fileName);
+                    var text = await reader.ReadToEndAsync();
+                    var file = JsonSerializer.Deserialize<CitationFile>(text);
+
+                    if (file is null || file.Version is null)
+                        throw new Exception();
+
+                    if (new SoftwareVersion(file.Version) > AppInfo.AppVersion)
+                    {
+                        var dialogResult = System.Windows.MessageBox.Show("当前软件版本较低，导入可能失败，是否继续？",
+                            "软件版本过低", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning);
+                        if (dialogResult == System.Windows.MessageBoxResult.No)
+                            return;
+                    }
+
+                    foreach (var article in file.Articles!)
+                    {
+                        var sqlString = article.ToSql();
+                        Acceed.Shared.Execute(sqlString);
+                    }
+                }
+                catch (Exception)
+                {
+                    ShowToast("导入文件无效");
+                }
+            }
+            else
+            {
+                ShowToast($"导入文件无效");
+            }
+            ShowToast($"导入结束");
         }
+
 
         private void CloseProject_Click(object sender, RoutedEventArgs e)
         {
@@ -606,7 +652,7 @@ namespace Citation
             {
                 FileName = "backup",
                 DefaultExt = ".zip",
-                Filter = "Zip file (.zip)|*.zip|All files (*.*)|*.*"
+                Filter = "Zip压缩包 (.zip)|*.zip|所有文件 (*.*)|*.*"
             };
 
             var result = dialog.ShowDialog();
@@ -661,6 +707,65 @@ namespace Citation
         private void ViewTimeline_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new ViewTimelinePage());
+        }
+
+        private void FileCitation_Click(object sender, RoutedEventArgs e)
+        {
+            var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
+            var papers = new List<JournalArticle>();
+
+            while (reader.Read())
+            {
+                var db = new JournalArticleDb()
+                {
+                    Abstract = reader["PaperAbstract"].ToString()!,
+                    AuthorString = reader["PaperAuthor"].ToString()!,
+                    Issue = reader["PaperIssue"].ToString()!,
+                    ContainerString = reader["PaperContainer"].ToString()!,
+                    Doi = reader["PaperDoi"].ToString()!,
+                    Page = reader["PaperPage"].ToString()!,
+                    TitleString = reader["PaperTitle"].ToString()!,
+                    Volume = reader["PaperVolume"].ToString()!,
+                    Link = reader["PaperLink"].ToString()!,
+                    Url = reader["PaperUrl"].ToString()!,
+                    Published = reader["PaperPublished"].ToString()!,
+                    Folder = reader["PaperFolder"].ToString()!
+                };
+
+                db.Afterward();
+                var paper = JournalArticle.FromArticle(db);
+
+                paper.Message!.AfterWards();
+                papers.Add(paper);
+            }
+
+            var file = new CitationFile
+            {
+                Articles = papers,
+                Version = AppInfo.AppVersion.ToString(),
+            };
+
+            var dialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                FileName = "share",
+                DefaultExt = ".cit",
+                Filter = "Citation文献交换文件 (.cit)|*.cit|所有文件 (*.*)|*.*"
+            };
+
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                var jsonString = JsonSerializer.Serialize(file);
+                File.WriteAllText(dialog.FileName, jsonString);
+                ShowToast("交换文件已保存");
+                return;
+            }
+            ShowToast("取消保存文件");
+        }
+
+        private void Field_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new FieldExperimentPage());
         }
     }
 }

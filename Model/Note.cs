@@ -38,7 +38,7 @@ namespace Citation.Model
             command.Parameters.AddWithValue("?", encrypt.Title);
             command.Parameters.AddWithValue("?", encrypt.RichText);
             command.Parameters.AddWithValue("?", createString);
-            
+
             command.ExecuteNonQuery();
         }
 

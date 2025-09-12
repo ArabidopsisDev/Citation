@@ -168,7 +168,7 @@ namespace Citation.View.Page
             }
 
             FolderTreeView.ItemsSource = _folders;
-                
+
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow?.ShowToast("引用已删除");
         }

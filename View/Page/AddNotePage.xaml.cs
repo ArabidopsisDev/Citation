@@ -1,12 +1,10 @@
 ﻿using Citation.Model;
 using System.IO;
+using System.Text;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using Citation.Utils;
-using System.Text;
 
 namespace Citation.View.Page
 {
@@ -17,7 +15,7 @@ namespace Citation.View.Page
         public AddNotePage(Note? note = null)
         {
             InitializeComponent();
-            
+
             prevNote = note;
             if (note is not null)
             {

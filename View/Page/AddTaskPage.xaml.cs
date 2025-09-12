@@ -24,7 +24,7 @@ namespace Citation.View.Page
         {
             InitializeComponent();
 
-            Task = new Citation.Model.Task(string.Empty, string.Empty, 
+            Task = new Citation.Model.Task(string.Empty, string.Empty,
                 DateTime.Now, DateTime.Now, false, false);
             this.DataContext = this;
         }

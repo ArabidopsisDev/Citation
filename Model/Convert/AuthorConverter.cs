@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using Citation.Model.Reference;
+using System.Globalization;
 using System.Text;
 using System.Windows.Data;
-using Citation.Model.Reference;
 
 namespace Citation.Model.Convert
 {

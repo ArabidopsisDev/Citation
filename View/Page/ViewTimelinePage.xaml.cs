@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Citation.View.Page
 {
@@ -131,8 +130,8 @@ namespace Citation.View.Page
         {
             if (sender is Border border && border.DataContext is TimelineItem item)
             {
-                MessageBox.Show($"标题: {item.Title}\n年份: {item.Year}\n月份: {item.Month}\n结论: {item.Conclusion}",
-                    "论文详情", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show($"标题: {item.Title}\n年份: {item.Year}\n月份: {item.Month}\n结论: {item.Conclusion}",
+                    "论文详情", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
             }
         }
 

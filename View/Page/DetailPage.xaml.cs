@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using Citation.Model.Reference;
+using System.Windows;
 using System.Windows.Controls;
-using Citation.Model.Reference;
 
 namespace Citation.View.Page
 {

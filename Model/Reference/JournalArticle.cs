@@ -3,7 +3,6 @@ using System.Data.OleDb;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using System.Windows;
-using System.Xml.Linq;
 
 namespace Citation.Model.Reference
 {

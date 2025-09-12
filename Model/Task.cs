@@ -71,8 +71,8 @@ namespace Citation.Model
             var description = reader["TaskDescription"].ToString();
 
             var startTime = new DateTime(
-                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 
-                Random.Shared.Next(0,12), Random.Shared.Next(0, 60), 
+                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                Random.Shared.Next(0, 12), Random.Shared.Next(0, 60),
                 Random.Shared.Next(0, 60));
             var endTime = new DateTime(
                 DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,

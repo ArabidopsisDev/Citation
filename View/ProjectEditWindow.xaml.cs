@@ -1,10 +1,9 @@
 ﻿using Citation.Model;
+using Citation.Utils;
 using Microsoft.Win32;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using Citation.Utils;
 
 namespace Citation.View
 {
@@ -57,7 +56,7 @@ namespace Citation.View
         {
             if (Project?.Path is null or "")
             {
-                MessageBox.Show("请填写项目路径", "创建失败", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show("请填写项目路径", "创建失败", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return;
             }
 
@@ -71,7 +70,7 @@ namespace Citation.View
 
             Acceed.Shared.ReConnect(destinationPath);
             Project.ToSql(Acceed.Shared.Connection);
-            MessageBox.Show("项目创建成功！", "创建成功", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show("项目创建成功！", "创建成功", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
             _callback?.Invoke(destinationPath, false);
             Acceed.Shared.Close();

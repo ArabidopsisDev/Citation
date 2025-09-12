@@ -1,5 +1,4 @@
-﻿ using System;
-using System.Management;
+﻿using System.Management;
 
 namespace Citation.Utils
 {
@@ -66,7 +65,7 @@ namespace Citation.Utils
         public override string ToString()
         {
             var hard = GetHardDiskSerialNumber().Replace("_", "").Replace(".", "");
-            var line1 = GetCpuSerialNumber().Length > 6 ? 
+            var line1 = GetCpuSerialNumber().Length > 6 ?
                 GetCpuSerialNumber()[^6..] : GetCpuSerialNumber();
             var line2 = GetBiosSerialNumber().Length > 6 ?
                 GetBiosSerialNumber()[^6..] : GetBiosSerialNumber();

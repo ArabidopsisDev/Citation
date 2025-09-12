@@ -1,8 +1,8 @@
 ﻿using Citation.Model;
+using System.Media;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using System.Windows;
-using System.Media;
 
 namespace Citation.View
 {

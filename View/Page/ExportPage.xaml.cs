@@ -3,6 +3,8 @@ using Citation.Model.Reference;
 using Citation.Utils;
 using Citation.View.Controls;
 using System.Collections;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -13,10 +15,37 @@ using System.Windows.Media;
 
 namespace Citation.View.Page
 {
-    public partial class ExportPage : UserControl
+    public partial class ExportPage : UserControl, INotifyPropertyChanged
     {
         private object _draggedItem;
         private int _draggedIndex;
+        private List<JournalArticle> _allArticles = [];
+
+        public ObservableCollection<string> Folders
+        {
+            get => field;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Folders));
+            }
+        } = [];
+
+        public ObservableCollection<string> Presses
+        {
+            get => field;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Presses));
+            }
+        } = [];
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public ExportPage()
         {
@@ -27,6 +56,7 @@ namespace Citation.View.Page
             ArticlesContainer.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
             ArticlesContainer.Drop += OnDrop;
             ArticlesContainer.AllowDrop = true;
+            DataContext = this;
         }
 
         private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -107,7 +137,7 @@ namespace Citation.View.Page
             for (int i = 0; i < ArticlesContainer.Items.Count; i++)
             {
                 var type = _formatter.GetType();
-                _formatter = (IFormatter)Activator.CreateInstance(type, 
+                _formatter = (IFormatter)Activator.CreateInstance(type,
                     [(JournalArticle)ArticlesContainer.Items[i]!])!;
 
                 exportBuilder.AppendLine(isMarkdown
@@ -148,6 +178,58 @@ namespace Citation.View.Page
                     mainWindow?.ShowToast("保存失败，可能文件正在使用...");
                 }
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Build filter
+            var articles = ArticlesContainer.Items;
+            Folders.Add("全部");
+            Presses.Add("全部");
+
+            foreach (JournalArticle article in articles)
+            {
+                if (article.Message is null) continue;
+                _allArticles.Add(article);
+
+                // A better solution is to use HashSet, but it involves data binding,
+                // so we still consider stability
+                if (!Folders.Contains(article.Message.Folder))
+                    Folders.Add(article.Message.Folder);
+                if (!Presses.Contains(article.Message.Container![0]))
+                    Presses.Add(article.Message.Container[0]);
+            }
+        }
+
+        private void FilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FolderFilterComboBox.SelectedIndex =
+                FolderFilterComboBox.SelectedIndex == -1 ? 0 : FolderFilterComboBox.SelectedIndex;
+            PressFilterComboBox.SelectedIndex =
+                PressFilterComboBox.SelectedIndex == -1 ? 0 : PressFilterComboBox.SelectedIndex;
+
+            var selectedFolder = FolderFilterComboBox.SelectedItem.ToString();
+            var selectedPress = PressFilterComboBox.SelectedItem.ToString();
+
+            var _filteredArticles = _allArticles.Where(article =>
+                (selectedFolder == "全部" || selectedFolder == null || article.Message?.Folder == selectedFolder) &&
+                (selectedPress == "全部" || selectedPress == null ||
+                 (article.Message?.Container != null && article.Message.Container.Count() > 0 &&
+                  article.Message.Container[0] == selectedPress))
+            ).ToList();
+
+            ArticlesContainer.ItemsSource = null;
+            ArticlesContainer.Items.Clear();
+            foreach (var article in _filteredArticles)
+            {
+                ArticlesContainer.Items.Add(article);
+            }
+        }
+
+        private void ClearFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            FolderFilterComboBox.SelectedIndex = 0;
+            PressFilterComboBox.SelectedIndex = 0;
         }
     }
 }

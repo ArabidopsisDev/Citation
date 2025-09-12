@@ -1,0 +1,270 @@
+﻿<UserControl x:Class="Citation.View.Page.FieldExperimentPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Citation.View.Page"
+             mc:Ignorable="d"
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Background="#F4F6FB"
+             Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <!-- Modern Tool Button Style -->
+        <Style x:Key="ToolButtonStyle" TargetType="RadioButton">
+            <Setter Property="Width" Value="44"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Background" Value="#E3E8F0"/>
+            <Setter Property="BorderBrush" Value="#CBD5E1"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0"
+                                CornerRadius="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#6366F1"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#6366F1"/>
+                                <Setter Property="Opacity" TargetName="border" Value="1"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#A5B4FC"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#6366F1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DropShadowEffect x:Key="ShadowEffect" Color="#888" BlurRadius="6" Direction="270" ShadowDepth="2"/>
+        <Style x:Key="PropertyLabelStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Foreground" Value="#374151"/>
+        </Style>
+        <Style x:Key="PropertyTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Padding" Value="6,2"/>
+            <Setter Property="BorderBrush" Value="#6366F1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#F8FAFC"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#334155"/>
+        </Style>
+        <!-- Modern Button Style -->
+        <Style TargetType="Button" x:Key="ModernButton">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="4,2"/>
+            <Setter Property="Background" Value="#6366F1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#6366F1"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Effect" Value="{StaticResource ShadowEffect}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left ToolBar -->
+        <StackPanel Grid.Column="0" Background="#E3E8F0" Width="56">
+            <TextBlock Text="工具" Margin="6,16,6,4" FontWeight="Bold" FontSize="14" Foreground="#6366F1" HorizontalAlignment="Center"/>
+            <Separator Margin="4,0" Background="#C7D2FE" Height="2"/>
+            <!-- Tool Buttons with Checked event -->
+            <RadioButton x:Name="SelectToolButton" Style="{StaticResource ToolButtonStyle}" GroupName="Tools"
+                         ToolTip="选择工具" Checked="ToolButton_Checked">
+                <Image Source="pack://application:,,,/Citation;component/Images/select_tool.png" Width="28" Height="28"/>
+            </RadioButton>
+            <RadioButton x:Name="FieldToolButton" Style="{StaticResource ToolButtonStyle}" GroupName="Tools"
+                         ToolTip="绘制田间小区" Checked="ToolButton_Checked">
+                <Image Source="pack://application:,,,/Citation;component/Images/field_tool.png" Width="28" Height="28"/>
+            </RadioButton>
+            <RadioButton x:Name="BlockToolButton" Style="{StaticResource ToolButtonStyle}" GroupName="Tools"
+                         ToolTip="绘制区组" Checked="ToolButton_Checked">
+                <Image Source="pack://application:,,,/Citation;component/Images/block_tool.png" Width="28" Height="28"/>
+            </RadioButton>
+            <RadioButton x:Name="PlotToolButton" Style="{StaticResource ToolButtonStyle}" GroupName="Tools"
+                         ToolTip="绘制试验小区" Checked="ToolButton_Checked">
+                <Image Source="pack://application:,,,/Citation;component/Images/plot_tool.png" Width="28" Height="28"/>
+            </RadioButton>
+            <RadioButton x:Name="SignboardToolButton" Style="{StaticResource ToolButtonStyle}" GroupName="Tools"
+                         ToolTip="添加标识牌" Checked="ToolButton_Checked">
+                <Image Source="pack://application:,,,/Citation;component/Images/signboard_tool.png" Width="28" Height="28"/>
+            </RadioButton>
+            <Separator Margin="4,0" Background="#C7D2FE" Height="2"/>
+            <RadioButton x:Name="ZoomToolButton" Style="{StaticResource ToolButtonStyle}" GroupName="Tools"
+                         ToolTip="缩放工具" Checked="ToolButton_Checked">
+                <Image Source="pack://application:,,,/Citation;component/Images/zoom_tool.png" Width="28" Height="28"/>
+            </RadioButton>
+            <RadioButton x:Name="PanToolButton" Style="{StaticResource ToolButtonStyle}" GroupName="Tools"
+                         ToolTip="平移工具" IsChecked="True" Checked="ToolButton_Checked">
+                <Image Source="pack://application:,,,/Citation;component/Images/pan_tool.png" Width="28" Height="28"/>
+            </RadioButton>
+        </StackPanel>
+
+        <!-- Right Property Panel -->
+        <GridSplitter Grid.Column="0" Width="2" HorizontalAlignment="Right" Background="#C7D2FE"/>
+
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#F8FAFC">
+            <StackPanel Margin="8">
+                <TextBlock Text="属性" FontWeight="Bold" FontSize="15" Margin="0,14,0,8" Foreground="#6366F1"/>
+                <Separator/>
+                <!-- Selected Object Properties -->
+                <ContentControl x:Name="PropertyPanel"/>
+                <!-- Experiment Properties -->
+                <Expander x:Name="ExperimentPropertiesExpander" Header="试验属性" IsExpanded="True" Margin="0,12,0,0">
+                    <StackPanel>
+                        <TextBlock Text="试验名称" Style="{StaticResource PropertyLabelStyle}"/>
+                        <TextBox x:Name="ExperimentNameTextBox" Style="{StaticResource PropertyTextBoxStyle}"/>
+                        <TextBlock Text="试验描述" Style="{StaticResource PropertyLabelStyle}" Margin="0,10,0,0"/>
+                        <TextBox x:Name="ExperimentDescTextBox" AcceptsReturn="True" TextWrapping="Wrap"
+                                 Height="60" VerticalScrollBarVisibility="Auto" Style="{StaticResource PropertyTextBoxStyle}"/>
+                        <TextBlock Text="设计类型" Style="{StaticResource PropertyLabelStyle}" Margin="0,10,0,0"/>
+                        <ComboBox x:Name="DesignTypeComboBox" Margin="0,2" SelectedIndex="0">
+                            <ComboBoxItem Content="完全随机设计"/>
+                            <ComboBoxItem Content="随机区组设计"/>
+                            <ComboBoxItem Content="裂区设计"/>
+                            <ComboBoxItem Content="拉丁方设计"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Expander>
+                <!-- Treatment Library -->
+                <Expander Header="处理库" IsExpanded="True" Margin="0,12,0,0">
+                    <StackPanel>
+                        <ListBox x:Name="TreatmentListBox"
+                                 Height="120"
+                                 Margin="0,0,0,5"
+                                 SelectionMode="Single"
+                                 Background="#F8FAFC"
+                                 BorderBrush="#6366F1"
+                                 BorderThickness="1">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle Width="18" Height="18" Fill="{Binding Color}" Stroke="#6366F1" Margin="0,0,6,0" RadiusX="5" RadiusY="5"/>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="#334155"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <StackPanel Orientation="Horizontal" Margin="0,2">
+                            <Button x:Name="AddTreatmentButton" Content="添加" Style="{StaticResource ModernButton}" Click="AddTreatmentButton_Click"/>
+                            <Button x:Name="EditTreatmentButton" Content="编辑" Style="{StaticResource ModernButton}" Click="EditTreatmentButton_Click"/>
+                            <Button x:Name="RemoveTreatmentButton" Content="删除" Style="{StaticResource ModernButton}" Click="RemoveTreatmentButton_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+
+        <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Right" Background="#C7D2FE"/>
+
+        <!-- Center Canvas Area -->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Canvas Toolbar -->
+            <ToolBarTray Grid.Row="0" Background="#EEF2FF">
+                <ToolBar Background="#EEF2FF">
+                    <Button x:Name="NewExperimentButton" ToolTip="新建试验" Click="NewExperimentButton_Click" Style="{StaticResource ModernButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Citation;component/Images/new_experiment.png" Width="18" Height="18"/>
+                            <TextBlock Text="新建" Margin="6,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="SaveExperimentButton" ToolTip="保存试验" Click="SaveExperimentButton_Click" Style="{StaticResource ModernButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Citation;component/Images/save_experiment.png" Width="18" Height="18"/>
+                            <TextBlock Text="保存" Margin="6,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="LoadExperimentButton" ToolTip="加载试验" Click="LoadExperimentButton_Click" Style="{StaticResource ModernButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Citation;component/Images/load_experiment.png" Width="18" Height="18"/>
+                            <TextBlock Text="加载" Margin="6,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Separator/>
+                    <Button x:Name="ZoomInButton" ToolTip="放大" Click="ZoomInButton_Click" Style="{StaticResource ModernButton}">
+                        <Image Source="pack://application:,,,/Citation;component/Images/zoom_in.png" Width="18" Height="18"/>
+                    </Button>
+                    <Button x:Name="ZoomOutButton" ToolTip="缩小" Click="ZoomOutButton_Click" Style="{StaticResource ModernButton}">
+                        <Image Source="pack://application:,,,/Citation;component/Images/zoom_out.png" Width="18" Height="18"/>
+                    </Button>
+                    <Button x:Name="ZoomFitButton" ToolTip="适应窗口" Click="ZoomFitButton_Click" Style="{StaticResource ModernButton}">
+                        <Image Source="pack://application:,,,/Citation;component/Images/zoom_fit.png" Width="18" Height="18"/>
+                    </Button>
+                    <Button x:Name="Zoom100Button" ToolTip="实际大小" Click="Zoom100Button_Click" Style="{StaticResource ModernButton}">
+                        <TextBlock Text="100%" Margin="2,0,2,0"/>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+
+            <!-- Main Canvas -->
+            <ScrollViewer x:Name="CanvasScrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                          Background="#F8FAFC" PanningMode="Both" PreviewMouseWheel="CanvasScrollViewer_PreviewMouseWheel">
+                <Canvas x:Name="MainCanvas" Width="2000" Height="2000" Background="#F1F5F9"
+                        MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
+                        MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"
+                        MouseMove="MainCanvas_MouseMove">
+                    <!-- Grid Background -->
+                    <Rectangle x:Name="GridBackground" Width="{Binding ActualWidth, ElementName=MainCanvas}"
+                               Height="{Binding ActualHeight, ElementName=MainCanvas}"
+                               Fill="White" Panel.ZIndex="-100"/>
+                    <!-- Selection Rectangle Preview -->
+                    <Rectangle x:Name="SelectionRectangle" Visibility="Collapsed" Stroke="#6366F1" StrokeThickness="2"
+                               StrokeDashArray="6,2" Fill="#B4BDFE33" Panel.ZIndex="100"/>
+                    <!-- Dynamic elements: fields, blocks, plots, signboards -->
+                </Canvas>
+            </ScrollViewer>
+
+            <!-- Status Bar -->
+            <StatusBar Grid.Row="2" Background="#EEF2FF">
+                <StatusBarItem>
+                    <TextBlock x:Name="CursorPositionText" Text="X: 0, Y: 0" Foreground="#6366F1"/>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <Separator/>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <TextBlock x:Name="SelectedToolText" Text="工具: 平移" Foreground="#6366F1"/>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <Separator/>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <TextBlock x:Name="ZoomLevelText" Text="缩放: 100%" Foreground="#6366F1"/>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </Grid>
+</UserControl>

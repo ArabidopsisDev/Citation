@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Citation.Model;
+using Citation.Utils;
 using System.Windows;
 using System.Windows.Controls;
-using Citation.Model;
-using System.Data.OleDb;
-using Citation.Utils;
 
 namespace Citation.View.Page
 {

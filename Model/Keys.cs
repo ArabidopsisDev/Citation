@@ -1,5 +1,4 @@
-﻿using Citation.Utils;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Citation.Model;
 

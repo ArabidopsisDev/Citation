@@ -116,7 +116,7 @@ namespace Citation.Model
             var password = mainWindow!.verify;
 
             command.Parameters.AddWithValue("?", Cryptography.EncryptData(password!, Title!));
-            command.Parameters.AddWithValue("?", Cryptography.EncryptData(password!,Description!));
+            command.Parameters.AddWithValue("?", Cryptography.EncryptData(password!, Description!));
 
             command.ExecuteNonQuery();
         }
