@@ -48,6 +48,19 @@ public class Config : INotifyPropertyChanged
         }
     }
 
+    public string DeepSeekApiKey
+    {
+        get;
+        set
+        {
+            if (field != value)
+            {
+                field = value;
+                OnPropertyChanged(nameof(DeepSeekApiKey));
+            }
+        }
+    }
+
     public bool ReadLicense { get; set; }
 
     public event PropertyChangedEventHandler? PropertyChanged;

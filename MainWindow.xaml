@@ -1,15 +1,15 @@
 ﻿<Window
-	x:Class="Citation.MainWindow"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:Citation"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="Arabidopsis Citation"
-	Width="1050"
-	Height="600"
-	Loaded="Window_Loaded"
-	mc:Ignorable="d">
+    x:Class="Citation.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Citation"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Arabidopsis Citation"
+    Width="1050"
+    Height="600"
+    Loaded="Window_Loaded"
+    mc:Ignorable="d">
 
     <Window.Resources>
         <Style x:Key="BubbleToastStyle" TargetType="Border">
@@ -36,30 +36,30 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation
-								AccelerationRatio="0.3"
-								Storyboard.TargetProperty="Opacity"
-								From="0"
-								To="1"
-								Duration="0:0:0.3" />
+                                AccelerationRatio="0.3"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0"
+                                To="1"
+                                Duration="0:0:0.3" />
                             <DoubleAnimation
-								AccelerationRatio="0.3"
-								Storyboard.TargetProperty="RenderTransform.Children[3].Y"
-								From="20"
-								To="0"
-								Duration="0:0:0.3" />
+                                AccelerationRatio="0.3"
+                                Storyboard.TargetProperty="RenderTransform.Children[3].Y"
+                                From="20"
+                                To="0"
+                                Duration="0:0:0.3" />
                             <DoubleAnimation
-								BeginTime="0:0:5"
-								Storyboard.TargetProperty="Opacity"
-								From="1"
-								To="1"
-								Duration="0:0:0.1" />
+                                BeginTime="0:0:5"
+                                Storyboard.TargetProperty="Opacity"
+                                From="1"
+                                To="1"
+                                Duration="0:0:0.1" />
                             <DoubleAnimation
-								BeginTime="0:0:5.1"
-								DecelerationRatio="0.5"
-								Storyboard.TargetProperty="Opacity"
-								From="1"
-								To="0"
-								Duration="0:0:0.5" />
+                                BeginTime="0:0:5.1"
+                                DecelerationRatio="0.5"
+                                Storyboard.TargetProperty="Opacity"
+                                From="1"
+                                To="0"
+                                Duration="0:0:0.5" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -71,221 +71,231 @@
         <DockPanel Name="MainGrid">
             <Menu VerticalAlignment="Top" DockPanel.Dock="Top">
                 <MenuItem
-					FontFamily="SimHei"
-					FontSize="18"
-					Header="项目">
+                    FontFamily="SimHei"
+                    FontSize="18"
+                    Header="项目">
                     <MenuItem
-						Click="NewProject_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="新建" />
+                        Click="NewProject_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="新建" />
                     <MenuItem
-						Click="OpenProject_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="打开" />
+                        Click="OpenProject_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="打开" />
                     <MenuItem
-						Click="CloseProject_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="关闭" />
+                        Click="CloseProject_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="关闭" />
                     <MenuItem
-						Click="BackupProject_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="备份" />
+                        Click="BackupProject_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="备份" />
                     <MenuItem
-						Click="Setting_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="项目设置" />
+                        Click="Setting_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="项目设置" />
                     <MenuItem
-						Click="AuthorizeProject_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="分享授权" />
+                        Click="AuthorizeProject_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="分享授权" />
                     <MenuItem
-						Click="ExitSoftware_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="退出" />
+                        Click="ExitSoftware_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="退出" />
                 </MenuItem>
                 <MenuItem
-					FontFamily="SimHei"
-					FontSize="18"
-					Header="引用">
+                    FontFamily="SimHei"
+                    FontSize="18"
+                    Header="引用">
                     <MenuItem
-						Click="AddCitation_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="添加引用" />
+                        Click="AddCitation_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="添加引用" />
                     <MenuItem
-						Click="ViewCitation_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="查看引用" />
+                        Click="ViewCitation_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="查看引用" />
                     <MenuItem
-						Click="ViewTimeline_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="查看时间线" />
+                        Click="ViewTimeline_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="查看时间线" />
                     <MenuItem
-						Click="ImportCitation_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="导入引用" />
+                        Click="ImportCitation_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="导入引用" />
                     <MenuItem
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="导出引用" >
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="导出引用">
                         <MenuItem
-						Click="ExportCitation_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="至格式文件"/>
+                            Click="ExportCitation_Click"
+                            FontFamily="SimHei"
+                            FontSize="15"
+                            Header="至格式文件" />
                         <MenuItem
-Click="FileCitation_Click"
-FontFamily="SimHei"
-FontSize="15"
-Header="至交换文件"/>
+                            Click="FileCitation_Click"
+                            FontFamily="SimHei"
+                            FontSize="15"
+                            Header="至交换文件" />
                     </MenuItem>
                     <MenuItem
-						Click="ImportFailure_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="导入失败原因" />
+                        Click="ImportFailure_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="导入失败原因" />
                 </MenuItem>
                 <MenuItem
-					FontFamily="SimHei"
-					FontSize="18"
-					Header="任务">
+                    FontFamily="SimHei"
+                    FontSize="18"
+                    Header="任务">
                     <MenuItem
-						Click="AddTask_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="规划任务" />
+                        Click="AddTask_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="规划任务" />
                     <MenuItem
-						Click="ViewTask_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="查看任务" />
+                        Click="ViewTask_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="查看任务" />
                     <MenuItem
-						Click="AddAlert_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="添加提醒" />
+                        Click="AddAlert_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="添加提醒" />
                     <MenuItem
-						Click="SetAlert_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="设置提醒" />
+                        Click="SetAlert_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="设置提醒" />
                 </MenuItem>
                 <MenuItem
-					FontFamily="SimHei"
-					FontSize="18"
-					Header="记录">
+                    FontFamily="SimHei"
+                    FontSize="18"
+                    Header="记录">
                     <MenuItem
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="便签">
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="便签">
                         <MenuItem
-							Click="AddNote_Click"
-							FontFamily="SimHei"
-							FontSize="15"
-							Header="快速新建" />
+                            Click="AddNote_Click"
+                            FontFamily="SimHei"
+                            FontSize="15"
+                            Header="快速新建" />
                         <MenuItem
-							Click="ViewNote_Click"
-							FontFamily="SimHei"
-							FontSize="15"
-							Header="查看便签" />
+                            Click="ViewNote_Click"
+                            FontFamily="SimHei"
+                            FontSize="15"
+                            Header="查看便签" />
                     </MenuItem>
                     <MenuItem
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="设备">
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="设备">
                         <MenuItem
-							Click="AddInstrument_Click"
-							FontFamily="SimHei"
-							FontSize="15"
-							Header="添加仪器" />
+                            Click="AddInstrument_Click"
+                            FontFamily="SimHei"
+                            FontSize="15"
+                            Header="添加仪器" />
                         <MenuItem
-							Click="ViewInstrument_Click"
-							FontFamily="SimHei"
-							FontSize="15"
-							Header="管理仪器" />
+                            Click="ViewInstrument_Click"
+                            FontFamily="SimHei"
+                            FontSize="15"
+                            Header="管理仪器" />
                     </MenuItem>
                     <MenuItem
-				FontFamily="SimHei"
-				FontSize="15"
-				Header="实验">
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="实验">
                         <MenuItem
-				FontFamily="SimHei"
-				FontSize="15"
-				Header="大田实验"
-                            Click="Field_Click"/>
+                            Click="Field_Click"
+                            FontFamily="SimHei"
+                            FontSize="15"
+                            Header="大田实验" />
                     </MenuItem>
                 </MenuItem>
                 <MenuItem
-					FontFamily="SimHei"
-					FontSize="18"
-					Header="其它">
+                    FontFamily="SimHei"
+                    FontSize="18"
+                    Header="助手">
                     <MenuItem
-						Click="SoftwareSetting_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="软件设置" />
+                        Click="FindSimilar_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="查找同类论文" />
+                </MenuItem>
+                <MenuItem
+                    FontFamily="SimHei"
+                    FontSize="18"
+                    Header="其它">
                     <MenuItem
-						Click="GenerateSerial_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="本机序列号" />
+                        Click="SoftwareSetting_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="软件设置" />
                     <MenuItem
-						Click="About_Click"
-						FontFamily="SimHei"
-						FontSize="15"
-						Header="关于" />
+                        Click="GenerateSerial_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="本机序列号" />
+                    <MenuItem
+                        Click="About_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="关于" />
                 </MenuItem>
             </Menu>
 
             <Border
-				Height="45"
-				Background="Green"
-				DockPanel.Dock="Top">
+                Height="45"
+                Background="Green"
+                DockPanel.Dock="Top">
                 <StackPanel Orientation="Horizontal">
                     <Image Margin="5" Source="pack://application:,,,/Citation;component/Images/citation.png" />
                     <TextBlock
-						Margin="20,5,5,5"
-						VerticalAlignment="Center"
-						FontFamily="Consolas"
-						FontSize="26"
                         Name="WelcomeBanner"
-						Foreground="White">
-						Welcome To Citation! (Version  Dev_tfs1090s)
+                        Margin="20,5,5,5"
+                        VerticalAlignment="Center"
+                        FontFamily="Consolas"
+                        FontSize="26"
+                        Foreground="White">
+                        Welcome To Citation! (Version Dev_tfs1090s)
                     </TextBlock>
                 </StackPanel>
             </Border>
 
             <ToolBar
-				VerticalAlignment="Bottom"
-				d:IsLocked="True"
-				DockPanel.Dock="Bottom">
+                VerticalAlignment="Bottom"
+                d:IsLocked="True"
+                DockPanel.Dock="Bottom">
                 <Label
-					Content="项目名称:"
-					FontSize="14"
-					FontWeight="DemiBold" />
+                    Content="项目名称:"
+                    FontSize="14"
+                    FontWeight="DemiBold" />
                 <Label
-					Name="ProjectName"
-					Content="{Binding Name}"
-					FontSize="14"
-					FontWeight="DemiBold" />
+                    Name="ProjectName"
+                    Content="{Binding Name}"
+                    FontSize="14"
+                    FontWeight="DemiBold" />
             </ToolBar>
             <Frame Name="MainFrame" />
         </DockPanel>
         <Canvas
-			Name="ToastContainer"
-			Margin="0,0,0,60"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Bottom"
-			IsHitTestVisible="False" />
+            Name="ToastContainer"
+            Margin="0,0,0,60"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            IsHitTestVisible="False" />
     </Grid>
 </Window>

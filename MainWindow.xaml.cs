@@ -325,16 +325,8 @@ namespace Citation
             NavigateWithSlideAnimation(new Citation.View.Page.ViewReferencePage());
         }
 
-        private void ExportCitation_Click(object sender, RoutedEventArgs e)
+        private List<JournalArticle> LoadArticles()
         {
-            if (Project.Name == "尚未打开项目！")
-            {
-                ShowToast("清先打开一个项目");
-                return;
-            }
-
-            var exportPage = new ExportPage();
-
             var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
             var papers = new List<JournalArticle>();
 
@@ -363,7 +355,20 @@ namespace Citation
                 papers.Add(paper);
             }
 
-            exportPage.ArticlesContainer.ItemsSource = papers;
+            return papers;
+        }
+
+        private void ExportCitation_Click(object sender, RoutedEventArgs e)
+        {
+            if (Project.Name == "尚未打开项目！")
+            {
+                ShowToast("清先打开一个项目");
+                return;
+            }
+
+            var exportPage = new ExportPage();
+
+            exportPage.ArticlesContainer.ItemsSource = LoadArticles();
             NavigateWithSlideAnimation(exportPage);
         }
 
@@ -711,37 +716,9 @@ namespace Citation
 
         private void FileCitation_Click(object sender, RoutedEventArgs e)
         {
-            var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
-            var papers = new List<JournalArticle>();
-
-            while (reader.Read())
-            {
-                var db = new JournalArticleDb()
-                {
-                    Abstract = reader["PaperAbstract"].ToString()!,
-                    AuthorString = reader["PaperAuthor"].ToString()!,
-                    Issue = reader["PaperIssue"].ToString()!,
-                    ContainerString = reader["PaperContainer"].ToString()!,
-                    Doi = reader["PaperDoi"].ToString()!,
-                    Page = reader["PaperPage"].ToString()!,
-                    TitleString = reader["PaperTitle"].ToString()!,
-                    Volume = reader["PaperVolume"].ToString()!,
-                    Link = reader["PaperLink"].ToString()!,
-                    Url = reader["PaperUrl"].ToString()!,
-                    Published = reader["PaperPublished"].ToString()!,
-                    Folder = reader["PaperFolder"].ToString()!
-                };
-
-                db.Afterward();
-                var paper = JournalArticle.FromArticle(db);
-
-                paper.Message!.AfterWards();
-                papers.Add(paper);
-            }
-
             var file = new CitationFile
             {
-                Articles = papers,
+                Articles = LoadArticles(),
                 Version = AppInfo.AppVersion.ToString(),
             };
 
@@ -766,6 +743,11 @@ namespace Citation
         private void Field_Click(object sender, RoutedEventArgs e)
         {
             NavigateWithSlideAnimation(new FieldExperimentPage());
+        }
+
+        private void FindSimilar_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new FindSimilarPage(LoadArticles()));
         }
     }
 }

@@ -1,0 +1,292 @@
+﻿<UserControl
+    x:Class="Citation.View.Page.FindSimilarPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Citation.View.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Citation.View.Page"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <!--  定义转换器资源  -->
+        <converters:AuthorsConverter x:Key="AuthorsConverter" />
+        <converters:DateConverter x:Key="DateConverter" />
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <converters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" />
+        <converters:HasPdfLinkConverter x:Key="HasPdfLinkConverter" />
+
+        <Style x:Key="ArticleCard" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#E0E0E0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Margin" Value="0,0,0,16" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect
+                        BlurRadius="12"
+                        Opacity="0.1"
+                        ShadowDepth="0" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TitleText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#212121" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+
+        <Style x:Key="AuthorText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#757575" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+
+        <Style x:Key="JournalText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#616161" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontStyle" Value="Italic" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+
+        <Style x:Key="AbstractText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#424242" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="MaxHeight" Value="60" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
+
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#1976D2" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SimilarityBadge" TargetType="Border">
+            <Setter Property="Background" Value="#E3F2FD" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#1976D2" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SearchTextBox" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#E0E0E0" />
+            <Setter Property="Background" Value="White" />
+        </Style>
+
+        <DataTemplate x:Key="ArticleTemplate">
+            <Border Style="{StaticResource ArticleCard}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Style="{StaticResource TitleText}" Text="{Binding Message.Title[0]}" />
+
+                        <TextBlock Style="{StaticResource AuthorText}" Text="{Binding Message.AuthorString}" />
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource JournalText}" Text="{Binding Message.Container[0]}" />
+                            <TextBlock Style="{StaticResource JournalText}" Text=" • " />
+                            <TextBlock Style="{StaticResource JournalText}" Text="{Binding Message.Published.DateParts[0], Converter={StaticResource DateConverter}}" />
+                        </StackPanel>
+
+                        <TextBlock
+                            Style="{StaticResource AbstractText}"
+                            Text="{Binding Message.Abstract}"
+                            Visibility="{Binding Message.Abstract, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+
+                    <Border
+                        Grid.Column="1"
+                        Style="{StaticResource SimilarityBadge}"
+                        Visibility="Hidden">
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Foreground="#1976D2"
+                            Text="" />
+                    </Border>
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="0,16,0,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="ViewDetailsButton"
+                            Click="ViewDetailsButton_Click"
+                            Style="{StaticResource ActionButton}"
+                            ToolTip="查看详情">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    Source="pack://application:,,,/Citation;component/Images/article.png" />
+                                <TextBlock Margin="4,0,0,0" Text="查看" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            x:Name="DownloadPdfButton"
+                            Click="DownloadPdfButton_Click"
+                            Style="{StaticResource ActionButton}"
+                            ToolTip="下载PDF"
+                            Visibility="{Binding Message.Link, Converter={StaticResource HasPdfLinkConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    Source="pack://application:,,,/Citation;component/Images/download.png" />
+                                <TextBlock Margin="4,0,0,0" Text="PDF" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid Background="#FAFAFA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border
+            Grid.Row="0"
+            Padding="24"
+            Background="White">
+            <StackPanel>
+                <TextBlock
+                    Margin="0,0,0,16"
+                    FontSize="24"
+                    FontWeight="SemiBold"
+                    Foreground="#212121"
+                    Text="AI相似文献查找" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox
+                        x:Name="SearchTextBox"
+                        VerticalContentAlignment="Center"
+                        IsEnabled="False"
+                        Style="{StaticResource SearchTextBox}">
+                        <TextBox.Tag>
+                            <TextBlock
+                                FontStyle="Italic"
+                                Foreground="#9E9E9E"
+                                Text="输入文献标题、DOI或关键词" />
+                        </TextBox.Tag>
+                    </TextBox>
+
+                    <Button
+                        Grid.Column="1"
+                        Margin="16,0,0,0"
+                        Click="OnSearchSimilarArticles"
+                        Style="{StaticResource PrimaryButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Margin="0,0,8,0"
+                                Source="pack://application:,,,/Citation;component/Images/search.png" />
+                            <TextBlock Text="查找相似文献" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <ProgressBar
+                    x:Name="SearchProgressBar"
+                    Height="4"
+                    Margin="0,16,0,0"
+                    Background="#E0E0E0"
+                    Foreground="#1976D2"
+                    IsIndeterminate="True"
+                    Visibility="Collapsed" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Padding="24"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock
+                    x:Name="ResultsCountText"
+                    Margin="0,0,0,16"
+                    Foreground="#757575"
+                    Text="找到 0 篇相似文献" />
+
+                <ItemsControl x:Name="ResultsItemsControl" ItemTemplate="{StaticResource ArticleTemplate}" />
+
+                <TextBlock
+                    x:Name="NoResultsText"
+                    Margin="0,48,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Foreground="#9E9E9E"
+                    Text="暂无结果，尝试搜索相似文献"
+                    Visibility="Collapsed" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

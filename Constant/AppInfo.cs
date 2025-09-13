@@ -8,7 +8,7 @@ namespace Citation.Constant
             SoftwareVersion.Month.September, 
             SoftwareVersion.State.Alpha, 
             SoftwareVersion.LifeCycle.BasicDevelop, 
-            1093
+            1097
         );
     }
 }

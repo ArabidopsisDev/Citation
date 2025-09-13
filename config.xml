@@ -4,6 +4,6 @@
   <DbPassword>default</DbPassword>
   <EnableSecurity>true</EnableSecurity>
   <SecurityVersion>CryptoDB</SecurityVersion>
-
+	<DeepSeekApiKey>empty</DeepSeekApiKey>
   <ReadLicense>false</ReadLicense>
 </config>
