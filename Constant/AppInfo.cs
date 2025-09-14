@@ -6,9 +6,9 @@ namespace Citation.Constant
     {
         public static SoftwareVersion AppVersion = new(
             SoftwareVersion.Month.September, 
-            SoftwareVersion.State.Alpha, 
+            SoftwareVersion.State.Beta, 
             SoftwareVersion.LifeCycle.BasicDevelop, 
-            1097
+            1100
         );
     }
 }

@@ -1,0 +1,192 @@
+﻿<UserControl
+    x:Class="Citation.Controls.AIDesign"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Citation.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="AIChatButton" TargetType="Button">
+            <Setter Property="Margin" Value="4,2" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Background" Value="#6366F1" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AIMessageBorder" TargetType="Border">
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Margin" Value="0,6" />
+        </Style>
+
+        <Style x:Key="SuggestionsButton" TargetType="Button">
+            <Setter Property="Margin" Value="4,2" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="Background" Value="#F1F5F9" />
+            <Setter Property="Foreground" Value="#6366F1" />
+            <Setter Property="BorderBrush" Value="#C7D2FE" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style x:Key="PropertyTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,2" />
+            <Setter Property="Padding" Value="6,2" />
+            <Setter Property="BorderBrush" Value="#6366F1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="#F8FAFC" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#334155" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border
+            Grid.Row="0"
+            Padding="12,8"
+            Background="#6366F1">
+            <StackPanel Orientation="Horizontal">
+                <Image
+                    Width="24"
+                    Height="24"
+                    Margin="0,0,8,0"
+                    Source="pack://application:,,,/Citation;component/Images/ai_tool.png" />
+                <TextBlock
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="AI试验设计助手" />
+                <Button
+                    x:Name="CloseButton"
+                    Width="24"
+                    Height="24"
+                    Margin="20,0,0,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="CloseButton_Click"
+                    Content="×"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    ToolTip="关闭" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer
+            x:Name="ChatScrollViewer"
+            Grid.Row="1"
+            Padding="12"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ChatMessagesPanel" />
+        </ScrollViewer>
+
+        <Border
+            Grid.Row="2"
+            Padding="12"
+            Background="#F8FAFC"
+            BorderBrush="#E3E8F0"
+            BorderThickness="0,1,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    x:Name="SuggestionsPanel"
+                    Grid.Row="0"
+                    Margin="0,0,0,8"
+                    Orientation="Horizontal">
+                    <Button
+                        Click="SuggestionButton_Click"
+                        Content="随机区组设计建议"
+                        Style="{StaticResource SuggestionsButton}"
+                        Tag="随机区组设计建议" />
+                    <Button
+                        Click="SuggestionButton_Click"
+                        Content="裂区设计建议"
+                        Style="{StaticResource SuggestionsButton}"
+                        Tag="裂区设计建议" />
+                    <Button
+                        Click="SuggestionButton_Click"
+                        Content="处理分配建议"
+                        Style="{StaticResource SuggestionsButton}"
+                        Tag="处理分配建议" />
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox
+                        x:Name="InputTextBox"
+                        Grid.Column="0"
+                        Height="36"
+                        AcceptsReturn="False"
+                        KeyDown="InputTextBox_KeyDown"
+                        Style="{StaticResource PropertyTextBoxStyle}"
+                        TextChanged="InputTextBox_TextChanged" />
+
+                    <Button
+                        x:Name="SendButton"
+                        Grid.Column="1"
+                        Width="80"
+                        Margin="8,0,0,0"
+                        Click="SendButton_Click"
+                        Content="发送"
+                        IsEnabled="False"
+                        Style="{StaticResource AIChatButton}" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <Border
+            x:Name="LoadingIndicator"
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Panel.ZIndex="100"
+            Background="#80000000"
+            Visibility="Collapsed">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressBar
+                    Width="200"
+                    Height="8"
+                    Margin="0,0,0,12"
+                    IsIndeterminate="True" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Foreground="White"
+                    Text="AI正在思考中..." />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

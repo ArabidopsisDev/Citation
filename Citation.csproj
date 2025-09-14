@@ -54,12 +54,14 @@
   <ItemGroup>
     <None Remove="config.xml" />
     <None Remove="dbtemplate.accdb" />
+    <None Remove="Images\ai_tool.png" />
     <None Remove="Images\alert.mp3" />
     <None Remove="Images\alert.wav" />
     <None Remove="Images\align-center.png" />
     <None Remove="Images\align-left.png" />
     <None Remove="Images\align-right.png" />
     <None Remove="Images\article.png" />
+    <None Remove="Images\back.png" />
     <None Remove="Images\block_tool.png" />
     <None Remove="Images\citation.png" />
     <None Remove="Images\download.png" />
@@ -98,6 +100,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="logo.ico" />
+    <Resource Include="Images\ai_tool.png" />
+    <Resource Include="Images\back.png" />
     <Resource Include="Images\download.png" />
     <Resource Include="Images\plot_tool.png" />
     <Resource Include="Images\block_tool.png" />

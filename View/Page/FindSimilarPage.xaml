@@ -167,6 +167,20 @@
                         VerticalAlignment="Bottom"
                         Orientation="Horizontal">
                         <Button
+                            x:Name="SaveDetailsButton"
+                            Click="SaveDetailsButton_Click"
+                            Style="{StaticResource ActionButton}"
+                            ToolTip="保存文献">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    Source="pack://application:,,,/Citation;component/Images/save_experiment.png" />
+                                <TextBlock Margin="4,0,0,0" Text="详情页" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
                             x:Name="ViewDetailsButton"
                             Click="ViewDetailsButton_Click"
                             Style="{StaticResource ActionButton}"

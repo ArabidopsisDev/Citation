@@ -327,6 +327,12 @@ namespace Citation
 
         private List<JournalArticle> LoadArticles()
         {
+            if (Project.Name == "尚未打开项目！")
+            {
+                ShowToast("您还未打开项目，清先打开一个项目");
+                return null!;
+            }
+
             var reader = Acceed.Shared.Query("SELECT * FROM tb_Paper");
             var papers = new List<JournalArticle>();
 
@@ -747,7 +753,10 @@ namespace Citation
 
         private void FindSimilar_Click(object sender, RoutedEventArgs e)
         {
-            NavigateWithSlideAnimation(new FindSimilarPage(LoadArticles()));
+            var articles = LoadArticles();
+
+            if (articles is not null)
+                NavigateWithSlideAnimation(new FindSimilarPage(articles));
         }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using Citation.Model.Reference;
 using Citation.Utils;
 using Citation.Utils.Api;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -54,7 +51,7 @@ namespace Citation.View.Page
 
         private void ViewDetailsButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
+            var button = (Button)sender;
             if (button != null)
             {
                 var article = button.DataContext as JournalArticle;
@@ -67,7 +64,7 @@ namespace Citation.View.Page
 
         private void DownloadPdfButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
+            var button = (Button)sender;
             if (button != null)
             {
                 var article = button.DataContext as JournalArticle;
@@ -93,8 +90,8 @@ namespace Citation.View.Page
             // build necessary information
             var mainWindow = Application.Current.MainWindow as MainWindow;
             var config = mainWindow!.Config;
-            var deepSeekApi = new DeepSeek(config.DeepSeekApiKey);
-            var conversationHistory = new List<Utils.Api.Message>();
+            var deepSeekApi = new DeepSeekApi(config.DeepSeekApiKey);
+            var conversationHistory = new List<Utils.Api.DeepSeekApi.Message>();
 
             if (config.DeepSeekApiKey == "empty")
             {
@@ -103,12 +100,12 @@ namespace Citation.View.Page
             }
 
             // add chat history
-            conversationHistory.Add(new Utils.Api.Message
+            conversationHistory.Add(new Utils.Api.DeepSeekApi.Message
             {
                 Role = "system",
                 Content = "你是一个精通科研文献检索的助手，你的任务是帮助根据用户已有文献检索相似文献"
             });
-            conversationHistory.Add(new Utils.Api.Message
+            conversationHistory.Add(new Utils.Api.DeepSeekApi.Message
             {
                 Role = "user",
                 Content = promptBuilder.ToString()
@@ -117,7 +114,7 @@ namespace Citation.View.Page
             // request
             SearchProgressBar.Visibility = Visibility.Visible;
             var response = await deepSeekApi.CreateChatCompletionAsync(
-                new ChatCompletionRequest
+                new DeepSeekApi.ChatCompletionRequest
                 {
                     Model = "deepseek-chat",
                     Messages = conversationHistory,
@@ -178,7 +175,7 @@ namespace Citation.View.Page
             {
                 try
                 {
-                    // 使用Process.Start打开链接或下载文件
+                    // Download pdf
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                     {
                         FileName = pdfLink,
@@ -194,6 +191,26 @@ namespace Citation.View.Page
             {
                 MessageBox.Show("该文献没有可用的PDF链接");
             }
+        }
+
+        private void SaveDetailsButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            if (button != null)
+            {
+                var article = button.DataContext as JournalArticle;
+                if (article != null)
+                {
+                    SaveArticle(article);
+                }
+            }
+        }
+
+        private void SaveArticle(JournalArticle article)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var detailPage = new DetailPage(article, true);
+            mainWindow?.NavigateWithSlideAnimation(detailPage);
         }
     }
 }

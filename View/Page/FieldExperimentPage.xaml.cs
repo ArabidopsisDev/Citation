@@ -1,4 +1,5 @@
-﻿using Citation.Model;
+﻿using Citation.Controls;
+using Citation.Model;
 using Citation.Model.Agriculture;
 using Microsoft.Win32;
 using System;
@@ -13,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Xceed.Wpf.Toolkit;
@@ -1226,7 +1228,6 @@ namespace Citation.View.Page
             var button = sender as RadioButton;
             if (button == null || !button.IsChecked.HasValue || !button.IsChecked.Value) return;
 
-            // 根据按钮设置当前工具
             if (button == SelectToolButton) currentTool = ToolType.Select;
             else if (button == FieldToolButton) currentTool = ToolType.Field;
             else if (button == BlockToolButton) currentTool = ToolType.Block;
@@ -1441,7 +1442,6 @@ namespace Citation.View.Page
             {
                 try
                 {
-                    // 序列化为JSON
                     var options = new JsonSerializerOptions
                     {
                         WriteIndented = true,
@@ -1458,6 +1458,23 @@ namespace Citation.View.Page
                     System.Windows.MessageBox.Show($"保存失败: {ex.Message}", "错误", System.Windows.MessageBoxButton.OK);
                 }
             }
+        }
+
+        private void LoadExperiment(string jsonString)
+        {
+            var options = new JsonSerializerOptions
+            {
+                Converters = { new ColorConverter() }
+            };
+
+            currentExperiment = JsonSerializer.Deserialize<FieldExperiment>(jsonString, options);
+
+            ExperimentNameTextBox.Text = currentExperiment.Name;
+            ExperimentDescTextBox.Text = currentExperiment.Description;
+            DesignTypeComboBox.SelectedIndex = (int)currentExperiment.DesignType;
+            TreatmentListBox.ItemsSource = currentExperiment.Treatments;
+
+            RedrawAllElements();
         }
 
         private void LoadExperimentButton_Click(object sender, RoutedEventArgs e)
@@ -1620,7 +1637,6 @@ namespace Citation.View.Page
             public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {
                 string colorString = reader.GetString();
-                // 使用类型名而不是实例来访问静态方法:cite[3]:cite[6]
                 return (Color)System.Windows.Media.ColorConverter.ConvertFromString(colorString);
             }
 
@@ -1630,12 +1646,60 @@ namespace Citation.View.Page
             }
         }
 
+        private void AIButton_Checked(object sender,RoutedEventArgs e)
+        {
+            PanToolButton.IsChecked = true;
+            currentTool = ToolType.Pan;
+            ShowAIWindow();
+        }
+
+        private void ShowAIWindow()
+        {
+            AIContainer.Visibility = Visibility.Visible;
+            Storyboard showAnimation = (Storyboard)Resources["ShowAIWindowAnimation"];
+            showAnimation.Begin(AIWindow);
+            SetToolsEnabled(false);
+        }
+
+        private void HideAIWindow()
+        {
+            Storyboard hideAnimation = (Storyboard)Resources["HideAIWindowAnimation"];
+            hideAnimation.Completed += (s, e) =>
+            {
+                AIContainer.Visibility = Visibility.Collapsed;
+                AIToolButton.IsChecked = false;
+                SetToolsEnabled(true);
+            };
+            hideAnimation.Begin(AIWindow);
+        }
+
+        private void SetToolsEnabled(bool enabled)
+        {
+            SelectToolButton.IsEnabled = enabled;
+            FieldToolButton.IsEnabled = enabled;
+            BlockToolButton.IsEnabled = enabled;
+            PlotToolButton.IsEnabled = enabled;
+            SignboardToolButton.IsEnabled = enabled;
+            ZoomToolButton.IsEnabled = enabled;
+            PanToolButton.IsEnabled = enabled;
+        }
+        private void AIDesignControl_CloseRequested(object sender, EventArgs e)
+        {
+            HideAIWindow();
+        }
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitializeNewExperiment();
             InitializeGridBackground();
             UpdateToolStates();
             UpdateStatusBar();
+        }
+
+        private void AIDesignControl_ExperimentGenerated(object sender, EventArgs e)
+        {
+            var aiControl = (AIDesign)sender;
+            LoadExperiment(aiControl.ExperimentFile);
         }
     }
 }
