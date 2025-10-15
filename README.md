@@ -3,91 +3,91 @@
 <p align="center">
   <img src="Docs/img/logo.png" width="200" alt="Arabidopsis Citation Logo">
   <br>
-  <strong>科研文献管理与实验规划一体化解决方案</strong>
+  <strong>Integrated solution for scientific research literature management and experimental planning</strong>
 </p>
 
-## 🌟 项目简介
+## 🌟 Project Introduction
 
-Arabidopsis Citation 是一款专为科研工作者设计的开源文献管理工具，基于WPF框架开发。它整合了文献引用管理、实验任务规划和科研数据整理等功能，帮助研究者高效组织科研工作流。
+Arabidopsis Citation is an open source document management tool designed for researchers, developed based on the WPF framework. It integrates functions such as document citation management, experimental task planning, and scientific research data organization to help researchers organize their research workflow efficiently.
 
-## ✨ 核心功能
+## ✨ Core Features
 
-### 📚 文献管理
-- 智能DOI识别与元数据抓取
-- 支持APA/MLA/Chicago等学术引用格式
-- RIS格式批量导入导出
-- 按课题分类管理文献
+### 📚 Document Management
+- Intelligent DOI recognition and metadata extraction
+- Supports academic citation formats such as APA, MLA, and Chicago
+- Batch import and export of RIS formats
+- Manage literature by subject category
 
-### ⏰ 任务规划
-- 可视化实验时间线
-- 定时提醒功能
-- 任务进度追踪
-- 团队协作支持
+### ⏰ Task Planning
+- Visual Experiment Timeline
+- Scheduled Reminders
+- Task Progress Tracking
+- Team Collaboration Support
 
-### 🔒 数据安全
-- 项目文件加密保护
-- 自动备份功能
-- 多设备数据同步
+### 🔒 Data Security
+- Project file encryption
+- Automatic backup
+- Multi-device data sync
+- 
+## 🛠 Technical Architecture
 
-## 🛠 技术架构
+• Front-end: WPF (Windows Presentation Foundation)
 
-• 前端: WPF (Windows Presentation Foundation)
+• Framework: .NET 9
 
-• 框架: .NET 9
+• Database: Microsoft Access
 
-• 数据库: Microsoft Access
+• Build Tool: dotnet
 
-• 构建工具: dotnet
+## 🚀 Quick Start
 
-## 🚀 快速开始
-
-```powershell
-# 1. 安装.NET 9 SDK
+```PowerShell
+# 1. Install the .NET 9 SDK
 winget install Microsoft.DotNet.SDK.9
 
-# 2. 克隆仓库
+# 2. Clone the repository
 git clone https://github.com/ArabidopsisDev/Citation.git
 cd citation
 
-# 3. 还原NuGet包
+# 3. Restore the NuGet package
 dotnet restore
 
-# 4. Release模式编译
+# 4. Compile in Release mode
 dotnet build -c Release
 
-# 5. 是我喜欢的程序，直接运行
+# 5. This is my favorite program, just run it
 .\bin\Debug\net9.0-windows\Citation.exe
 ```
 
-或者也可以直接在发布版中下载最新版。
+Alternatively, you can download the latest version directly from the release directory.
 
-## 📖 文档资源
+## 📖 Documentation Resources
 
-| 文档类型 | 链接 |
+| Document Type | Link |
 |----------|------|
 | 中文用户手册 | [Docs/manual-cn.md](Docs/manual-cn.md) |
 | English Manual | [Docs/manual-en.md](Docs/manual-en.md) |
 
-## 🤝 参与贡献
+## 🤝 Contribute
 
 ```plaintext
-1. Fork项目仓库
-2. 创建特性分支 (git checkout -b feature/your-feature)
-3. 提交修改 (git commit -m 'Add your feature')
-4. 推送分支 (git push origin feature/your-feature)
-5. 创建Pull Request
+1. Fork the repository
+2. Create a feature branch (git checkout -b feature/your-feature)
+3. Commit your changes (git commit -m 'Add your feature')
+4. Push the branch (git push origin feature/your-feature)
+5. Create a pull request
 ```
 
-## 📬 联系我们
+## 📬 Contact Us
 
 ```plaintext
-✉️ 邮箱: arab@methodbox.top
-👥 QQ群: 1053379975
-📬 来信请寄：山东省泰安市泮河大街7号山东农业大学 农学院 Arbidopsis(收)
+✉️ Email: arab@methodbox.top
+👥 QQ Group: 1053379975
+📬 Please send your emails to: Arabidopsis, College of Agriculture, Shandong Agricultural University, 7 Panhe Street, Taishan District, Tai'an City, Shandong Province, 271000
 ```
 
 ---
 
 <p align="center">
-  <sub>📜 AGPL License v3 | 🏷️ Version alpha 0.3x</sub>
+  <sub>📜 AGPL License v3 | 🏷️ Version alpha 0.4x</sub>
 </p>
