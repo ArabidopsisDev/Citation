@@ -758,5 +758,10 @@ namespace Citation
             if (articles is not null)
                 NavigateWithSlideAnimation(new FindSimilarPage(articles));
         }
+
+        private void FindNatural_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new NLFindPage());
+        }
     }
 }

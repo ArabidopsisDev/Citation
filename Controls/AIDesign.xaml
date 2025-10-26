@@ -185,7 +185,7 @@
                 <TextBlock
                     HorizontalAlignment="Center"
                     Foreground="White"
-                    Text="AI正在思考中..." />
+                    Text="AI正在思考中，可能需要2~3分钟时间..." />
             </StackPanel>
         </Border>
     </Grid>

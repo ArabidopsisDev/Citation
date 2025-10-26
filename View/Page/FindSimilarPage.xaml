@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Citation.View.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:Citation.Properties"
     xmlns:local="clr-namespace:Citation.View.Page"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="800"
@@ -11,7 +12,6 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <!--  定义转换器资源  -->
         <converters:AuthorsConverter x:Key="AuthorsConverter" />
         <converters:DateConverter x:Key="DateConverter" />
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -170,13 +170,13 @@
                             x:Name="SaveDetailsButton"
                             Click="SaveDetailsButton_Click"
                             Style="{StaticResource ActionButton}"
-                            ToolTip="保存文献">
+                            ToolTip="{x:Static loc:Resources.FindSimilarPage_SaveArticle}">
                             <StackPanel Orientation="Horizontal">
                                 <Image
                                     Width="16"
                                     Height="16"
                                     Source="pack://application:,,,/Citation;component/Images/save_experiment.png" />
-                                <TextBlock Margin="4,0,0,0" Text="详情页" />
+                                <TextBlock Margin="4,0,0,0" Text="{x:Static loc:Resources.FindSimilarPage_DetailPage}" />
                             </StackPanel>
                         </Button>
 
@@ -184,13 +184,13 @@
                             x:Name="ViewDetailsButton"
                             Click="ViewDetailsButton_Click"
                             Style="{StaticResource ActionButton}"
-                            ToolTip="查看详情">
+                            ToolTip="{x:Static loc:Resources.FindSimilarPage_RevealDetail}">
                             <StackPanel Orientation="Horizontal">
                                 <Image
                                     Width="16"
                                     Height="16"
                                     Source="pack://application:,,,/Citation;component/Images/article.png" />
-                                <TextBlock Margin="4,0,0,0" Text="查看" />
+                                <TextBlock Margin="4,0,0,0" Text="{x:Static loc:Resources.Public_Reveal}" />
                             </StackPanel>
                         </Button>
 
@@ -198,7 +198,7 @@
                             x:Name="DownloadPdfButton"
                             Click="DownloadPdfButton_Click"
                             Style="{StaticResource ActionButton}"
-                            ToolTip="下载PDF"
+                            ToolTip="{x:Static loc:Resources.FindSimilarPage_DownloadPDF}"
                             Visibility="{Binding Message.Link, Converter={StaticResource HasPdfLinkConverter}}">
                             <StackPanel Orientation="Horizontal">
                                 <Image
@@ -230,7 +230,7 @@
                     FontSize="24"
                     FontWeight="SemiBold"
                     Foreground="#212121"
-                    Text="AI相似文献查找" />
+                    Text="{x:Static loc:Resources.FindSimilarPage_PageCapital}" />
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -247,7 +247,7 @@
                             <TextBlock
                                 FontStyle="Italic"
                                 Foreground="#9E9E9E"
-                                Text="输入文献标题、DOI或关键词" />
+                                Text="{x:Static loc:Resources.FindSimilarPage_Prompt}" />
                         </TextBox.Tag>
                     </TextBox>
 
@@ -262,7 +262,7 @@
                                 Height="20"
                                 Margin="0,0,8,0"
                                 Source="pack://application:,,,/Citation;component/Images/search.png" />
-                            <TextBlock Text="查找相似文献" />
+                            <TextBlock Text="{x:Static loc:Resources.FindSimilarPage_FindSimilar}" />
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -287,7 +287,7 @@
                     x:Name="ResultsCountText"
                     Margin="0,0,0,16"
                     Foreground="#757575"
-                    Text="找到 0 篇相似文献" />
+                    Text="{x:Static loc:Resources.FindSimilarPage_DefaultFind}" />
 
                 <ItemsControl x:Name="ResultsItemsControl" ItemTemplate="{StaticResource ArticleTemplate}" />
 
@@ -298,7 +298,7 @@
                     VerticalAlignment="Center"
                     FontSize="16"
                     Foreground="#9E9E9E"
-                    Text="暂无结果，尝试搜索相似文献"
+                    Text="{x:Static loc:Resources.FindSimilarPage_NoResult}"
                     Visibility="Collapsed" />
             </StackPanel>
         </ScrollViewer>

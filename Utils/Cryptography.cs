@@ -127,7 +127,7 @@ namespace Citation.Utils
         internal static string DecryptData(string password, string cipherText)
         {
             var mainWindow = Application.Current.MainWindow as MainWindow;
-            if (cipherText == string.Empty || 
+            if (cipherText == string.Empty ||
                 mainWindow!.Config.SecurityVersion != "CryptoDB") return cipherText;
 
             try

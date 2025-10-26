@@ -1,174 +1,174 @@
 ﻿<UserControl
-	x:Class="Citation.View.Page.ViewNotePage"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:Citation.View.Page"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:model="clr-namespace:Citation.Model"
-	d:DesignHeight="450"
-	d:DesignWidth="800"
-	Loaded="UserControl_Loaded"
-	mc:Ignorable="d">
-	<UserControl.Resources>
-		<SolidColorBrush x:Key="PrimaryBrush" Color="#FF4A86E8" />
-		<SolidColorBrush x:Key="LightBackground" Color="#FFF5F5F5" />
-		<SolidColorBrush x:Key="CardBackground" Color="#FFFFFFFF" />
-		<SolidColorBrush x:Key="BorderBrush" Color="#FFE0E0E0" />
-		<SolidColorBrush x:Key="TextPrimary" Color="#FF212121" />
-		<SolidColorBrush x:Key="TextSecondary" Color="#FF757575" />
-		<SolidColorBrush x:Key="DangerBrush" Color="#FFE53935" />
-		<SolidColorBrush x:Key="SuccessBrush" Color="#FF43A047" />
+    x:Class="Citation.View.Page.ViewNotePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:Citation.Properties"
+    xmlns:local="clr-namespace:Citation.View.Page"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Citation.Model"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#FF4A86E8" />
+        <SolidColorBrush x:Key="LightBackground" Color="#FFF5F5F5" />
+        <SolidColorBrush x:Key="CardBackground" Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="BorderBrush" Color="#FFE0E0E0" />
+        <SolidColorBrush x:Key="TextPrimary" Color="#FF212121" />
+        <SolidColorBrush x:Key="TextSecondary" Color="#FF757575" />
+        <SolidColorBrush x:Key="DangerBrush" Color="#FFE53935" />
+        <SolidColorBrush x:Key="SuccessBrush" Color="#FF43A047" />
 
-		<!--  样式  -->
-		<Style x:Key="CardStyle" TargetType="Border">
-			<Setter Property="Background" Value="{StaticResource CardBackground}" />
-			<Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
-			<Setter Property="BorderThickness" Value="1" />
-			<Setter Property="CornerRadius" Value="8" />
-			<Setter Property="Padding" Value="16" />
-			<Setter Property="Margin" Value="0,0,0,16" />
-		</Style>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBackground}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,16" />
+        </Style>
 
-		<Style x:Key="PrimaryButton" TargetType="Button">
-			<Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
-			<Setter Property="Foreground" Value="White" />
-			<Setter Property="BorderThickness" Value="0" />
-			<Setter Property="Padding" Value="12,8" />
-			<Setter Property="Cursor" Value="Hand" />
-			<Setter Property="FontWeight" Value="Medium" />
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="Button">
-						<Border Background="{TemplateBinding Background}" CornerRadius="4">
-							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-						</Border>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-		<Style x:Key="IconButton" TargetType="Button">
-			<Setter Property="Background" Value="Transparent" />
-			<Setter Property="BorderThickness" Value="0" />
-			<Setter Property="Padding" Value="8" />
-			<Setter Property="Cursor" Value="Hand" />
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="Button">
-						<Border Background="{TemplateBinding Background}" CornerRadius="20">
-							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-						</Border>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-			<Style.Triggers>
-				<Trigger Property="IsMouseOver" Value="True">
-					<Setter Property="Background" Value="#10000000" />
-				</Trigger>
-			</Style.Triggers>
-		</Style>
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#10000000" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-		<Style
-			x:Key="DeleteButton"
-			BasedOn="{StaticResource IconButton}"
-			TargetType="Button">
-			<Setter Property="Background" Value="Transparent" />
-			<Setter Property="Foreground" Value="{StaticResource DangerBrush}" />
-		</Style>
+        <Style
+            x:Key="DeleteButton"
+            BasedOn="{StaticResource IconButton}"
+            TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource DangerBrush}" />
+        </Style>
 
-		<Style
-			x:Key="EditButton"
-			BasedOn="{StaticResource IconButton}"
-			TargetType="Button">
-			<Setter Property="Background" Value="Transparent" />
-			<Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
-		</Style>
-	</UserControl.Resources>
+        <Style
+            x:Key="EditButton"
+            BasedOn="{StaticResource IconButton}"
+            TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+        </Style>
+    </UserControl.Resources>
 
-	<Grid Background="{StaticResource LightBackground}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+    <Grid Background="{StaticResource LightBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-		<Border
-			Grid.Row="0"
-			Margin="0,0,0,16"
-			Padding="24"
-			Background="{StaticResource CardBackground}">
-			<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-				<TextBlock
-					VerticalAlignment="Center"
-					FontSize="20"
-					FontWeight="Bold"
-					Foreground="{StaticResource TextPrimary}"
-					Text="便签管理" />
-			</StackPanel>
-		</Border>
+        <Border
+            Grid.Row="0"
+            Margin="0,0,0,16"
+            Padding="24"
+            Background="{StaticResource CardBackground}">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource TextPrimary}"
+                    Text="{x:Static loc:Resources.ViewNotePage_PageTitle}" />
+            </StackPanel>
+        </Border>
 
-		<ScrollViewer
-			Grid.Row="1"
-			Padding="24,0,24,24"
-			VerticalScrollBarVisibility="Auto">
-			<ItemsControl x:Name="NotesList" ItemsSource="{Binding Notes}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate DataType="{x:Type model:Note}">
-						<Border Style="{StaticResource CardStyle}">
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
+        <ScrollViewer
+            Grid.Row="1"
+            Padding="24,0,24,24"
+            VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="NotesList" ItemsSource="{Binding Notes}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type model:Note}">
+                        <Border Style="{StaticResource CardStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-								<StackPanel Grid.Column="0">
-									<TextBlock
-										Margin="0,0,0,8"
-										FontSize="16"
-										FontWeight="SemiBold"
-										Foreground="{StaticResource TextPrimary}"
-										Text="{Binding Title}" />
-									<TextBlock
-										FontSize="13"
-										Foreground="{StaticResource TextSecondary}"
-										Text="{Binding CreateTime, StringFormat='yyyy-MM-dd HH:mm'}" />
-								</StackPanel>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock
+                                        Margin="0,0,0,8"
+                                        FontSize="16"
+                                        FontWeight="SemiBold"
+                                        Foreground="{StaticResource TextPrimary}"
+                                        Text="{Binding Title}" />
+                                    <TextBlock
+                                        FontSize="13"
+                                        Foreground="{StaticResource TextSecondary}"
+                                        Text="{Binding CreateTime, StringFormat='yyyy-MM-dd HH:mm'}" />
+                                </StackPanel>
 
-								<StackPanel
-									Grid.Column="1"
-									HorizontalAlignment="Right"
-									Orientation="Horizontal">
-									<Button
-										Click="EditButton_Click"
-										Style="{StaticResource EditButton}"
-										Tag="{Binding}"
-										ToolTip="编辑便签">
-										<Path
-											Width="16"
-											Height="16"
-											Data="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-											Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
-											Stretch="Uniform" />
-									</Button>
-									<Button
-										Margin="8,0,0,0"
-										Click="DeleteButton_Click"
-										Style="{StaticResource DeleteButton}"
-										Tag="{Binding}"
-										ToolTip="删除便签">
-										<Path
-											Width="16"
-											Height="16"
-											Data="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-											Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
-											Stretch="Uniform" />
-									</Button>
-								</StackPanel>
-							</Grid>
-						</Border>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</ScrollViewer>
-	</Grid>
+                                <StackPanel
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                                    <Button
+                                        Click="EditButton_Click"
+                                        Style="{StaticResource EditButton}"
+                                        Tag="{Binding}"
+                                        ToolTip="{x:Static loc:Resources.ViewNotePage_EditNote}">
+                                        <Path
+                                            Width="16"
+                                            Height="16"
+                                            Data="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                            Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                                            Stretch="Uniform" />
+                                    </Button>
+                                    <Button
+                                        Margin="8,0,0,0"
+                                        Click="DeleteButton_Click"
+                                        Style="{StaticResource DeleteButton}"
+                                        Tag="{Binding}"
+                                        ToolTip="{x:Static loc:Resources.ViewNotePage_DeleteNote}">
+                                        <Path
+                                            Width="16"
+                                            Height="16"
+                                            Data="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                            Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                                            Stretch="Uniform" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

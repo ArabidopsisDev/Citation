@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:Citation.Properties"
     xmlns:local="clr-namespace:Citation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Arabidopsis Citation"
@@ -73,187 +74,192 @@
                 <MenuItem
                     FontFamily="SimHei"
                     FontSize="18"
-                    Header="项目">
+                    Header="{x:Static loc:Resources.Main_Top_Project}">
                     <MenuItem
                         Click="NewProject_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="新建" />
+                        Header="{x:Static loc:Resources.Main_Top_Project_New}" />
                     <MenuItem
                         Click="OpenProject_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="打开" />
+                        Header="{x:Static loc:Resources.Main_Top_Project_Open}" />
                     <MenuItem
                         Click="CloseProject_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="关闭" />
+                        Header="{x:Static loc:Resources.Main_Top_Project_Close}" />
                     <MenuItem
                         Click="BackupProject_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="备份" />
+                        Header="{x:Static loc:Resources.Main_Top_Project_Backup}" />
                     <MenuItem
                         Click="Setting_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="项目设置" />
+                        Header="{x:Static loc:Resources.Main_Top_Project_Settings}" />
                     <MenuItem
                         Click="AuthorizeProject_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="分享授权" />
+                        Header="{x:Static loc:Resources.Main_Top_Project_ShareAuth}" />
                     <MenuItem
                         Click="ExitSoftware_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="退出" />
+                        Header="{x:Static loc:Resources.Main_Top_Project_Exit}" />
                 </MenuItem>
                 <MenuItem
                     FontFamily="SimHei"
                     FontSize="18"
-                    Header="引用">
+                    Header="{x:Static loc:Resources.Main_Top_Cite}">
                     <MenuItem
                         Click="AddCitation_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="添加引用" />
+                        Header="{x:Static loc:Resources.Main_Top_Cite_AddCite}" />
                     <MenuItem
                         Click="ViewCitation_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="查看引用" />
+                        Header="{x:Static loc:Resources.Main_Top_Cite_ViewCite}" />
                     <MenuItem
                         Click="ViewTimeline_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="查看时间线" />
+                        Header="{x:Static loc:Resources.Main_Top_Cite_ViewStoryLine}" />
                     <MenuItem
                         Click="ImportCitation_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="导入引用" />
+                        Header="{x:Static loc:Resources.Main_Top_Cite_ImportCite}" />
                     <MenuItem
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="导出引用">
+                        Header="{x:Static loc:Resources.Main_Top_Cite_ExportCite}">
                         <MenuItem
                             Click="ExportCitation_Click"
                             FontFamily="SimHei"
                             FontSize="15"
-                            Header="至格式文件" />
+                            Header="{x:Static loc:Resources.Main_Top_Cite_ExportCite_ToFormatFile}" />
                         <MenuItem
                             Click="FileCitation_Click"
                             FontFamily="SimHei"
                             FontSize="15"
-                            Header="至交换文件" />
+                            Header="{x:Static loc:Resources.Main_Top_Cite_ExportCite_ToExchangeFile}" />
                     </MenuItem>
                     <MenuItem
                         Click="ImportFailure_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="导入失败原因" />
+                        Header="{x:Static loc:Resources.Main_Top_Cite_Failure}" />
                 </MenuItem>
                 <MenuItem
                     FontFamily="SimHei"
                     FontSize="18"
-                    Header="任务">
+                    Header="{x:Static loc:Resources.Main_Top_Task}">
                     <MenuItem
                         Click="AddTask_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="规划任务" />
+                        Header="{x:Static loc:Resources.Main_Top_Task_AddTask}" />
                     <MenuItem
                         Click="ViewTask_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="查看任务" />
+                        Header="{x:Static loc:Resources.Main_Top_Task_ViewTask}" />
                     <MenuItem
                         Click="AddAlert_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="添加提醒" />
+                        Header="{x:Static loc:Resources.Main_Top_Task_AddAlert}" />
                     <MenuItem
                         Click="SetAlert_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="设置提醒" />
+                        Header="{x:Static loc:Resources.Main_Top_Task_SetAlert}" />
                 </MenuItem>
                 <MenuItem
                     FontFamily="SimHei"
                     FontSize="18"
-                    Header="记录">
+                    Header="{x:Static loc:Resources.Main_Top_Record}">
                     <MenuItem
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="便签">
+                        Header="{x:Static loc:Resources.Main_Top_Record_Note}">
                         <MenuItem
                             Click="AddNote_Click"
                             FontFamily="SimHei"
                             FontSize="15"
-                            Header="快速新建" />
+                            Header="{x:Static loc:Resources.Main_Top_Record_Note_AddNote}" />
                         <MenuItem
                             Click="ViewNote_Click"
                             FontFamily="SimHei"
                             FontSize="15"
-                            Header="查看便签" />
+                            Header="{x:Static loc:Resources.Main_Top_Record_Note_ViewNote}" />
                     </MenuItem>
                     <MenuItem
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="设备">
+                        Header="{x:Static loc:Resources.Main_Top_Record_Device}">
                         <MenuItem
                             Click="AddInstrument_Click"
                             FontFamily="SimHei"
                             FontSize="15"
-                            Header="添加仪器" />
+                            Header="{x:Static loc:Resources.Main_Top_Record_Device_AddInstrument}" />
                         <MenuItem
                             Click="ViewInstrument_Click"
                             FontFamily="SimHei"
                             FontSize="15"
-                            Header="管理仪器" />
+                            Header="{x:Static loc:Resources.Main_Top_Record_Device_ManageInstrument}" />
                     </MenuItem>
                     <MenuItem
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="实验">
+                        Header="{x:Static loc:Resources.Main_Top_Experiment}">
                         <MenuItem
                             Click="Field_Click"
                             FontFamily="SimHei"
                             FontSize="15"
-                            Header="大田实验" />
+                            Header="{x:Static loc:Resources.Main_Top_Experiment_Field}" />
                     </MenuItem>
                 </MenuItem>
                 <MenuItem
                     FontFamily="SimHei"
                     FontSize="18"
-                    Header="助手">
+                    Header="{x:Static loc:Resources.Main_Top_Assistant}">
                     <MenuItem
                         Click="FindSimilar_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="查找同类论文" />
+                        Header="{x:Static loc:Resources.Main_Top_Assistant_FindSimilar}" />
+                    <MenuItem
+                        Click="FindNatural_Click"
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="{x:Static loc:Resources.Main_Top_Assistant_NaturalFind}" />
                 </MenuItem>
                 <MenuItem
                     FontFamily="SimHei"
                     FontSize="18"
-                    Header="其它">
+                    Header="{x:Static loc:Resources.Main_Top_Others}">
                     <MenuItem
                         Click="SoftwareSetting_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="软件设置" />
+                        Header="{x:Static loc:Resources.Main_Top_Others_SoftwareSettings}" />
                     <MenuItem
                         Click="GenerateSerial_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="本机序列号" />
+                        Header="{x:Static loc:Resources.Main_Top_Others_LocalLicense}" />
                     <MenuItem
                         Click="About_Click"
                         FontFamily="SimHei"
                         FontSize="15"
-                        Header="关于" />
+                        Header="{x:Static loc:Resources.Main_Top_Others_About}" />
                 </MenuItem>
             </Menu>
 
@@ -280,7 +286,7 @@
                 d:IsLocked="True"
                 DockPanel.Dock="Bottom">
                 <Label
-                    Content="项目名称:"
+                    Content="{x:Static loc:Resources.Main_Bottom_ProjectName}"
                     FontSize="14"
                     FontWeight="DemiBold" />
                 <Label
