@@ -780,4 +780,85 @@
   <data name="Main_Top_Assistant_NaturalFind" xml:space="preserve">
     <value>自动查找文献</value>
   </data>
+  <data name="Main_Top_Record_Data" xml:space="preserve">
+    <value>数据</value>
+  </data>
+  <data name="Main_Top_Record_Data_Analysis" xml:space="preserve">
+    <value>数据分析</value>
+  </data>
+  <data name="BlockData_DefaultName" xml:space="preserve">
+    <value>新区组</value>
+  </data>
+  <data name="FieldData_DefaultName" xml:space="preserve">
+    <value>新田块</value>
+  </data>
+  <data name="PublicData_Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="FieldExperimentData_DefaultName" xml:space="preserve">
+    <value>新实验</value>
+  </data>
+  <data name="PlotData_DefaultName" xml:space="preserve">
+    <value>新小区</value>
+  </data>
+  <data name="SignboardData_DefaultName" xml:space="preserve">
+    <value>新告示牌</value>
+  </data>
+  <data name="TreatmentData_DefaultName" xml:space="preserve">
+    <value>新处理</value>
+  </data>
+  <data name="SoftwareVersionData_NotImplementation" xml:space="preserve">
+    <value>该版本类型未被实现</value>
+  </data>
+  <data name="VerifyFunc_Success" xml:space="preserve">
+    <value>授权成功</value>
+  </data>
+  <data name="VerifyFunc_ErrorPassword" xml:space="preserve">
+    <value>密码错误</value>
+  </data>
+  <data name="VerifyFunc_Unauthorized" xml:space="preserve">
+    <value>未授权</value>
+  </data>
+  <data name="VerifyFunc_InvalidFile" xml:space="preserve">
+    <value>授权文件错误</value>
+  </data>
+  <data name="VerifyFunc_Expired" xml:space="preserve">
+    <value>授权已过期</value>
+  </data>
+  <data name="VerifyFunc_UnAllowed" xml:space="preserve">
+    <value>授权本机不可用</value>
+  </data>
+  <data name="VerifyFunc_InvalidSignature" xml:space="preserve">
+    <value>授权签名异常</value>
+  </data>
+  <data name="VerifyFunc_Failed" xml:space="preserve">
+    <value>因为未知原因失败</value>
+  </data>
+  <data name="AboutPage_VersionLeft" xml:space="preserve">
+    <value>版本: v4（内部版本 Dev_</value>
+  </data>
+  <data name="AboutPage_VersionRight" xml:space="preserve">
+    <value>）</value>
+  </data>
+  <data name="AddAlertPage_Success" xml:space="preserve">
+    <value>提醒添加成功</value>
+  </data>
+  <data name="AddInstrumentPage_LackName" xml:space="preserve">
+    <value>请填写仪器名称</value>
+  </data>
+  <data name="AddInstrumentPage_LackNumber" xml:space="preserve">
+    <value>请填写仪器编号</value>
+  </data>
+  <data name="AddInstrumentPage_Success" xml:space="preserve">
+    <value>仪器添加成功</value>
+  </data>
+  <data name="AddInstrumentPage_Failure" xml:space="preserve">
+    <value>仪器添加失败：</value>
+  </data>
+  <data name="AddNotePage_LackName" xml:space="preserve">
+    <value>请输入便签名称</value>
+  </data>
+  <data name="AddNotePage_Success" xml:space="preserve">
+    <value>便签保存成功</value>
+  </data>
 </root>

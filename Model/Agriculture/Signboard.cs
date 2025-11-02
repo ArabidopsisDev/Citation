@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Citation.Properties;
 
 namespace Citation.Model.Agriculture
 {
     public class Signboard
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string Content { get; set; } = "新告示牌";
+        public string Content { get; set; } = Resources.SignboardData_DefaultName;
         public double X { get; set; }
         public double Y { get; set; }
 

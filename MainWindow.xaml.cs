@@ -763,5 +763,10 @@ namespace Citation
         {
             NavigateWithSlideAnimation(new NLFindPage());
         }
+
+        private void DataAnalysis_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new DataAnalysis());
+        }
     }
 }

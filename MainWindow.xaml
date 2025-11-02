@@ -225,6 +225,16 @@
                             FontSize="15"
                             Header="{x:Static loc:Resources.Main_Top_Experiment_Field}" />
                     </MenuItem>
+                    <MenuItem
+                        FontFamily="SimHei"
+                        FontSize="15"
+                        Header="{x:Static loc:Resources.Main_Top_Record_Data}">
+                        <MenuItem
+                            FontFamily="SimHei"
+                            FontSize="15"
+                            Header="{x:Static loc:Resources.Main_Top_Record_Data_Analysis}"
+                            Click="DataAnalysis_Click"/>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem
                     FontFamily="SimHei"

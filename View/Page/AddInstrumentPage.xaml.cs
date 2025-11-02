@@ -60,14 +60,14 @@ namespace Citation.View.Page
             if (string.IsNullOrEmpty(Instrument.Name))
             {
                 var mainWindow = Application.Current.MainWindow as MainWindow;
-                mainWindow?.ShowToast("请填写仪器名称");
+                mainWindow?.ShowToast(Properties.Resources.AddInstrumentPage_LackName);
                 return;
             }
 
             if (string.IsNullOrEmpty(Instrument.Number))
             {
                 var mainWindow = Application.Current.MainWindow as MainWindow;
-                mainWindow?.ShowToast("请填写仪器编号");
+                mainWindow?.ShowToast(Properties.Resources.AddInstrumentPage_LackNumber);
                 return;
             }
 
@@ -78,14 +78,14 @@ namespace Citation.View.Page
                 Instrument.ToSql(Acceed.Shared.Connection);
 
                 var mainWindow = Application.Current.MainWindow as MainWindow;
-                mainWindow?.ShowToast("仪器添加成功");
+                mainWindow?.ShowToast(Properties.Resources.AddInstrumentPage_Success);
 
                 CancelButton_Click(this, null!);
             }
             catch (System.Exception ex)
             {
                 var mainWindow = Application.Current.MainWindow as MainWindow;
-                mainWindow?.ShowToast("保存失败: " + ex.Message);
+                mainWindow?.ShowToast($"{Properties.Resources.AddInstrumentPage_Failure}{ex.Message}");
             }
         }
 

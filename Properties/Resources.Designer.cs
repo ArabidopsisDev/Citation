@@ -178,6 +178,24 @@ namespace Citation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 版本: v4（内部版本 Dev_.
+        /// </summary>
+        public static string AboutPage_VersionLeft {
+            get {
+                return ResourceManager.GetString("AboutPage_VersionLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ）.
+        /// </summary>
+        public static string AboutPage_VersionRight {
+            get {
+                return ResourceManager.GetString("AboutPage_VersionRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 提醒标题.
         /// </summary>
         public static string AddAlertPage_AlertCapital {
@@ -210,6 +228,15 @@ namespace Citation.Properties {
         public static string AddAlertPage_PageCapital {
             get {
                 return ResourceManager.GetString("AddAlertPage_PageCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 提醒添加成功.
+        /// </summary>
+        public static string AddAlertPage_Success {
+            get {
+                return ResourceManager.GetString("AddAlertPage_Success", resourceCulture);
             }
         }
         
@@ -295,6 +322,42 @@ namespace Citation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 仪器添加失败：.
+        /// </summary>
+        public static string AddInstrumentPage_Failure {
+            get {
+                return ResourceManager.GetString("AddInstrumentPage_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请填写仪器名称.
+        /// </summary>
+        public static string AddInstrumentPage_LackName {
+            get {
+                return ResourceManager.GetString("AddInstrumentPage_LackName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请填写仪器编号.
+        /// </summary>
+        public static string AddInstrumentPage_LackNumber {
+            get {
+                return ResourceManager.GetString("AddInstrumentPage_LackNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 仪器添加成功.
+        /// </summary>
+        public static string AddInstrumentPage_Success {
+            get {
+                return ResourceManager.GetString("AddInstrumentPage_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 居中.
         /// </summary>
         public static string AddNotePage_Aglin_Center {
@@ -358,6 +421,15 @@ namespace Citation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 请输入便签名称.
+        /// </summary>
+        public static string AddNotePage_LackName {
+            get {
+                return ResourceManager.GetString("AddNotePage_LackName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 名称：.
         /// </summary>
         public static string AddNotePage_NoteName {
@@ -372,6 +444,15 @@ namespace Citation.Properties {
         public static string AddNotePage_PageCapital {
             get {
                 return ResourceManager.GetString("AddNotePage_PageCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 便签保存成功.
+        /// </summary>
+        public static string AddNotePage_Success {
+            get {
+                return ResourceManager.GetString("AddNotePage_Success", resourceCulture);
             }
         }
         
@@ -547,6 +628,15 @@ namespace Citation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 新区组.
+        /// </summary>
+        public static string BlockData_DefaultName {
+            get {
+                return ResourceManager.GetString("BlockData_DefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 请输入文章链接....
         /// </summary>
         public static string CitationPage_InputLink {
@@ -687,6 +777,24 @@ namespace Citation.Properties {
         public static string ExportPage_Filter_ByJournal {
             get {
                 return ResourceManager.GetString("ExportPage_Filter_ByJournal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 新田块.
+        /// </summary>
+        public static string FieldData_DefaultName {
+            get {
+                return ResourceManager.GetString("FieldData_DefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 新实验.
+        /// </summary>
+        public static string FieldExperimentData_DefaultName {
+            get {
+                return ResourceManager.GetString("FieldExperimentData_DefaultName", resourceCulture);
             }
         }
         
@@ -1357,6 +1465,24 @@ namespace Citation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 数据.
+        /// </summary>
+        public static string Main_Top_Record_Data {
+            get {
+                return ResourceManager.GetString("Main_Top_Record_Data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 数据分析.
+        /// </summary>
+        public static string Main_Top_Record_Data_Analysis {
+            get {
+                return ResourceManager.GetString("Main_Top_Record_Data_Analysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 设备.
         /// </summary>
         public static string Main_Top_Record_Device {
@@ -1461,6 +1587,15 @@ namespace Citation.Properties {
         public static string NLFindPage_InputLink {
             get {
                 return ResourceManager.GetString("NLFindPage_InputLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 新小区.
+        /// </summary>
+        public static string PlotData_DefaultName {
+            get {
+                return ResourceManager.GetString("PlotData_DefaultName", resourceCulture);
             }
         }
         
@@ -1591,6 +1726,15 @@ namespace Citation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 未知.
+        /// </summary>
+        public static string PublicData_Unknown {
+            get {
+                return ResourceManager.GetString("PublicData_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 选择文献引用时使用的格式化样式，更改将在下次引用时生效。.
         /// </summary>
         public static string SettingPage_FormatInstruction {
@@ -1650,6 +1794,15 @@ namespace Citation.Properties {
         public static string SettingPage_PageCapitalRight {
             get {
                 return ResourceManager.GetString("SettingPage_PageCapitalRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 新告示牌.
+        /// </summary>
+        public static string SignboardData_DefaultName {
+            get {
+                return ResourceManager.GetString("SignboardData_DefaultName", resourceCulture);
             }
         }
         
@@ -1767,6 +1920,96 @@ namespace Citation.Properties {
         public static string SoftwareSettingPage_SecurityAlgorithm {
             get {
                 return ResourceManager.GetString("SoftwareSettingPage_SecurityAlgorithm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 该版本类型未被实现.
+        /// </summary>
+        public static string SoftwareVersionData_NotImplementation {
+            get {
+                return ResourceManager.GetString("SoftwareVersionData_NotImplementation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 新处理.
+        /// </summary>
+        public static string TreatmentData_DefaultName {
+            get {
+                return ResourceManager.GetString("TreatmentData_DefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 密码错误.
+        /// </summary>
+        public static string VerifyFunc_ErrorPassword {
+            get {
+                return ResourceManager.GetString("VerifyFunc_ErrorPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 授权已过期.
+        /// </summary>
+        public static string VerifyFunc_Expired {
+            get {
+                return ResourceManager.GetString("VerifyFunc_Expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 因为未知原因失败.
+        /// </summary>
+        public static string VerifyFunc_Failed {
+            get {
+                return ResourceManager.GetString("VerifyFunc_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 授权文件错误.
+        /// </summary>
+        public static string VerifyFunc_InvalidFile {
+            get {
+                return ResourceManager.GetString("VerifyFunc_InvalidFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 授权签名异常.
+        /// </summary>
+        public static string VerifyFunc_InvalidSignature {
+            get {
+                return ResourceManager.GetString("VerifyFunc_InvalidSignature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 授权成功.
+        /// </summary>
+        public static string VerifyFunc_Success {
+            get {
+                return ResourceManager.GetString("VerifyFunc_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 授权本机不可用.
+        /// </summary>
+        public static string VerifyFunc_UnAllowed {
+            get {
+                return ResourceManager.GetString("VerifyFunc_UnAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 未授权.
+        /// </summary>
+        public static string VerifyFunc_Unauthorized {
+            get {
+                return ResourceManager.GetString("VerifyFunc_Unauthorized", resourceCulture);
             }
         }
         

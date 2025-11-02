@@ -1,0 +1,489 @@
+﻿<UserControl
+    x:Class="Citation.View.Page.DataAnalysis"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Citation.View.Page"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <!--  主题色和常用样式  -->
+        <Color x:Key="AccentColor">#FF4CAF50</Color>
+        <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+        <SolidColorBrush x:Key="CardBackground" Color="#FFFFFFFF" />
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter
+                                Margin="8,2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBackground}" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="8" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect
+                        BlurRadius="8"
+                        ShadowDepth="2"
+                        Color="#22000000" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--  小图标文本模板（使用 Segoe MDL2 Assets 系列图标）  -->
+        <FontFamily x:Key="IconFont">Segoe MDL2 Assets</FontFamily>
+    </UserControl.Resources>
+
+    <Grid Margin="8" Background="#FFF5F6F8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="180" />
+        </Grid.RowDefinitions>
+
+        <!--  Header  -->
+        <DockPanel
+            Grid.Row="0"
+            Margin="8"
+            VerticalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Foreground="{StaticResource AccentBrush}"
+                    Text="D" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="Data Analysis" />
+                <TextBlock
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    Foreground="Gray"
+                    Text="  —  可视化拟合与模型管理" />
+            </StackPanel>
+        </DockPanel>
+
+        <!--  Main area  -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="360" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Left controls panel  -->
+            <Border Grid.Column="0" Style="{StaticResource Card}">
+                <StackPanel>
+                    <!--  CSV Load  -->
+                    <TextBlock
+                        Margin="0,0,0,8"
+                        FontWeight="SemiBold"
+                        Text="数据导入" />
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <xctk:WatermarkTextBox
+                            x:Name="txtCsvPath"
+                            Width="220"
+                            Margin="0,0,8,0"
+                            IsReadOnly="True"
+                            Watermark="选择或粘贴 CSV 文件路径" />
+                        <Button
+                            x:Name="btnBrowse"
+                            Style="{StaticResource PrimaryButton}">
+                            浏览
+                        </Button>
+                        <Button
+                            x:Name="btnLoadCsv"
+                            Margin="6,0,0,0"
+                            Style="{StaticResource PrimaryButton}">
+                            加载 CSV
+                        </Button>
+                    </StackPanel>
+                    <TextBlock
+                        Margin="2,6,0,12"
+                        FontSize="11"
+                        Foreground="Gray"
+                        Text="（支持逗号/分号分隔，首行为表头）" />
+
+                    <!--  Algorithm selection  -->
+                    <TextBlock
+                        Margin="0,6,0,8"
+                        FontWeight="SemiBold"
+                        Text="算法选择" />
+                    <ComboBox
+                        x:Name="cboAlgorithm"
+                        Height="30"
+                        Margin="0,0,0,6"
+                        SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource IconFont}"
+                                        Foreground="{StaticResource AccentBrush}"
+                                        Text="{Binding Icon}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                        <!--  Items are sample, can be populated from code-behind if preferred  -->
+                        <ComboBoxItem>
+                            <ComboBoxItem.Tag>
+                                <sys:String>LinearRegression</sys:String>
+                            </ComboBoxItem.Tag>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,0,6,0"
+                                    FontFamily="{StaticResource IconFont}"
+                                    Foreground="{StaticResource AccentBrush}"
+                                    Text="&#xE9D2;" />
+                                <TextBlock Text="Linear Regression" />
+                            </StackPanel>
+                        </ComboBoxItem>
+
+                        <ComboBoxItem>
+                            <ComboBoxItem.Tag>
+                                <sys:String>RandomForest</sys:String>
+                            </ComboBoxItem.Tag>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,0,6,0"
+                                    FontFamily="{StaticResource IconFont}"
+                                    Foreground="{StaticResource AccentBrush}"
+                                    Text="&#xE8C8;" />
+                                <TextBlock Text="Random Forest" />
+                            </StackPanel>
+                        </ComboBoxItem>
+
+                        <ComboBoxItem>
+                            <ComboBoxItem.Tag>
+                                <sys:String>SVR</sys:String>
+                            </ComboBoxItem.Tag>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,0,6,0"
+                                    FontFamily="{StaticResource IconFont}"
+                                    Foreground="{StaticResource AccentBrush}"
+                                    Text="&#xE7BE;" />
+                                <TextBlock Text="Support Vector Regressor" />
+                            </StackPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+
+                    <!--  Hyperparameters (placeholders; show/hide by code-behind)  -->
+                    <StackPanel x:Name="panelHyperparams" Margin="0,6,0,6">
+                        <TextBlock
+                            Margin="0,0,0,6"
+                            FontWeight="SemiBold"
+                            Text="超参数（算法相关）" />
+                        <!--  For RandomForest  -->
+                        <StackPanel x:Name="rfParams" Visibility="Collapsed">
+                            <StackPanel
+                                Margin="0,2"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Width="120"
+                                    VerticalAlignment="Center"
+                                    Text="n_estimators" />
+                                <xctk:IntegerUpDown
+                                    x:Name="up_n_estimators"
+                                    Width="90"
+                                    Maximum="1000"
+                                    Minimum="1"
+                                    Value="100" />
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0,2"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Width="120"
+                                    VerticalAlignment="Center"
+                                    Text="max_depth (0=auto)" />
+                                <xctk:IntegerUpDown
+                                    x:Name="up_max_depth"
+                                    Width="90"
+                                    Maximum="100"
+                                    Minimum="0"
+                                    Value="0" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!--  For LinearRegression (no hyperparams but display placeholders)  -->
+                        <StackPanel x:Name="lrParams" Visibility="Collapsed">
+                            <TextBlock FontSize="12" Foreground="Gray">线性回归通常无需超参数（可在后端添加正则项等）</TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--  Fit controls  -->
+                    <TextBlock
+                        Margin="0,6,0,6"
+                        FontWeight="SemiBold"
+                        Text="拟合控制" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            x:Name="btnStartFit"
+                            Style="{StaticResource PrimaryButton}">
+                            开始拟合
+                        </Button>
+                        <Button
+                            x:Name="btnCancel"
+                            Margin="6,0,0,0"
+>
+                            取消
+                        </Button>
+                    </StackPanel>
+
+                    <!--  Progress / Busy indicator  -->
+                    <StackPanel Margin="0,8,0,0">
+                        <xctk:BusyIndicator
+                            x:Name="busyFit"
+                            HorizontalContentAlignment="Left"
+                            BusyContent="拟合中..."
+                            IsBusy="False">
+                            <ProgressBar
+                                x:Name="progressBar"
+                                Height="8"
+                                Margin="0,8,0,0"
+                                Maximum="100"
+                                Minimum="0"
+                                Value="0" />
+                        </xctk:BusyIndicator>
+                    </StackPanel>
+
+                    <Separator Margin="0,12,0,12" />
+
+                    <!--  Model management  -->
+                    <TextBlock
+                        Margin="0,0,0,8"
+                        FontWeight="SemiBold"
+                        Text="模型管理" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnSaveModel" >保存模型</Button>
+                        <Button
+                            x:Name="btnLoadModel"
+                            Margin="6,0,0,0"
+                       >
+                            加载模型
+                        </Button>
+                    </StackPanel>
+
+                    <!--  Predict input  -->
+                    <TextBlock
+                        Margin="0,10,0,6"
+                        FontWeight="SemiBold"
+                        Text="手动预测输入" />
+                    <StackPanel Orientation="Horizontal">
+                        <xctk:WatermarkTextBox
+                            x:Name="txtPredictInput"
+                            Width="200"
+                            Watermark="逗号分隔的特征值" />
+                        <Button
+                            x:Name="btnPredict"
+                            Margin="6,0,0,0"
+
+                            Style="{StaticResource PrimaryButton}">
+                            预测
+                        </Button>
+                    </StackPanel>
+                    <TextBlock
+                        x:Name="txtPredictResult"
+                        Margin="0,6,0,0"
+                        FontWeight="SemiBold"
+                        Text="预测结果: —" />
+                </StackPanel>
+            </Border>
+
+            <!--  Divider  -->
+            <GridSplitter
+                Grid.Column="1"
+                Width="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                ShowsPreview="True" />
+
+            <!--  Right visualization panel  -->
+            <Border Grid.Column="2" Style="{StaticResource Card}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Chart area  -->
+                    <Grid Grid.Row="0">
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            FontWeight="SemiBold"
+                            Text="数据拟合可视化" />
+                        <!--  Simple canvas-based plotting area; plotting logic implemented in code-behind  -->
+                        <Border
+                            Margin="0,28,0,0"
+                            Padding="8"
+                            Background="#FFF"
+                            CornerRadius="6">
+                            <Grid>
+                                <Canvas
+                                    x:Name="ChartCanvas"
+                                    Background="#FFF9FAFB"
+                                    ClipToBounds="True" />
+                                <!--  Overlay for icons / status  -->
+                                <StackPanel
+                                    Margin="6"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Orientation="Horizontal">
+                                    <Border
+                                        Padding="6"
+                                        Background="#22000000"
+                                        CornerRadius="6">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock
+                                                Margin="0,0,6,0"
+                                                FontFamily="{StaticResource IconFont}"
+                                                Foreground="White"
+                                                Text="&#xE9D2;" />
+                                            <TextBlock
+                                                x:Name="txtFitStatus"
+                                                VerticalAlignment="Center"
+                                                Foreground="White"
+                                                Text="未拟合" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!--  Results & parameter display  -->
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="0,12,0,0"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                        <Border
+                            Width="360"
+                            Margin="0,0,12,0"
+                            Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    FontWeight="SemiBold"
+                                    Text="模型参数" />
+                                <!--  For linear regression show k, b  -->
+                                <StackPanel Margin="0,4" Orientation="Horizontal">
+                                    <TextBlock Width="80" Foreground="Gray">k (斜率):</TextBlock>
+                                    <TextBlock
+                                        x:Name="txtK"
+                                        FontWeight="SemiBold"
+                                        Text="—" />
+                                </StackPanel>
+                                <StackPanel Margin="0,4" Orientation="Horizontal">
+                                    <TextBlock Width="80" Foreground="Gray">b (截距):</TextBlock>
+                                    <TextBlock
+                                        x:Name="txtB"
+                                        FontWeight="SemiBold"
+                                        Text="—" />
+                                </StackPanel>
+
+                                <!--  For general model metadata  -->
+                                <StackPanel Margin="0,6" Orientation="Horizontal">
+                                    <TextBlock Width="80" Foreground="Gray">算法:</TextBlock>
+                                    <TextBlock
+                                        x:Name="txtModelAlgorithm"
+                                        FontWeight="SemiBold"
+                                        Text="—" />
+                                </StackPanel>
+                                <StackPanel Margin="0,6" Orientation="Horizontal">
+                                    <TextBlock Width="80" Foreground="Gray">R² / 评分:</TextBlock>
+                                    <TextBlock
+                                        x:Name="txtModelScore"
+                                        FontWeight="SemiBold"
+                                        Text="—" />
+                                </StackPanel>
+
+                                <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                    <Button x:Name="btnExportPlot" >导出图像</Button>
+                                    <Button
+                                        x:Name="btnExportParams"
+                                        Margin="6,0,0,0"
+                                        >
+                                        导出参数
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!--  CSV preview  -->
+                        <Border VerticalAlignment="Stretch" Style="{StaticResource Card}">
+                            <StackPanel Width="Auto" MinWidth="300">
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    FontWeight="SemiBold"
+                                    Text="CSV 预览" />
+                                <DataGrid
+                                    x:Name="dgPreview"
+                                    Height="140"
+                                    AutoGenerateColumns="True"
+                                    IsReadOnly="True" />
+                                <TextBlock
+                                    Margin="0,8,0,0"
+                                    FontSize="11"
+                                    Foreground="Gray">
+                                    仅展示前几行，完整数据在后端处理。
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!--  Footer (optional hints)  -->
+        <StackPanel
+            Grid.Row="2"
+            Margin="8"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="0,0,12,0"
+                VerticalAlignment="Center"
+                Foreground="Gray"
+                Text="提示:随意使用机器学习拟合结果有风险，请确认模型置信度足够" />
+        </StackPanel>
+    </Grid>
+</UserControl>

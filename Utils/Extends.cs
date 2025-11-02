@@ -1,16 +1,15 @@
 ﻿using System.Windows.Media;
 
-namespace Citation.Utils
+namespace Citation.Utils;
+
+public static class Extends
 {
-    public static class Extends
+    public static Color AdjustBrightness(this Color color, double factor)
     {
-        public static Color AdjustBrightness(this Color color, double factor)
-        {
-            return Color.FromRgb(
-                (byte)(color.R * factor),
-                (byte)(color.G * factor),
-                (byte)(color.B * factor)
-            );
-        }
+        return Color.FromRgb(
+            (byte)(color.R * factor),
+            (byte)(color.G * factor),
+            (byte)(color.B * factor)
+        );
     }
 }
