@@ -24,10 +24,10 @@ jobs:
     - name: Build Release
       run: dotnet build ReciteHelper.slnx --no-restore --configuration Release
     
-    - name: Upload Artifacts
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: ReciteHelper-Release
         path: |
-          **/bin/Release/net*/win-*/publish/
-          **/bin/Release/net*/win-*/*.exe
+          ./publish/
+          **/bin/Release/
