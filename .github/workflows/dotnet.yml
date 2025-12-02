@@ -1,0 +1,33 @@
+name: .NET WPF Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore ReciteHelper.slnx
+    
+    - name: Build Release
+      run: dotnet build ReciteHelper.slnx --no-restore --configuration Release
+    
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ReciteHelper-Release
+        path: |
+          **/bin/Release/net*/win-*/publish/
+          **/bin/Release/net*/win-*/*.exe
