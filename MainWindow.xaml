@@ -9,6 +9,7 @@
     Title="Arabidopsis Citation"
     Width="1050"
     Height="600"
+    KeyDown="Window_KeyDown"
     Loaded="Window_Loaded"
     mc:Ignorable="d">
 
@@ -230,10 +231,10 @@
                         FontSize="15"
                         Header="{x:Static loc:Resources.Main_Top_Record_Data}">
                         <MenuItem
+                            Click="DataAnalysis_Click"
                             FontFamily="SimHei"
                             FontSize="15"
-                            Header="{x:Static loc:Resources.Main_Top_Record_Data_Analysis}"
-                            Click="DataAnalysis_Click"/>
+                            Header="{x:Static loc:Resources.Main_Top_Record_Data_Analysis}" />
                     </MenuItem>
                 </MenuItem>
                 <MenuItem
