@@ -42,7 +42,7 @@ namespace Citation.View.Page
             Alert?.AppendRealtime();
 
             var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow!.ShowToast("提醒添加成功");
+            mainWindow!.ShowToast(Properties.Resources.AddAlertPage_Success);
             mainWindow.MainFrame.GoBack();
         }
 

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:Citation.Properties"
     xmlns:local="clr-namespace:Citation.View.Page"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
@@ -55,7 +56,7 @@
                             HorizontalAlignment="Center"
                             FontSize="16"
                             Foreground="Gray"
-                            Text="科研一站式管理工具" />
+                            Text="{x:Static loc:Resources.AboutPage_ShortDescription}" />
                     </StackPanel>
                 </StackPanel>
 
@@ -71,22 +72,22 @@
                             FontSize="18"
                             FontWeight="Bold"
                             Foreground="#FF0066CC"
-                            Text="开发团队" />
+                            Text="{x:Static loc:Resources.AboutPage_DevelopmentGroup}" />
 
-                        <TextBlock FontWeight="SemiBold" Text="开发人员: Arabidopsis" />
-                        <TextBlock FontWeight="SemiBold" Text="组织: Project MethodBox" />
-
-                        <TextBlock
-                            Margin="0,20,0,0"
-                            FontWeight="SemiBold"
-                            Text="联系方式:" />
-                        <TextBlock Text="邮箱: arab@methodbox.top" />
+                        <TextBlock FontWeight="SemiBold" Text="{x:Static loc:Resources.AboutPage_MainDeveloper}" />
+                        <TextBlock FontWeight="SemiBold" Text="{x:Static loc:Resources.AboutPage_DevelopmentOrganize}" />
 
                         <TextBlock
                             Margin="0,20,0,0"
                             FontWeight="SemiBold"
-                            Text="邮寄地址:" />
-                        <TextBlock Text="山东省泰安市泰山区泮河大街7号 山东农业大学泮河校区 农学院 Arabidopsis（收）" TextWrapping="Wrap" />
+                            Text="{x:Static loc:Resources.AboutPage_Contact}" />
+                        <TextBlock Text="{x:Static loc:Resources.AboutPage_Contact_Emali}" />
+
+                        <TextBlock
+                            Margin="0,20,0,0"
+                            FontWeight="SemiBold"
+                            Text="{x:Static loc:Resources.AboutPage_Contact_Address}" />
+                        <TextBlock Text="{x:Static loc:Resources.AboutPage_Contact_AddressDetail}" TextWrapping="Wrap" />
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Margin="15,0,0,0">
@@ -95,20 +96,20 @@
                             FontSize="18"
                             FontWeight="Bold"
                             Foreground="#FF0066CC"
-                            Text="软件信息" />
+                            Text="{x:Static loc:Resources.AboutPage_Contact_SoftwareInfo}" />
 
-                        <TextBlock Name="VersionLabel" Text="版本: v4（内部版本 Dev_tfs1090s）" />
-                        <TextBlock Text="© 2025 Arabidopsis. 保留所有权利。" TextWrapping="Wrap" />
+                        <TextBlock Name="VersionLabel" Text="{x:Static loc:Resources.AboutPage_Contact_Version}" />
+                        <TextBlock Text="{x:Static loc:Resources.AboutPage_Contact_Copyright}" TextWrapping="Wrap" />
 
                         <TextBlock
                             Margin="0,20,0,0"
                             FontWeight="SemiBold"
-                            Text="致谢名单" />
+                            Text="{x:Static loc:Resources.AboutPage_Thanks}" />
                         <TextBlock
                             AllowDrop="True"
                             FontFamily="Arial,Simhei"
                             FontSize="14"
-                            Text="Northeast Monsoon、筱冷妖刃（山东农业大学） &#x000A;元可可YoCoco（西北工业大学）"
+                            Text="Northeast Monsoon、筱冷妖刃（山东农业大学）  &#x000A;KangLives（西安电子科技大学） &#x000A;元可可YoCoco（西北工业大学）"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </Grid>
@@ -123,7 +124,7 @@
                         HorizontalAlignment="Center"
                         FontStyle="Italic"
                         Foreground="Gray"
-                        Text="本软件为免费软件，受《计算机软件保护条例》及其它国家或地区同等权利保护，未经许可，不得用于商业用途。任何侵权行为都将受到法律允许的最大程度的追究。" />
+                        Text="{x:Static loc:Resources.AboutPage_Alert}" />
                 </Border>
             </Grid>
         </Border>

@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -757,6 +758,24 @@ namespace Citation
 
             if (articles is not null)
                 NavigateWithSlideAnimation(new FindSimilarPage(articles));
+        }
+
+        private void FindNatural_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new NLFindPage());
+        }
+
+        private void DataAnalysis_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateWithSlideAnimation(new DataAnalysis());
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control &&  e.Key == Key.N)
+                NewProject_Click(sender, e);
+            else if (Keyboard.Modifiers == ModifierKeys.Control &&  e.Key == Key.O)
+                OpenProject_Click(sender, e);
         }
     }
 }

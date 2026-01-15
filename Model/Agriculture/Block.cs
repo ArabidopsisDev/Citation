@@ -1,10 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using Citation.Properties;
+using System.Collections.ObjectModel;
 
 namespace Citation.Model.Agriculture;
 public class Block
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Name { get; set; } = "新区组";
+    public string Name { get; set; } = Resources.BlockData_DefaultName;
 
     /// <summary>
     /// Block number

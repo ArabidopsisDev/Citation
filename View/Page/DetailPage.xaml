@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:Citation.Model.Convert"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:Citation.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="600"
     d:DesignWidth="800"
@@ -36,7 +37,7 @@
             HorizontalAlignment="Center"
             FontSize="30"
             FontWeight="DemiBold"
-            Text="引用详细信息" />
+            Text="{x:Static loc:Resources.DetailPage_PageCapital}" />
 
         <Border
             Grid.Row="1"
@@ -55,7 +56,7 @@
                         <TextBlock
                             Margin="0,5,0,2"
                             FontWeight="Bold"
-                            Text="标题:" />
+                            Text="{x:Static loc:Resources.DetailPage_ArticleCapital}" />
                         <TextBox
                             Margin="0,0,0,15"
                             Padding="0,5"
@@ -88,7 +89,7 @@
                                 <TextBlock
                                     Margin="0,5,0,2"
                                     FontWeight="Bold"
-                                    Text="期刊名称:" />
+                                    Text="{x:Static loc:Resources.DetailPage_JournalName}" />
                                 <TextBox
                                     Padding="0,5"
                                     BorderBrush="LightGray"
@@ -101,7 +102,7 @@
                                 <TextBlock
                                     Margin="0,5,0,2"
                                     FontWeight="Bold"
-                                    Text="发表日期:" />
+                                    Text="{x:Static loc:Resources.DetailPage_PublicationDate}" />
                                 <DatePicker
                                     Padding="0,5"
                                     BorderBrush="LightGray"
@@ -137,7 +138,7 @@
                                 <TextBlock
                                     Margin="0,5,0,2"
                                     FontWeight="Bold"
-                                    Text="期号:" />
+                                    Text="{x:Static loc:Resources.DetailPage_Volume}" />
                                 <TextBox
                                     Padding="0,5"
                                     BorderBrush="LightGray"
@@ -150,7 +151,7 @@
                                 <TextBlock
                                     Margin="0,5,0,2"
                                     FontWeight="Bold"
-                                    Text="页码:" />
+                                    Text="{x:Static loc:Resources.DetailPage_Page}" />
                                 <TextBox
                                     Padding="0,5"
                                     BorderBrush="LightGray"
@@ -177,7 +178,7 @@
                         <TextBlock
                             Margin="0,5,0,2"
                             FontWeight="Bold"
-                            Text="保存文件夹:" />
+                            Text="{x:Static loc:Resources.DetailPage_SaveFolder}" />
                         <TextBox
                             Margin="0,0,0,15"
                             Padding="0,5"
@@ -203,7 +204,7 @@
                         <TextBlock
                             Margin="0,5,0,2"
                             FontWeight="Bold"
-                            Text="摘要:" />
+                            Text="{x:Static loc:Resources.DetailPage_Abstract}" />
                         <TextBox
                             MinHeight="100"
                             Padding="5"
@@ -233,7 +234,7 @@
                 Background="#0078D7"
                 BorderThickness="0"
                 Click="SaveButton_Click"
-                Content="保存"
+                Content="{x:Static loc:Resources.Public_Save}"
                 FontSize="16"
                 FontWeight="Medium"
                 Foreground="White">
@@ -259,7 +260,7 @@
                 Background="LightGray"
                 BorderThickness="0"
                 Click="CancelButton_Click"
-                Content="取消"
+                Content="{x:Static loc:Resources.Public_Cancel}"
                 FontSize="16"
                 FontWeight="Medium"
                 Foreground="Black">

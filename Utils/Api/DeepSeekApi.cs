@@ -7,8 +7,13 @@ using static Citation.Utils.Api.DeepSeekApi;
 namespace Citation.Utils.Api;
 
 /// <summary>
-/// Represents a client for interacting with DeepSeek AI API
+/// Provides methods for interacting with the DeepSeek API, including sending chat completion requests and streaming
+/// chat responses.
 /// </summary>
+/// <remarks>This class manages authentication and HTTP communication with the DeepSeek API. It is intended to be
+/// used as a disposable resource; callers should dispose of instances when they are no longer needed to release
+/// underlying network resources. The class is not thread-safe; if used concurrently from multiple threads, callers
+/// should implement their own synchronization.</remarks>
 public partial class DeepSeekApi : IDisposable
 {
     private readonly HttpClient _httpClient;

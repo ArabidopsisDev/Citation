@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Citation.Model;
 
-namespace Citation.Model;
-
+/// <summary>
+/// Represents a message exchanged in a chat, including its content and type.
+/// </summary>
 public class ChatMessage
 {
     public string? Content { get; set; }

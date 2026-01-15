@@ -15,7 +15,7 @@ namespace Citation.View.Page
 
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            VersionLabel.Text = $"版本: v4（内部版本 Dev_{AppInfo.AppVersion.ToString()}）";
+            VersionLabel.Text = $"{Properties.Resources.AboutPage_VersionLeft}{AppInfo.AppVersion.ToString()}{Properties.Resources.AboutPage_VersionRight}";
         }
     }
 }

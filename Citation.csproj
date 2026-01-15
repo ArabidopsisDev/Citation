@@ -88,6 +88,7 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+    <PackageReference Include="Microsoft.ML" Version="4.0.2" />
     <PackageReference Include="System.Data.OleDb" Version="9.0.8" />
     <PackageReference Include="System.Management" Version="9.0.8" />
   </ItemGroup>
@@ -131,6 +132,21 @@
     <Resource Include="Images\zoom_in.png" />
     <Resource Include="Images\zoom_out.png" />
     <Resource Include="Images\zoom_tool.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

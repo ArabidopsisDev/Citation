@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:Citation.View.Converter"
     xmlns:controls="clr-namespace:Citation.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:Citation.Properties"
     xmlns:local="clr-namespace:Citation.View.Page"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="768"
@@ -97,9 +98,7 @@
             </Setter>
         </Style>
 
-        <!--  AI窗口动画  -->
         <Storyboard x:Key="ShowAIWindowAnimation">
-            <!--  淡入效果  -->
             <DoubleAnimation
                 Storyboard.TargetName="AIWindow"
                 Storyboard.TargetProperty="Opacity"
@@ -107,7 +106,6 @@
                 To="1"
                 Duration="0:0:0.3" />
 
-            <!--  从上方滑入  -->
             <ThicknessAnimation
                 Storyboard.TargetName="AIWindow"
                 Storyboard.TargetProperty="Margin"
@@ -119,7 +117,7 @@
                 </ThicknessAnimation.EasingFunction>
             </ThicknessAnimation>
 
-            <!--  轻微缩放效果  -->
+
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AIWindow" Storyboard.TargetProperty="RenderTransform.ScaleX">
                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0.9" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.0">
@@ -146,7 +144,6 @@
         </Storyboard>
 
         <Storyboard x:Key="HideAIWindowAnimation">
-            <!--  淡出效果  -->
             <DoubleAnimation
                 Storyboard.TargetName="AIWindow"
                 Storyboard.TargetProperty="Opacity"
@@ -154,7 +151,6 @@
                 To="0"
                 Duration="0:0:0.2" />
 
-            <!--  向上方滑出  -->
             <ThicknessAnimation
                 Storyboard.TargetName="AIWindow"
                 Storyboard.TargetProperty="Margin"
@@ -166,7 +162,6 @@
                 </ThicknessAnimation.EasingFunction>
             </ThicknessAnimation>
 
-            <!--  轻微缩放效果  -->
             <DoubleAnimation
                 Storyboard.TargetName="AIWindow"
                 Storyboard.TargetProperty="RenderTransform.ScaleX"
@@ -201,7 +196,7 @@
                 FontSize="14"
                 FontWeight="Bold"
                 Foreground="#6366F1"
-                Text="工具" />
+                Text="{x:Static loc:Resources.FieldExperimentPage_Left_ToolTip}" />
             <Separator
                 Height="2"
                 Margin="4,0"
@@ -212,7 +207,7 @@
                 Checked="ToolButton_Checked"
                 GroupName="Tools"
                 Style="{StaticResource ToolButtonStyle}"
-                ToolTip="选择工具">
+                ToolTip="{x:Static loc:Resources.FieldExperimentPage_Left_Choose}">
                 <Image
                     Width="28"
                     Height="28"
@@ -223,7 +218,7 @@
                 Checked="ToolButton_Checked"
                 GroupName="Tools"
                 Style="{StaticResource ToolButtonStyle}"
-                ToolTip="绘制田间小区">
+                ToolTip="{x:Static loc:Resources.FieldExperimentPage_DrawField}">
                 <Image
                     Width="28"
                     Height="28"
@@ -234,7 +229,7 @@
                 Checked="ToolButton_Checked"
                 GroupName="Tools"
                 Style="{StaticResource ToolButtonStyle}"
-                ToolTip="绘制区组">
+                ToolTip="{x:Static loc:Resources.FieldExperimentPage_DrawField}">
                 <Image
                     Width="28"
                     Height="28"
@@ -245,7 +240,7 @@
                 Checked="ToolButton_Checked"
                 GroupName="Tools"
                 Style="{StaticResource ToolButtonStyle}"
-                ToolTip="绘制试验小区">
+                ToolTip="{x:Static loc:Resources.FieldExperimentPage_DrawExpr}">
                 <Image
                     Width="28"
                     Height="28"
@@ -256,7 +251,7 @@
                 Checked="ToolButton_Checked"
                 GroupName="Tools"
                 Style="{StaticResource ToolButtonStyle}"
-                ToolTip="添加标识牌">
+                ToolTip="{x:Static loc:Resources.FieldExperimentPage_AddSign}">
                 <Image
                     Width="28"
                     Height="28"
@@ -271,7 +266,7 @@
                 Checked="ToolButton_Checked"
                 GroupName="Tools"
                 Style="{StaticResource ToolButtonStyle}"
-                ToolTip="缩放工具">
+                ToolTip="{x:Static loc:Resources.FieldExperimentPage_Scale}">
                 <Image
                     Width="28"
                     Height="28"
@@ -283,7 +278,7 @@
                 GroupName="Tools"
                 IsChecked="True"
                 Style="{StaticResource ToolButtonStyle}"
-                ToolTip="平移工具">
+                ToolTip="{x:Static loc:Resources.FieldExperimentPage_Translation}">
                 <Image
                     Width="28"
                     Height="28"
@@ -298,7 +293,7 @@
                 Checked="AIButton_Checked"
                 GroupName="Tools"
                 Style="{StaticResource ToolButtonStyle}"
-                ToolTip="AI辅助设计">
+                ToolTip="{x:Static loc:Resources.FieldExperimentPage_AIDesign}">
                 <Image
                     Width="28"
                     Height="28"
@@ -332,15 +327,15 @@
                 <Expander
                     x:Name="ExperimentPropertiesExpander"
                     Margin="0,12,0,0"
-                    Header="试验属性"
+                    Header="{x:Static loc:Resources.FieldExperimentPage_ExperimentProp}"
                     IsExpanded="True">
                     <StackPanel>
-                        <TextBlock Style="{StaticResource PropertyLabelStyle}" Text="试验名称" />
+                        <TextBlock Style="{StaticResource PropertyLabelStyle}" Text="{x:Static loc:Resources.FieldExperimentPage_ExperimentName}" />
                         <TextBox x:Name="ExperimentNameTextBox" Style="{StaticResource PropertyTextBoxStyle}" />
                         <TextBlock
                             Margin="0,10,0,0"
                             Style="{StaticResource PropertyLabelStyle}"
-                            Text="试验描述" />
+                            Text="{x:Static loc:Resources.FieldExperimentPage_ExperimentDesc}" />
                         <TextBox
                             x:Name="ExperimentDescTextBox"
                             Height="60"
@@ -351,22 +346,22 @@
                         <TextBlock
                             Margin="0,10,0,0"
                             Style="{StaticResource PropertyLabelStyle}"
-                            Text="设计类型" />
+                            Text="{x:Static loc:Resources.FieldExperimentPage_DesignType}" />
                         <ComboBox
                             x:Name="DesignTypeComboBox"
                             Margin="0,2"
                             SelectedIndex="0">
-                            <ComboBoxItem Content="完全随机设计" />
-                            <ComboBoxItem Content="随机区组设计" />
-                            <ComboBoxItem Content="裂区设计" />
-                            <ComboBoxItem Content="拉丁方设计" />
+                            <ComboBoxItem Content="{x:Static loc:Resources.FieldExperimentPage_Type_RCBD}" />
+                            <ComboBoxItem Content="{x:Static loc:Resources.FieldExperimentPage_Type_CRD}" />
+                            <ComboBoxItem Content="{x:Static loc:Resources.FieldExperimentPage_Type_ND}" />
+                            <ComboBoxItem Content="{x:Static loc:Resources.FieldExperimentPage_Type_LSD}" />
                         </ComboBox>
                     </StackPanel>
                 </Expander>
                 <!--  Treatment Library  -->
                 <Expander
                     Margin="0,12,0,0"
-                    Header="处理库"
+                    Header="{x:Static loc:Resources.FieldExperimentPage_Processes}"
                     IsExpanded="True">
                     <StackPanel>
                         <ListBox
@@ -402,21 +397,21 @@
                                 Width="50"
                                 Height="25"
                                 Click="AddTreatmentButton_Click"
-                                Content="添加"
+                                Content="{x:Static loc:Resources.Public_Add}"
                                 Style="{StaticResource ModernButton}" />
                             <Button
                                 x:Name="EditTreatmentButton"
                                 Width="50"
                                 Height="25"
                                 Click="EditTreatmentButton_Click"
-                                Content="编辑"
+                                Content="{x:Static loc:Resources.Public_Edit}"
                                 Style="{StaticResource ModernButton}" />
                             <Button
                                 x:Name="RemoveTreatmentButton"
                                 Width="50"
                                 Height="25"
                                 Click="RemoveTreatmentButton_Click"
-                                Content="删除"
+                                Content="{x:Static loc:Resources.Public_Delete}"
                                 Style="{StaticResource ModernButton}" />
                         </StackPanel>
                     </StackPanel>
@@ -447,13 +442,13 @@
                         Height="25"
                         Click="NewExperimentButton_Click"
                         Style="{StaticResource ModernButton}"
-                        ToolTip="新建试验">
+                        ToolTip="{x:Static loc:Resources.FieldExperimentPage_NewExpr}">
                         <StackPanel Orientation="Horizontal">
                             <Image
                                 Width="18"
                                 Height="18"
                                 Source="pack://application:,,,/Citation;component/Images/new_experiment.png" />
-                            <TextBlock Margin="6,0,0,0" Text="新建" />
+                            <TextBlock Margin="6,0,0,0" Text="{x:Static loc:Resources.Public_New}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -462,13 +457,13 @@
                         Height="25"
                         Click="SaveExperimentButton_Click"
                         Style="{StaticResource ModernButton}"
-                        ToolTip="保存试验">
+                        ToolTip="{x:Static loc:Resources.FieldExperimentPage_SaveExpr}">
                         <StackPanel Orientation="Horizontal">
                             <Image
                                 Width="18"
                                 Height="18"
                                 Source="pack://application:,,,/Citation;component/Images/save_experiment.png" />
-                            <TextBlock Margin="6,0,0,0" Text="保存" />
+                            <TextBlock Margin="6,0,0,0" Text="{x:Static loc:Resources.Public_Save}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -477,13 +472,13 @@
                         Height="25"
                         Click="LoadExperimentButton_Click"
                         Style="{StaticResource ModernButton}"
-                        ToolTip="加载试验">
+                        ToolTip="{x:Static loc:Resources.FieldExperimentPage_LoadExpr}">
                         <StackPanel Orientation="Horizontal">
                             <Image
                                 Width="18"
                                 Height="18"
                                 Source="pack://application:,,,/Citation;component/Images/load_experiment.png" />
-                            <TextBlock Margin="6,0,0,0" Text="加载" />
+                            <TextBlock Margin="6,0,0,0" Text="{x:Static loc:Resources.Public_Load}" />
                         </StackPanel>
                     </Button>
                     <Separator />
@@ -493,7 +488,7 @@
                         Height="25"
                         Click="ZoomInButton_Click"
                         Style="{StaticResource ModernButton}"
-                        ToolTip="放大">
+                        ToolTip="{x:Static loc:Resources.FieldExperimentPage_Magnify}">
                         <Image
                             Width="18"
                             Height="18"
@@ -505,7 +500,7 @@
                         Height="25"
                         Click="ZoomOutButton_Click"
                         Style="{StaticResource ModernButton}"
-                        ToolTip="缩小">
+                        ToolTip="{x:Static loc:Resources.FieldExperimentPage_Reduce}">
                         <Image
                             Width="18"
                             Height="18"
@@ -517,7 +512,7 @@
                         Height="25"
                         Click="ZoomFitButton_Click"
                         Style="{StaticResource ModernButton}"
-                        ToolTip="适应窗口">
+                        ToolTip="{x:Static loc:Resources.FieldExperimentPage_Adapt}">
                         <Image
                             Width="18"
                             Height="18"
@@ -529,7 +524,7 @@
                         Height="25"
                         Click="Zoom100Button_Click"
                         Style="{StaticResource ModernButton}"
-                        ToolTip="实际大小">
+                        ToolTip="{x:Static loc:Resources.FieldExperimentPage_100Percent}">
                         <TextBlock Margin="2,0,2,0" Text="100%" />
                     </Button>
                 </ToolBar>
@@ -587,7 +582,7 @@
                     <TextBlock
                         x:Name="SelectedToolText"
                         Foreground="#6366F1"
-                        Text="工具: 平移" />
+                        Text="{x:Static loc:Resources.FieldExperimentPage_DefaultTool}" />
                 </StatusBarItem>
                 <StatusBarItem>
                     <Separator />
@@ -596,7 +591,7 @@
                     <TextBlock
                         x:Name="ZoomLevelText"
                         Foreground="#6366F1"
-                        Text="缩放: 100%" />
+                        Text="{x:Static loc:Resources.FieldExperimentPage_DefaultScale}" />
                 </StatusBarItem>
             </StatusBar>
         </Grid>

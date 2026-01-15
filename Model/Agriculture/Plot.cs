@@ -1,9 +1,11 @@
-﻿namespace Citation.Model.Agriculture;
+﻿using Citation.Properties;
+
+namespace Citation.Model.Agriculture;
 
 public class Plot
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Name { get; set; } = "新小区";
+    public string Name { get; set; } = Resources.PlotData_DefaultName;
 
     /// <summary>
     /// Community number, such as "A-01"

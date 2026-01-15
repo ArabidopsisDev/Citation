@@ -1,146 +1,142 @@
 ﻿<Window
-	x:Class="Citation.View.AlertWindow"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:Citation.View"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="提醒通知"
-	Width="400"
-	Height="220"
-	AllowsTransparency="True"
-	Background="Transparent"
-	ResizeMode="NoResize"
-	Topmost="True"
-	WindowStartupLocation="CenterScreen"
-	WindowStyle="None"
-	mc:Ignorable="d">
-	<Window.Resources>
-		<Style TargetType="TextBlock">
-			<Setter Property="TextWrapping" Value="Wrap" />
-			<Setter Property="TextTrimming" Value="CharacterEllipsis" />
-		</Style>
+    x:Class="Citation.View.AlertWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:Citation.Properties"
+    xmlns:local="clr-namespace:Citation.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="提醒通知"
+    Width="400"
+    Height="220"
+    AllowsTransparency="True"
+    Background="Transparent"
+    ResizeMode="NoResize"
+    Topmost="True"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
 
-		<LinearGradientBrush x:Key="HeaderBackground" StartPoint="0,0" EndPoint="0,1">
-			<GradientStop Offset="0" Color="#FF2B579A" />
-			<GradientStop Offset="1" Color="#FF1E3A5F" />
-		</LinearGradientBrush>
+        <LinearGradientBrush x:Key="HeaderBackground" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Offset="0" Color="#FF2B579A" />
+            <GradientStop Offset="1" Color="#FF1E3A5F" />
+        </LinearGradientBrush>
 
-		<DropShadowEffect
-			x:Key="WindowShadow"
-			BlurRadius="15"
-			ShadowDepth="0"
-			Color="#70000000" />
-	</Window.Resources>
+        <DropShadowEffect
+            x:Key="WindowShadow"
+            BlurRadius="15"
+            ShadowDepth="0"
+            Color="#70000000" />
+    </Window.Resources>
 
-	<Border
-		Margin="10"
-		Background="White"
-		CornerRadius="8"
-		Effect="{StaticResource WindowShadow}">
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
+    <Border
+        Margin="10"
+        Background="White"
+        CornerRadius="8"
+        Effect="{StaticResource WindowShadow}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-			<!--  标题栏  -->
-			<Border
-				Grid.Row="0"
-				Height="36"
-				Background="{StaticResource HeaderBackground}"
-				CornerRadius="8,8,0,0">
-				<Grid>
-					<TextBlock
-						Margin="15,0,0,0"
-						VerticalAlignment="Center"
-						FontSize="16"
-						FontWeight="SemiBold"
-						Foreground="White"
-						Text="提醒通知" />
+            <Border
+                Grid.Row="0"
+                Height="36"
+                Background="{StaticResource HeaderBackground}"
+                CornerRadius="8,8,0,0">
+                <Grid>
+                    <TextBlock
+                        Margin="15,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Text="{x:Static loc:Resources.AlertWindow_PageCapital}" />
 
-					<Button
-						x:Name="btnClose"
-						Width="40"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						Background="Transparent"
-						BorderThickness="0"
-						Click="Close_Click"
-						Content="✕"
-						Cursor="Hand"
-						FontSize="14"
-						Foreground="White" />
-				</Grid>
-			</Border>
+                    <Button
+                        x:Name="btnClose"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="Close_Click"
+                        Content="✕"
+                        Cursor="Hand"
+                        FontSize="14"
+                        Foreground="White" />
+                </Grid>
+            </Border>
 
-			<!--  内容区域  -->
-			<Grid Grid.Row="1" Margin="15,10,15,5">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Margin="15,10,15,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-				<!--  时间图标  -->
-				<Border
-					Grid.Column="0"
-					Width="40"
-					Height="40"
-					Margin="0,5,10,0"
-					VerticalAlignment="Top"
-					Background="#FFF0F5FF"
-					CornerRadius="20">
-					<TextBlock
-						HorizontalAlignment="Center"
-						VerticalAlignment="Center"
-						FontSize="20"
-						Text="⏰" />
-				</Border>
+                <Border
+                    Grid.Column="0"
+                    Width="40"
+                    Height="40"
+                    Margin="0,5,10,0"
+                    VerticalAlignment="Top"
+                    Background="#FFF0F5FF"
+                    CornerRadius="20">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="⏰" />
+                </Border>
 
-				<!--  消息内容  -->
-				<StackPanel Grid.Column="1">
-					<TextBlock
-						x:Name="txtTitle"
-						Margin="0,0,0,5"
-						FontSize="18"
-						FontWeight="SemiBold"
-						Foreground="#333" />
+                <StackPanel Grid.Column="1">
+                    <TextBlock
+                        x:Name="txtTitle"
+                        Margin="0,0,0,5"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Foreground="#333" />
 
-					<TextBlock
-						x:Name="txtDescription"
-						MaxHeight="60"
-						Margin="0,0,0,10"
-						FontSize="14"
-						Foreground="#666"
-						TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="txtDescription"
+                        MaxHeight="60"
+                        Margin="0,0,0,10"
+                        FontSize="14"
+                        Foreground="#666"
+                        TextWrapping="Wrap" />
 
-					<TextBlock
-						x:Name="txtTime"
-						FontSize="12"
-						FontStyle="Italic"
-						Foreground="#999" />
-				</StackPanel>
-			</Grid>
+                    <TextBlock
+                        x:Name="txtTime"
+                        FontSize="12"
+                        FontStyle="Italic"
+                        Foreground="#999" />
+                </StackPanel>
+            </Grid>
 
-			<!--  底部按钮  -->
-			<Border
-				Grid.Row="2"
-				Padding="10"
-				BorderBrush="#EEE"
-				BorderThickness="0,1,0,0">
-				<Button
-					x:Name="btnConfirm"
-					Width="80"
-					Height="30"
-					HorizontalAlignment="Right"
-					Background="#FF2B579A"
-					Click="Confirm_Click"
-					Content="确认"
-					Cursor="Hand"
-					FontWeight="SemiBold"
-					Foreground="White" />
-			</Border>
-		</Grid>
-	</Border>
+            <Border
+                Grid.Row="2"
+                Padding="10"
+                BorderBrush="#EEE"
+                BorderThickness="0,1,0,0">
+                <Button
+                    x:Name="btnConfirm"
+                    Width="80"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    Background="#FF2B579A"
+                    Click="Confirm_Click"
+                    Content="{x:Static loc:Resources.Public_Confirm}"
+                    Cursor="Hand"
+                    FontWeight="SemiBold"
+                    Foreground="White" />
+            </Border>
+        </Grid>
+    </Border>
 </Window>

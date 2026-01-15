@@ -4,6 +4,15 @@ using System.Xml.Serialization;
 
 namespace Citation.Model.Preserve;
 
+/// <summary>
+/// Represents the application configuration settings, including database credentials, security options, and API keys.
+/// This class supports property change notification and XML serialization.
+/// </summary>
+/// <remarks>The Config class is designed for use as a data container for application settings that can be
+/// serialized to or deserialized from XML. It implements INotifyPropertyChanged to support data binding scenarios, such
+/// as in UI frameworks. Property changes will raise the PropertyChanged event to notify listeners. The class is marked
+/// as serializable and can be saved to or loaded from an XML file using standard .NET serialization
+/// mechanisms.</remarks>
 [Serializable]
 [XmlRoot("config")]
 public class Config : INotifyPropertyChanged

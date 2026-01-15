@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -63,25 +62,25 @@ public class Unlock
     public static bool ReleaseFile(string filePath)
     {
         if (!File.Exists(filePath))
-            throw new FileNotFoundException("文件不存在", filePath);
+            return false;
 
         var sessionKey = Guid.NewGuid().ToString();
         var result = RmStartSession(out var sessionHandle, 0, sessionKey);
 
         if (result != ErrorSuccess)
-            throw new Win32Exception(result, "无法启动重启管理器会话");
+            return false;
 
         try
         {
             string[] resources = [Path.GetFullPath(filePath)];
-            result = RmRegisterResources(sessionHandle, (uint)resources.Length, resources, 0, null, 0, null);
+            result = RmRegisterResources(sessionHandle, (uint)resources.Length, resources, 0, null!, 0, null);
 
             if (result != ErrorSuccess)
-                throw new Win32Exception(result, "无法注册资源");
+                return false;
 
             uint lpdwRebootReasons = RmRebootReasonNone;
 
-            result = RmGetList(sessionHandle, out var pnProcInfoNeeded, out _, null, ref lpdwRebootReasons);
+            result = RmGetList(sessionHandle, out var pnProcInfoNeeded, out _, null!, ref lpdwRebootReasons);
 
             if (result == ErrorMoreData)
             {
@@ -96,13 +95,11 @@ public class Unlock
                         try
                         {
                             var process = Process.GetProcessById(info.Process.dwProcessId);
-                            Console.WriteLine($"正在终止进程: {process.ProcessName} (PID: {process.Id})");
                             process.Kill();
                             process.WaitForExit(5000);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"无法终止进程 {info.Process.dwProcessId}: {ex.Message}");
                             success = false;
                         }
                     }
